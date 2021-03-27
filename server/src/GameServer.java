@@ -21,10 +21,11 @@ public class GameServer {
 
     private void setup() {
         try {
-            server.start();
-            server.bind(tcpPort, udpPort);
             register(SomeRequest.class);
             register(SomeResponse.class);
+            server.start();
+            server.bind(tcpPort, udpPort);
+
         } catch (IOException e) {
             server.close();
             System.out.println("Failed to start server");
@@ -42,6 +43,9 @@ public class GameServer {
                     SomeResponse response = new SomeResponse();
                     response.text = "Thanks";
                     connection.sendTCP(response);
+                }
+                else {
+                    System.out.println(object);
                 }
             }
         });
