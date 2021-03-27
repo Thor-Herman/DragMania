@@ -6,6 +6,7 @@ import java.net.InetAddress;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
+import com.esotericsoftware.minlog.Log;
 
 public class GameClient {
 
@@ -22,13 +23,14 @@ public class GameClient {
 
     private void setup() {
         try {
+            register(SomeRequest.class);
+            register(SomeResponse.class);
+            Log.set(Log.LEVEL_DEBUG);
             client.start();
             InetAddress address = client.discoverHost(Env.getUdpPort(), 5000);
             client.connect(5000, address, Env.getTcpPort(), Env.getUdpPort());
-            register(SomeRequest.class);
-            register(SomeResponse.class);
             setupListeners();
-
+            client.sendTCP(new SomeRequest("Hello"));
         } catch (IOException e) {
             client.close();
             System.out.println("Something went wrong setting up the client");
@@ -53,6 +55,7 @@ public class GameClient {
     public static void main(String[] args) {
         GameClient client = getInstance();
         client.setup();
-        System.out.println("Client is up and running");
+        // while (true);
+        // System.out.println("Client is up and running");
     }
 }
