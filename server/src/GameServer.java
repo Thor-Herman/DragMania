@@ -1,12 +1,13 @@
 import java.io.IOException;
 
+import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
 public class GameServer {
 
-    private static Server server = new Server();
+    private static Server server;
     private int tcpPort, udpPort;
     private static GameServer instance = new GameServer();
 
@@ -15,14 +16,25 @@ public class GameServer {
     }
 
     private GameServer() {
+        server = new Server();
         tcpPort = Env.getTcpPort();
         udpPort = Env.getUdpPort();
     }
 
     private void setup() {
+        registerClasses();
+        startServer();
+        setupListeners();
+    }
+
+    private void registerClasses() {
+        Kryo kryo = server.getKryo();
+        kryo.register(SomeRequest.class);
+        kryo.register(SomeResponse.class);
+    }
+
+    private void startServer() {
         try {
-            register(SomeRequest.class);
-            register(SomeResponse.class);
             server.start();
             server.bind(tcpPort, udpPort);
 
@@ -30,7 +42,6 @@ public class GameServer {
             server.close();
             System.out.println("Failed to start server");
         }
-        this.setupListeners();
     }
 
     private void setupListeners() {
@@ -51,14 +62,9 @@ public class GameServer {
         });
     }
 
-    private void register(Class Message) {
-        server.getKryo().register(Message);
-    }
-
     public static void main(String[] args) {
         GameServer server = getInstance();
         server.setup();
         System.out.println("Server is ready to serve");
     }
-
 }

@@ -3,6 +3,7 @@ package com.utilities;
 import java.io.IOException;
 import java.net.InetAddress;
 
+import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -10,11 +11,14 @@ import com.esotericsoftware.minlog.Log;
 
 public class GameClient {
 
+    private Client client;
     private int tcpPort, udpPort;
-    private Client client = new Client();
     private static final GameClient instance = new GameClient();
 
     private GameClient() {
+        this.client = new Client();
+        this.tcpPort = Env.getTcpPort();
+        this.udpPort = Env.getUdpPort();
     }
 
     public static GameClient getInstance() {
@@ -22,23 +26,29 @@ public class GameClient {
     }
 
     private void setup() {
-        try {
-            register(SomeRequest.class);
-            register(SomeResponse.class);
+            registerClasses();
             Log.set(Log.LEVEL_DEBUG);
-            client.start();
-            InetAddress address = client.discoverHost(Env.getUdpPort(), 5000);
-            client.connect(5000, address, Env.getTcpPort(), Env.getUdpPort());
+            connectToServer();
             setupListeners();
             client.sendTCP(new SomeRequest("Hello"));
-        } catch (IOException e) {
+    }
+
+    private void connectToServer() {
+        client.start();
+        InetAddress address = client.discoverHost(udpPort, 5000);
+        try {
+            client.connect(5000, address, tcpPort, udpPort);
+        }
+        catch (IOException e) {
             client.close();
-            System.out.println("Something went wrong setting up the client");
+            System.out.println("Something went wrong setting up the client: " + e.toString());
         }
     }
 
-    private void register(Class Message) {
-        client.getKryo().register(Message);
+    private void registerClasses() {
+        Kryo kryo = client.getKryo();
+        kryo.register(SomeRequest.class);
+        kryo.register(SomeResponse.class);
     }
 
     private void setupListeners() {
@@ -55,7 +65,6 @@ public class GameClient {
     public static void main(String[] args) {
         GameClient client = getInstance();
         client.setup();
-        // while (true);
-        // System.out.println("Client is up and running");
+        while (true); // Runs forever in order to receive server msg
     }
 }
