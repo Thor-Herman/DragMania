@@ -1,5 +1,6 @@
-import java.io.IOException;
+package com.files;
 
+import java.io.IOException;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
