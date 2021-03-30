@@ -1,7 +1,6 @@
 package com.utilities;
 
 import java.io.IOException;
-import java.net.InetAddress;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
@@ -13,12 +12,14 @@ public class GameClient {
 
     private Client client;
     private int tcpPort, udpPort;
+    private String ipAddress;
     private static final GameClient instance = new GameClient();
 
     private GameClient() {
         this.client = new Client();
         this.tcpPort = Env.getTcpPort();
         this.udpPort = Env.getUdpPort();
+        this.ipAddress = Env.getIPAddress();
     }
 
     public static GameClient getInstance() {
@@ -26,20 +27,18 @@ public class GameClient {
     }
 
     private void setup() {
-            registerClasses();
-            Log.set(Log.LEVEL_DEBUG);
-            connectToServer();
-            setupListeners();
-            client.sendTCP(new SomeRequest("Hello"));
+        registerClasses();
+        Log.set(Log.LEVEL_DEBUG);
+        connectToServer();
+        setupListeners();
+        client.sendTCP(new SomeRequest("Hello"));
     }
 
     private void connectToServer() {
         client.start();
-        InetAddress address = client.discoverHost(udpPort, 5000);
         try {
-            client.connect(5000, address, tcpPort, udpPort);
-        }
-        catch (IOException e) {
+            client.connect(5000, ipAddress, tcpPort, udpPort);
+        } catch (IOException e) {
             client.close();
             System.out.println("Something went wrong setting up the client: " + e.toString());
         }
@@ -65,6 +64,7 @@ public class GameClient {
     public static void main(String[] args) {
         GameClient client = getInstance();
         client.setup();
-        while (true); // Runs forever in order to receive server msg
+        while (true)
+            ; // Runs forever in order to receive server msg
     }
 }
