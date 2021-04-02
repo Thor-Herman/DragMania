@@ -30,12 +30,6 @@ public class CarTest {
         assertEquals(3, car.getMaxVelocity());
     }
 
-    @Test
-    public void testAccelerate() {
-        assertEquals(0, car.getVelocity());
-        car.accelerate(true);
-        assertEquals(1, car.getVelocity());
-    }
     
     @Test
     public void testUpdate() {
