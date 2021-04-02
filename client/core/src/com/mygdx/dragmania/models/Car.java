@@ -13,7 +13,7 @@ public class Car {
     }
 
 	// Accelerates when forward boolean is true. Decelerates when false.
-    public void accelerate(boolean forward) {
+    private void accelerate(boolean forward) {
         if (forward && velocity < maxVelocity) {
             velocity++;
         } else if (!forward && velocity > 0) {
