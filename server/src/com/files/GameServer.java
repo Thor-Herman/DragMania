@@ -53,6 +53,5 @@ public class GameServer {
     public static void main(String[] args) {
         GameServer server = getInstance();
         server.setup();
-        System.out.println("Server is ready to serve");
     }
 }
