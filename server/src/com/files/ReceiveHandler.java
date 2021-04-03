@@ -1,27 +1,35 @@
-public class ReceiveHandler implements Listener {
+package com.files;
+
+import com.esotericsoftware.kryonet.Connection;
+import com.esotericsoftware.kryonet.Listener;
+import java.util.Map;
+import java.util.HashMap;
+
+public class ReceiveHandler extends Listener {
 
     private Map<Connection, Float> clients = new HashMap<>();
 
     public void connected (Connection connection) {
-        System.out.println("Added connection: ", connection);
-        clients.put(connection, 0.0);
+        System.out.println("Added connection");
+        clients.put(connection, 0.0f);
     }
 
     public void disconnected (Connection connection) {
-        System.out.println("Removed connection: ", connection);
+        System.out.println("Removed connection");
         clients.remove(connection);
     }
 
     public void received(Connection connection, Object object) { 
-        if (! clients.size() < 2) {
+        if (! (clients.size() < 2)) {
             SomeResponse response = new SomeResponse();
             response.text = "Not enough clients connected yet";
-            clients.sendTCP(response);   
+            connection.sendTCP(response);   
         }
-        if (! clients.contains(connection)) clients.add(connection); // Doesn't take into account different game rooms
+        if (! clients.containsKey(connection)) clients.put(connection, 0.0f); // Doesn't take into account different game rooms
         if (object instanceof Score) {
-            System.out.println("Score: ", object.score);
-            clients.put(connection, object.score);
+            Score receiverScore = (Score) object;
+            System.out.println(receiverScore.score);
+            clients.put(connection, receiverScore.score);
             for (Connection client : clients.keySet()) {
                 if (client != connection) {
                     Score score = new Score();
@@ -31,7 +39,7 @@ public class ReceiveHandler implements Listener {
             }
         }
         else {
-            System.out.println("Else: ", object);
+            System.out.println(object);
         }
     }
 }
