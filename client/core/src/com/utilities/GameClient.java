@@ -32,7 +32,6 @@ public class GameClient {
         Log.set(Log.LEVEL_DEBUG);
         connectToServer();
         setupListeners();
-        client.sendTCP(new SomeRequest("Hello"));
     }
 
     public void sendScore(float score) {
