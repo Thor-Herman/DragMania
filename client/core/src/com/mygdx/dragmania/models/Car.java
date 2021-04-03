@@ -1,13 +1,16 @@
 package com.mygdx.dragmania.models;
 
-public class Car {
+import com.badlogic.gdx.math.Vector2;
+import com.utilities.Collidable;
+import com.badlogic.gdx.graphics.Texture;
+
+public class Car extends Collidable {
 	
-    private int position;
     private int velocity;
     private int maxVelocity;
     
-    public Car(int maxVelocity) {
-        this.position = 0;
+    public Car(int maxVelocity, Texture texture) {
+        super(texture);
         this.velocity = 0;
         this.maxVelocity = maxVelocity;
     }
@@ -23,11 +26,7 @@ public class Car {
     
     public void update(float dt, boolean isTouching) {
         accelerate(isTouching);
-        position += velocity*dt;
-    }
-
-    public int getPosition() {
-        return this.position;
+        reposition(new Vector2(0, getPosition().y + this.velocity*dt));
     }
     
     public int getVelocity() {
