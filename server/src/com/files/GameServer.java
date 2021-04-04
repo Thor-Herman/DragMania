@@ -32,6 +32,7 @@ public class GameServer {
         Kryo kryo = server.getKryo();
         kryo.register(SomeRequest.class);
         kryo.register(SomeResponse.class);
+        kryo.register(Score.class);
     }
 
     private void startServer() {
@@ -46,26 +47,11 @@ public class GameServer {
     }
 
     private void setupListeners() {
-        server.addListener(new Listener() {
-            public void received(Connection connection, Object object) {
-                if (object instanceof SomeRequest) {
-                    SomeRequest request = (SomeRequest) object;
-                    System.out.println(request.text);
-
-                    SomeResponse response = new SomeResponse();
-                    response.text = "Thanks";
-                    connection.sendTCP(response);
-                }
-                else {
-                    System.out.println(object);
-                }
-            }
-        });
+        server.addListener(new ReceiveHandler());
     }
 
     public static void main(String[] args) {
         GameServer server = getInstance();
         server.setup();
-        System.out.println("Server is ready to serve");
     }
 }

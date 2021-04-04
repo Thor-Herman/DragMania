@@ -15,6 +15,7 @@ public class GameClient {
     private String ipAddress;
     private static final GameClient instance = new GameClient();
 
+
     private GameClient() {
         this.client = new Client();
         this.tcpPort = Env.getTcpPort();
@@ -31,7 +32,12 @@ public class GameClient {
         Log.set(Log.LEVEL_DEBUG);
         connectToServer();
         setupListeners();
-        client.sendTCP(new SomeRequest("Hello"));
+    }
+
+    public void sendScore(float score) {
+        Score scoreMessage = new Score();
+        scoreMessage.score = score;
+        client.sendTCP(scoreMessage);
     }
 
     private void connectToServer() {
@@ -48,6 +54,7 @@ public class GameClient {
         Kryo kryo = client.getKryo();
         kryo.register(SomeRequest.class);
         kryo.register(SomeResponse.class);
+        kryo.register(Score.class);
     }
 
     private void setupListeners() {
@@ -57,6 +64,10 @@ public class GameClient {
                     SomeResponse response = (SomeResponse) object;
                     System.out.println(response.text);
                 }
+                if (object instanceof Score) {
+                    Score score = (Score) object;
+                    System.out.println(score.score);
+                }
             }
         });
     }
@@ -64,6 +75,7 @@ public class GameClient {
     public static void main(String[] args) {
         GameClient client = getInstance();
         client.setup();
+        client.sendScore(50.0f);
         while (true)
             ; // Runs forever in order to receive server msg
     }
