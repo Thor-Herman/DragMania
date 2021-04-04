@@ -8,8 +8,10 @@ public class PolicemanAnimation {
     private HashMap<String, Texture> animations;
 
     public PolicemanAnimation() {
-        animations.put("TurnedAway", "bilde1.jpg");
-        animations.put("TurnedTowards", "bilde2.jpg");
+        Texture test1 = new Texture("8bit-pikachu.png");
+        Texture test2 = new Texture("mickey_mouse.png");
+        animations.put("TurnedAway", test1);
+        animations.put("TurnedTowards", test2);
     }
 
     public Texture getAnimation(String animation) {
