@@ -2,49 +2,47 @@ package com.mygdx.dragmania.models;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import java.time.Instant;
 
 import java.util.ArrayList;
 
 public class Policeman {
+
     private boolean hasTurned;
     private PolicemanAnimation policemanAnimation;
     private Vector2 position;
-    private ArrayList<Integer> policeManTurnPositions;
-    private ArrayList<Integer> policeManFakeTurnPositions;
+
+    private ArrayList<Integer> policemanTurnPositions;
+    private ArrayList<Integer> policemanFakeTurnPositions;
+
     private Car car;
     private int currentTurnPositionIndex;
-    private int turnTimeCounter;
+
     private long policemanTurnStart;
     private long policemanTurnStop;
     private long timePenaltyStart;
     private long timePenaltyStop;
+
     // Not correct position
     public static final int xPos = 200;
     public static final int yPos = 800;
 
-    public Policeman(ArrayList<Integer> policeManTurnPositions, ArrayList<Integer> policeManFakeTurnPositions, Car car) {
+    public Policeman(ArrayList<Integer> policemanTurnPositions, ArrayList<Integer> policemanFakeTurnPositions, Car car) {
+
         this.position = new Vector2(xPos, yPos);
         this.hasTurned = false;
+        // The line below can be commented out to run PolicemanTest
         this.policemanAnimation = new PolicemanAnimation();
-        this.policeManTurnPositions = policeManTurnPositions;
-        this.policeManFakeTurnPositions = policeManFakeTurnPositions;
+        this.policemanTurnPositions = policemanTurnPositions;
+        this.policemanFakeTurnPositions = policemanFakeTurnPositions;
         this.car = car;
         currentTurnPositionIndex = 0;
-        turnTimeCounter = 0;
         policemanTurnStart = 0;
+        timePenaltyStart = 0;
+
     }
 
     public void update(float dt) {
-        turnTimeCounter++;
-        if(car.getPosition() > policeManTurnPositions.get(currentTurnPositionIndex)) {
-            toggleTurn();
-            currentTurnPositionIndex++;
-            turnTimeCounter = 0;
-        }
-        else if (turnTimeCounter > 100 && hasTurned) {
-            toggleTurn();
-        }
+        checkIfPolicemanShouldTurn();
         checkIfAllowedToDrive();
     }
 
@@ -66,7 +64,7 @@ public class Policeman {
         // Check if two seconds has gone since policeman turn
         // Allow car to drive again
         if (policemanTurnStart > 0 && (policemanTurnStop-policemanTurnStart) > 2000) {
-            toggleTurn();
+            toggleTurn(false);
             car.canDrive(true);
             policemanTurnStart = 0;
         }
@@ -89,8 +87,16 @@ public class Policeman {
 
     }
 
-    public void toggleTurn() {
-        hasTurned = !hasTurned;
+    // Use turn positions and car position to determine if the policeman should turn towards player
+    public void checkIfPolicemanShouldTurn() {
+        if (car.getPosition() > policemanTurnPositions.get(currentTurnPositionIndex) && !hasTurned) {
+            toggleTurn(true);
+            currentTurnPositionIndex++;
+        }
+    }
+
+    public void toggleTurn(boolean turnedTowards) {
+        hasTurned = turnedTowards;
     }
 
     public boolean getHasTurned() {
@@ -99,10 +105,10 @@ public class Policeman {
 
     public Texture getAnimation() {
         if (hasTurned) {
-            return policemanAnimation.getAnimation("TurnedTowards");
+            return this.policemanAnimation.getTurnedTowardsAnimation();
         }
         else {
-            return policemanAnimation.getAnimation("TurnedAway");
+            return this.policemanAnimation.getTurnedAwayAnimation();
         }
     }
 

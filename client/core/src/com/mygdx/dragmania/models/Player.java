@@ -1,12 +1,16 @@
 package com.mygdx.dragmania.models;
 
 public class Player {
+
     private String username;
     private int totalWins;
     private int totalLosses;
 
     public Player(String username) {
+
         this.username = username;
+        this.totalLosses = 0;
+        this.totalWins = 0;
     }
 
     public int getTotalWins() {

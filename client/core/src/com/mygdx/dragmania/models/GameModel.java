@@ -3,8 +3,8 @@ package com.mygdx.dragmania.models;
 import java.util.ArrayList;
 
 public class GameModel {
+
     private Player player;
-    //private Policeman policeman;
     private Car car;
     private int playerScore;
     private int opponentScore;
@@ -12,9 +12,7 @@ public class GameModel {
 
     public GameModel(String username, ArrayList<Integer> sideWalkPlacements, ArrayList<Integer> policeManTurnTimes, ArrayList<Integer> policeManFakeTurnTimes) {
         player = new Player(username);
-        //policeman = new Policeman();
-        car = new Car();
-        // Circular dependency?
+        car = new Car(3);
         gameMap = new GameMap(sideWalkPlacements, policeManTurnTimes, policeManFakeTurnTimes, car);
     }
 
@@ -36,12 +34,6 @@ public class GameModel {
     public GameMap getGameMap() {
         return gameMap;
     }
-
-    /*
-    public Policeman getPoliceman() {
-        return policeman;
-    }
-     */
 
     public Car getCar() {
         return car;

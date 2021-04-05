@@ -1,6 +1,6 @@
 package com.mygdx.dragmania.models;
 
-
+// Dummy class
 public class Sidewalk {
 
     private float yPos;

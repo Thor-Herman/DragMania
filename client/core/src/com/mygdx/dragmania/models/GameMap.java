@@ -3,17 +3,20 @@ package com.mygdx.dragmania.models;
 import java.util.ArrayList;
 
 public class GameMap {
+
     private ArrayList<Integer> sideWalkPlacements;
     private ArrayList<Integer> policeManTurnPositions;
     private ArrayList<Integer> policeManFakeTurnPositions;
+
     private Sidewalk sidewalk;
-    // Update logical view because of GameModel
     private Car car;
     private Policeman policeman;
+
     private int currentSidewalk;
     public static final int SIDEWALK_OFFSET = 10;
 
     public GameMap(ArrayList<Integer> sideWalkPlacements, ArrayList<Integer> policeManTurnPositions, ArrayList<Integer> policeManFakeTurnPositions, Car car) {
+
         this.sideWalkPlacements = sideWalkPlacements;
         this.policeManTurnPositions = policeManTurnPositions;
         this.policeManFakeTurnPositions = policeManFakeTurnPositions;
@@ -21,6 +24,7 @@ public class GameMap {
         this.car = car;
         this.currentSidewalk = 0;
         policeman = new Policeman(policeManTurnPositions, policeManFakeTurnPositions, car);
+
     }
 
     public int getCurrentSidewalk(){
@@ -29,6 +33,7 @@ public class GameMap {
 
 
     public void update(float dt) {
+        // Check if car has passed sidewalk with an offset and that there are more sidewalks to be placed
         if (car.getPosition() + SIDEWALK_OFFSET > sideWalkPlacements.get(getCurrentSidewalk()) && sideWalkPlacements.size()-1 > getCurrentSidewalk()) {
             moveSidewalk(sideWalkPlacements.get(getCurrentSidewalk()+1));
         }
