@@ -10,10 +10,10 @@ public class GameModel {
     private int opponentScore;
     private GameMap gameMap;
 
-    public GameModel(String username, ArrayList<Integer> sideWalkPlacements, ArrayList<Integer> policeManTurnTimes, ArrayList<Integer> policeManFakeTurnTimes) {
+    public GameModel(String username, ArrayList<Integer> crossingPlacements, ArrayList<Integer> policeManTurnTimes, ArrayList<Integer> policeManFakeTurnTimes) {
         player = new Player(username);
         car = new Car(3);
-        gameMap = new GameMap(sideWalkPlacements, policeManTurnTimes, policeManFakeTurnTimes, car);
+        gameMap = new GameMap(crossingPlacements, policeManTurnTimes, policeManFakeTurnTimes, car);
     }
 
     public int getPlayerScore() {

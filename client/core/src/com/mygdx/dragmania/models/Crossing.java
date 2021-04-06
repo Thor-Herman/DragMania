@@ -1,11 +1,11 @@
 package com.mygdx.dragmania.models;
 
 // Dummy class
-public class Sidewalk {
+public class Crossing {
 
     private float yPos;
 
-    public Sidewalk(float yPos) {
+    public Crossing(float yPos) {
         this.yPos = yPos;
     }
 

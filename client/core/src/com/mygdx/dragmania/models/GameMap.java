@@ -4,50 +4,50 @@ import java.util.ArrayList;
 
 public class GameMap {
 
-    private ArrayList<Integer> sideWalkPlacements;
+    private ArrayList<Integer> crossingPlacements;
     private ArrayList<Integer> policeManTurnPositions;
     private ArrayList<Integer> policeManFakeTurnPositions;
 
-    private Sidewalk sidewalk;
+    private Crossing crossing;
     private Car car;
     private Policeman policeman;
 
-    private int currentSidewalk;
-    public static final int SIDEWALK_OFFSET = 10;
+    private int currentCrossing;
+    public static final int CROSSING_OFFSET = 10;
 
-    public GameMap(ArrayList<Integer> sideWalkPlacements, ArrayList<Integer> policeManTurnPositions, ArrayList<Integer> policeManFakeTurnPositions, Car car) {
+    public GameMap(ArrayList<Integer> crossingPlacements, ArrayList<Integer> policeManTurnPositions, ArrayList<Integer> policeManFakeTurnPositions, Car car) {
 
-        this.sideWalkPlacements = sideWalkPlacements;
+        this.crossingPlacements = crossingPlacements;
         this.policeManTurnPositions = policeManTurnPositions;
         this.policeManFakeTurnPositions = policeManFakeTurnPositions;
-        this.sidewalk = new Sidewalk(sideWalkPlacements.get(0));
+        this.crossing = new Crossing(crossingPlacements.get(0));
         this.car = car;
-        this.currentSidewalk = 0;
+        this.currentCrossing = 0;
         policeman = new Policeman(policeManTurnPositions, policeManFakeTurnPositions, car);
 
     }
 
-    public int getCurrentSidewalk(){
-        return this.currentSidewalk;
+    public int getCurrentCrossing(){
+        return this.currentCrossing;
     }
 
 
     public void update(float dt) {
-        // Check if car has passed sidewalk with an offset and that there are more sidewalks to be placed
-        if (car.getPosition() + SIDEWALK_OFFSET > sideWalkPlacements.get(getCurrentSidewalk()) && sideWalkPlacements.size()-1 > getCurrentSidewalk()) {
-            moveSidewalk(sideWalkPlacements.get(getCurrentSidewalk()+1));
+        // Check if car has passed crossing with an offset and that there are more crossing to be placed
+        if (car.getPosition() + CROSSING_OFFSET > crossingPlacements.get(getCurrentCrossing()) && crossingPlacements.size()-1 > getCurrentCrossing()) {
+            moveCrossing(crossingPlacements.get(getCurrentCrossing()+1));
         }
-        sidewalk.update(dt);
+        crossing.update(dt);
         policeman.update(dt);
     }
 
-    public Sidewalk getSidewalk() {
-        return sidewalk;
+    public Crossing getCrossing() {
+        return crossing;
     }
 
-    public void moveSidewalk(int yPos) {
-        getSidewalk().reposition(yPos);
-        this.currentSidewalk++;
+    public void moveCrossing(int yPos) {
+        getCrossing().reposition(yPos);
+        this.currentCrossing++;
     }
 
 
