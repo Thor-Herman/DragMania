@@ -20,10 +20,8 @@ public class GameMap {
     private ThreadLocalRandom random = ThreadLocalRandom.current();
 
     public GameMap() {
-        int turnTimes = random.nextInt(MIN_POLICEMAN_TURN_TIMES, MAX_POLICEMAN_TURN_TIMES + 1);
-        int fakeTurnTimes = random.nextInt(MIN_POLICEMAN_FAKE_TURN_TIMES, MAX_POLICEMAN_FAKE_TURN_TIMES + 1);
-        policemanTurnTimes = new int[turnTimes];
-        policemanFakeTurnTimes = new int[fakeTurnTimes];
+        determinePoliceManTurnTimes();
+        int[] crossingPlacements = generateRandomCrossings();
     }
 
     private int[] generateRandomCrossings() {
@@ -37,5 +35,12 @@ public class GameMap {
             array_index++;
         }
         return crossingPlacements;
+    }
+
+    public void determinePoliceManTurnTimes() {
+        int turnTimes = random.nextInt(MIN_POLICEMAN_TURN_TIMES, MAX_POLICEMAN_TURN_TIMES + 1);
+        int fakeTurnTimes = random.nextInt(MIN_POLICEMAN_FAKE_TURN_TIMES, MAX_POLICEMAN_FAKE_TURN_TIMES + 1);
+        policemanTurnTimes = new int[turnTimes];
+        policemanFakeTurnTimes = new int[fakeTurnTimes];
     }
 }
