@@ -13,13 +13,14 @@ public class GameMap {
     public static final int MAP_LENGTH = 5000;
 
     private final int CROSSING_PLACEMENTS_LENGTH = 3;
-    private int[] policemanTurnPoints = {};
-    private int[] policemanFakeTurnPoints = {};
-
+    private int[] policemanTurnPoints;
+    private int[] policemanFakeTurnPoints;
     private ThreadLocalRandom random = ThreadLocalRandom.current();
 
     public GameMap() {
-        determineNumberOfPoliceManTurnPoints();
+        determineNumberOfPolicemanTurnPoints();
+        generatePolicemanTurnPoints(policemanTurnPoints);
+        generatePolicemanTurnPoints(policemanFakeTurnPoints);
         int[] crossingPlacements = generateRandomCrossings();
     }
 
@@ -36,10 +37,31 @@ public class GameMap {
         return crossingPlacements;
     }
 
-    public void determineNumberOfPoliceManTurnPoints() {
+    private void determineNumberOfPolicemanTurnPoints() {
         int turnPoints = random.nextInt(MIN_POLICEMAN_TURN_POINTS, MAX_POLICEMAN_TURN_POINTS + 1);
         int fakeTurnPoints = random.nextInt(MIN_POLICEMAN_FAKE_TURN_POINTS, MAX_POLICEMAN_FAKE_TURN_POINTS + 1);
         policemanTurnPoints = new int[turnPoints];
         policemanFakeTurnPoints = new int[fakeTurnPoints];
+    }
+
+    private void generatePolicemanTurnPoints(int[] turnPointArray) {
+        int turnPointIndex = 0;
+        while (!(turnPointIndex < turnPointArray.length)) {
+            int generatedPoint = random.nextInt(0, MAP_LENGTH);
+            if (!isOverlappingWithAnotherPoint(generatedPoint, policemanTurnPoints)
+                    && !isOverlappingWithAnotherPoint(generatedPoint, policemanFakeTurnPoints)) {
+                turnPointArray[turnPointIndex] = generatedPoint;
+                turnPointIndex++;
+            }
+        }
+    }
+
+    private boolean isOverlappingWithAnotherPoint(int turnPoint, int[] turnPointArray) {
+        final int MINIMUM_PLACEMENT_SPACING = (int) MAP_LENGTH / 50;
+        for (int point : turnPointArray) {
+            if (turnPoint >= (point - MINIMUM_PLACEMENT_SPACING) && turnPoint <= (point + MINIMUM_PLACEMENT_SPACING))
+                return true;
+        }
+        return false;
     }
 }
