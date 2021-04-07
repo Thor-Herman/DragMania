@@ -9,38 +9,47 @@ import java.util.HashMap;
 
 public class ReceiveHandler extends Listener {
 
-    private Map<Connection, Float> clients = new HashMap<>();
+    private Map<Connection, Float> clientsMap = new HashMap<>();
 
     public void connected (Connection connection) {
         System.out.println("Added connection: " + connection.toString());
-        clients.put(connection, 0.0f);
+        clientsMap.put(connection, 0.0f);
     }
 
     public void disconnected (Connection connection) {
         System.out.println("Removed connection: " + connection.toString());
-        clients.remove(connection);
+        clientsMap.remove(connection);
     }
 
     public void received(Connection connection, Object object) { 
         if (object instanceof KeepAlive) return;
-        if (clients.size() < 2) {
-            SomeResponse response = new SomeResponse();
-            response.text = "Not enough clients connected yet";
-            connection.sendTCP(response);   
-        }
-        if (! clients.containsKey(connection)) clients.put(connection, 0.0f); // Doesn't take into account different game rooms
-        if (object instanceof Score) {
-            System.out.println("Received score from connection " + connection.toString());
-            Score receiverScore = (Score) object;
-            System.out.println(receiverScore.score);
-            clients.put(connection, receiverScore.score);
-            for (Connection client : clients.keySet()) {
-                if (client != connection) {
-                    Score score = new Score();
-                    score.score = clients.get(client);
-                    connection.sendUDP(score);
-                }
+        if (clientsMap.size() < 2) sendNotEnoughPlayersMessage(connection);
+        if (! clientsMap.containsKey(connection)) clientsMap.put(connection, 0.0f); // Doesn't take into account different game rooms
+        if (object instanceof Score) handleScoreMessage(connection, object);
+    }
+
+    
+    private void sendNotEnoughPlayersMessage(Connection connection) {
+        SomeResponse response = new SomeResponse();
+        response.text = "Not enough clients connected yet";
+        connection.sendTCP(response);
+    }
+    
+    private void handleScoreMessage(Connection connection, Object object) {
+        Score receiverScore = (Score) object;
+        System.out.println("Received score from connection " + connection.toString() + ": " + Float.toString(receiverScore.score));
+        clientsMap.put(connection, receiverScore.score);
+        sendMostRecentScores(connection);
+    }
+
+    private void sendMostRecentScores(Connection connection) {
+        for (Connection client : clientsMap.keySet()) {
+            if (client != connection) {
+                Score score = new Score();
+                score.score = clientsMap.get(client);
+                connection.sendUDP(score);
             }
         }
     }
+}
 }

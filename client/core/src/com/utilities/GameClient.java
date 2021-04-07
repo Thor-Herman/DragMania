@@ -40,6 +40,12 @@ public class GameClient {
         client.sendTCP(scoreMessage);
     }
 
+    public void sendScore(float score) {
+        Score scoreMessage = new Score();
+        scoreMessage.score = score;
+        client.sendTCP(scoreMessage);
+    }
+
     private void connectToServer() {
         client.start();
         try {
