@@ -1,6 +1,7 @@
 package com.utilities;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
@@ -55,6 +56,7 @@ public class GameClient {
         kryo.register(SomeRequest.class);
         kryo.register(SomeResponse.class);
         kryo.register(Score.class);
+        kryo.register(int[].class);
         kryo.register(GameMapMessage.class);
     }
 
@@ -71,7 +73,9 @@ public class GameClient {
                 }
                 if (object instanceof GameMapMessage) {
                     GameMapMessage map = (GameMapMessage) object;
-                    System.out.println(map.getCrossings());
+                    System.out.println(Arrays.toString(map.getCrossings()));
+                    System.out.println(Arrays.toString(map.getPolicemanTurnPoints()));
+                    System.out.println(Arrays.toString(map.getPolicemanFakeTurnPoints()));
                 }
             }
         });
