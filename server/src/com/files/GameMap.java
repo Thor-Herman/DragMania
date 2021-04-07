@@ -1,5 +1,6 @@
-package com.files;
+package src.com.files;
 
+import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GameMap {
@@ -9,10 +10,11 @@ public class GameMap {
 
     public static final int MIN_POLICEMAN_FAKE_TURN_POINTS = 5;
     public static final int MAX_POLICEMAN_FAKE_TURN_POINTS = 10;
+    public final int MINIMUM_POLICEMAN_PLACEMENT_SPACING = (int) MAP_LENGTH / 50;
 
     public static final int MAP_LENGTH = 5000;
+    public static final int CROSSING_PLACEMENTS_LENGTH = 3;
 
-    private final int CROSSING_PLACEMENTS_LENGTH = 3;
     private int[] policemanTurnPoints;
     private int[] policemanFakeTurnPoints;
     private int[] crossingPlacements;
@@ -55,12 +57,13 @@ public class GameMap {
                 turnPointIndex++;
             }
         }
+        Arrays.sort(turnPointArray);
     }
 
     private boolean isOverlappingWithAnotherPoint(int turnPoint, int[] turnPointArray) {
-        final int MINIMUM_PLACEMENT_SPACING = (int) MAP_LENGTH / 50;
         for (int point : turnPointArray) {
-            if (turnPoint >= (point - MINIMUM_PLACEMENT_SPACING) && turnPoint <= (point + MINIMUM_PLACEMENT_SPACING))
+            if (turnPoint >= (point - MINIMUM_POLICEMAN_PLACEMENT_SPACING)
+                    && turnPoint <= (point + MINIMUM_POLICEMAN_PLACEMENT_SPACING))
                 return true;
         }
         return false;
