@@ -40,12 +40,6 @@ public class GameClient {
         client.sendTCP(scoreMessage);
     }
 
-    public void sendScore(float score) {
-        Score scoreMessage = new Score();
-        scoreMessage.score = score;
-        client.sendTCP(scoreMessage);
-    }
-
     private void connectToServer() {
         client.start();
         try {
@@ -61,6 +55,7 @@ public class GameClient {
         kryo.register(SomeRequest.class);
         kryo.register(SomeResponse.class);
         kryo.register(Score.class);
+        kryo.register(GameMapMessage.class);
     }
 
     private void setupListeners() {
@@ -73,6 +68,10 @@ public class GameClient {
                 if (object instanceof Score) {
                     Score score = (Score) object;
                     System.out.println(score.score);
+                }
+                if (object instanceof GameMapMessage) {
+                    GameMapMessage map = (GameMapMessage) object;
+                    System.out.println(map.getCrossings());
                 }
             }
         });
