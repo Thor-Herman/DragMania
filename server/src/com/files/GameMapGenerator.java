@@ -22,8 +22,8 @@ public class GameMapGenerator {
 
     public GameMapMessage generateMap() {
         determineNumberOfPolicemanTurnPoints();
-        generatePolicemanTurnPoints(policemanTurnPoints);
-        generatePolicemanTurnPoints(policemanFakeTurnPoints);
+        policemanTurnPoints = generatePolicemanTurnPoints(policemanTurnPoints);
+        policemanFakeTurnPoints = generatePolicemanTurnPoints(policemanFakeTurnPoints);
         crossingPlacements = generateRandomCrossings();
         return new GameMapMessage(crossingPlacements, policemanTurnPoints, policemanFakeTurnPoints);
     }
@@ -48,9 +48,9 @@ public class GameMapGenerator {
         policemanFakeTurnPoints = new int[fakeTurnPoints];
     }
 
-    private void generatePolicemanTurnPoints(int[] turnPointArray) {
+    private int[] generatePolicemanTurnPoints(int[] turnPointArray) {
         int turnPointIndex = 0;
-        while (!(turnPointIndex < turnPointArray.length)) {
+        while (turnPointIndex < turnPointArray.length) {
             int generatedPoint = random.nextInt(0, MAP_LENGTH);
             if (!isOverlappingWithAnotherPoint(generatedPoint, policemanTurnPoints)
                     && !isOverlappingWithAnotherPoint(generatedPoint, policemanFakeTurnPoints)) {
@@ -59,6 +59,7 @@ public class GameMapGenerator {
             }
         }
         Arrays.sort(turnPointArray);
+        return turnPointArray;
     }
 
     private boolean isOverlappingWithAnotherPoint(int turnPoint, int[] turnPointArray) {
