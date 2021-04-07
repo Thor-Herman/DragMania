@@ -10,21 +10,22 @@ public class GameMapGenerator {
 
     public static final int MIN_POLICEMAN_FAKE_TURN_POINTS = 5;
     public static final int MAX_POLICEMAN_FAKE_TURN_POINTS = 10;
-    public final int MINIMUM_POLICEMAN_PLACEMENT_SPACING = (int) MAP_LENGTH / 50;
 
     public static final int MAP_LENGTH = 5000;
     public static final int CROSSING_PLACEMENTS_LENGTH = 3;
+    public static final int MINIMUM_POLICEMAN_PLACEMENT_SPACING = (int) MAP_LENGTH / 50;
 
     private int[] policemanTurnPoints;
     private int[] policemanFakeTurnPoints;
     private int[] crossingPlacements;
     private ThreadLocalRandom random = ThreadLocalRandom.current();
 
-    public GameMapGenerator() {
+    public GameMap generateMap() {
         determineNumberOfPolicemanTurnPoints();
         generatePolicemanTurnPoints(policemanTurnPoints);
         generatePolicemanTurnPoints(policemanFakeTurnPoints);
         crossingPlacements = generateRandomCrossings();
+        return new GameMap(crossingPlacements, policemanTurnPoints, policemanFakeTurnPoints);
     }
 
     private int[] generateRandomCrossings() {
@@ -67,17 +68,5 @@ public class GameMapGenerator {
                 return true;
         }
         return false;
-    }
-
-    public int[] getCrossings() {
-        return this.crossingPlacements;
-    }
-
-    public int[] getPolicemanTurnPoints() {
-        return this.policemanTurnPoints;
-    }
-
-    public int[] getPolicemanFakeTurnPoints() {
-        return this.policemanFakeTurnPoints;
     }
 }

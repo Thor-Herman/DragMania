@@ -8,15 +8,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import com.files.GameMap;
 import com.files.GameMapGenerator;
 
 public class GameMapGeneratorTest {
 
-    private GameMapGenerator map;
+    private GameMap map;
 
     @Before
     public void setUp() {
-        map = new GameMapGenerator();
+        map = new GameMapGenerator().generateMap();
     }
 
     @Test
@@ -39,8 +40,8 @@ public class GameMapGeneratorTest {
         for (int point : turnPointArray) {
             if (point == turnPoint)
                 continue;
-            if (turnPoint >= (point - map.MINIMUM_POLICEMAN_PLACEMENT_SPACING)
-                    && turnPoint <= (point + map.MINIMUM_POLICEMAN_PLACEMENT_SPACING))
+            if (turnPoint >= (point - GameMapGenerator.MINIMUM_POLICEMAN_PLACEMENT_SPACING)
+                    && turnPoint <= (point + GameMapGenerator.MINIMUM_POLICEMAN_PLACEMENT_SPACING))
                 return true;
         }
         return false;
