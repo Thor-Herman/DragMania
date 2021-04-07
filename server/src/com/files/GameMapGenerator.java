@@ -20,12 +20,12 @@ public class GameMapGenerator {
     private int[] crossingPlacements;
     private ThreadLocalRandom random = ThreadLocalRandom.current();
 
-    public GameMap generateMap() {
+    public GameMapMessage generateMap() {
         determineNumberOfPolicemanTurnPoints();
         generatePolicemanTurnPoints(policemanTurnPoints);
         generatePolicemanTurnPoints(policemanFakeTurnPoints);
         crossingPlacements = generateRandomCrossings();
-        return new GameMap(crossingPlacements, policemanTurnPoints, policemanFakeTurnPoints);
+        return new GameMapMessage(crossingPlacements, policemanTurnPoints, policemanFakeTurnPoints);
     }
 
     private int[] generateRandomCrossings() {

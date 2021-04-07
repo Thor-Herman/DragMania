@@ -1,12 +1,12 @@
 package com.files;
 
-public class GameMap {
+public class GameMapMessage {
 
     private int[] policemanTurnPoints;
     private int[] policemanFakeTurnPoints;
     private int[] crossingPlacements;
 
-    public GameMap(int[] crossingPlacements, int[] policemanTurnPoints, int[] policemanFakeTurnPoints) {
+    public GameMapMessage(int[] crossingPlacements, int[] policemanTurnPoints, int[] policemanFakeTurnPoints) {
         this.crossingPlacements = crossingPlacements;
         this.policemanTurnPoints = policemanTurnPoints;
         this.policemanFakeTurnPoints = policemanFakeTurnPoints;

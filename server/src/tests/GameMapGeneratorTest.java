@@ -8,12 +8,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.files.GameMap;
+import com.files.GameMapMessage;
 import com.files.GameMapGenerator;
 
 public class GameMapGeneratorTest {
 
-    private GameMap map;
+    private GameMapMessage map;
 
     @Before
     public void setUp() {
