@@ -3,7 +3,7 @@ package com.files;
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class GameMap {
+public class GameMapGenerator {
 
     public static final int MIN_POLICEMAN_TURN_POINTS = 5;
     public static final int MAX_POLICEMAN_TURN_POINTS = 10;
@@ -20,7 +20,7 @@ public class GameMap {
     private int[] crossingPlacements;
     private ThreadLocalRandom random = ThreadLocalRandom.current();
 
-    public GameMap() {
+    public GameMapGenerator() {
         determineNumberOfPolicemanTurnPoints();
         generatePolicemanTurnPoints(policemanTurnPoints);
         generatePolicemanTurnPoints(policemanFakeTurnPoints);

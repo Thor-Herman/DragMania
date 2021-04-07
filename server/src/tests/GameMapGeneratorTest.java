@@ -8,15 +8,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.files.GameMap;
+import com.files.GameMapGenerator;
 
-public class GameMapTest {
+public class GameMapGeneratorTest {
 
-    private GameMap map;
+    private GameMapGenerator map;
 
     @Before
     public void setUp() {
-        map = new GameMap();
+        map = new GameMapGenerator();
     }
 
     @Test
@@ -66,11 +66,11 @@ public class GameMapTest {
     @Test
     public void testCorrectArraySizes() {
         int turnPointsLength = map.getPolicemanTurnPoints().length;
-        assertTrue(turnPointsLength >= GameMap.MIN_POLICEMAN_TURN_POINTS
-                && turnPointsLength <= GameMap.MAX_POLICEMAN_TURN_POINTS);
+        assertTrue(turnPointsLength >= GameMapGenerator.MIN_POLICEMAN_TURN_POINTS
+                && turnPointsLength <= GameMapGenerator.MAX_POLICEMAN_TURN_POINTS);
         int fakeTurnPointsLength = map.getPolicemanFakeTurnPoints().length;
-        assertTrue(fakeTurnPointsLength >= GameMap.MIN_POLICEMAN_TURN_POINTS
-                && fakeTurnPointsLength <= GameMap.MAX_POLICEMAN_TURN_POINTS);
-        assertEquals(map.getCrossings().length, GameMap.CROSSING_PLACEMENTS_LENGTH);
+        assertTrue(fakeTurnPointsLength >= GameMapGenerator.MIN_POLICEMAN_TURN_POINTS
+                && fakeTurnPointsLength <= GameMapGenerator.MAX_POLICEMAN_TURN_POINTS);
+        assertEquals(map.getCrossings().length, GameMapGenerator.CROSSING_PLACEMENTS_LENGTH);
     }
 }
