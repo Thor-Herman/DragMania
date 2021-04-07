@@ -15,13 +15,14 @@ public class GameMap {
     private final int CROSSING_PLACEMENTS_LENGTH = 3;
     private int[] policemanTurnPoints;
     private int[] policemanFakeTurnPoints;
+    private int[] crossingPlacements;
     private ThreadLocalRandom random = ThreadLocalRandom.current();
 
     public GameMap() {
         determineNumberOfPolicemanTurnPoints();
         generatePolicemanTurnPoints(policemanTurnPoints);
         generatePolicemanTurnPoints(policemanFakeTurnPoints);
-        int[] crossingPlacements = generateRandomCrossings();
+        crossingPlacements = generateRandomCrossings();
     }
 
     private int[] generateRandomCrossings() {
@@ -63,5 +64,17 @@ public class GameMap {
                 return true;
         }
         return false;
+    }
+
+    public int[] getCrossings() {
+        return this.crossingPlacements;
+    }
+
+    public int[] getPolicemanTurnPoints() {
+        return this.policemanTurnPoints;
+    }
+
+    public int[] getPolicemanFakeTurnPoints() {
+        return this.policemanFakeTurnPoints;
     }
 }
