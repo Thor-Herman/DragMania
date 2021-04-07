@@ -1,26 +1,25 @@
-package src.com.files;
+package com.files;
 
-import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GameMap {
 
-    public static final int MIN_POLICEMAN_TURN_TIMES = 5;
-    public static final int MAX_POLICEMAN_TURN_TIMES = 10;
+    public static final int MIN_POLICEMAN_TURN_POINTS = 5;
+    public static final int MAX_POLICEMAN_TURN_POINTS = 10;
 
-    public static final int MIN_POLICEMAN_FAKE_TURN_TIMES = 5;
-    public static final int MAX_POLICEMAN_FAKE_TURN_TIMES = 10;
+    public static final int MIN_POLICEMAN_FAKE_TURN_POINTS = 5;
+    public static final int MAX_POLICEMAN_FAKE_TURN_POINTS = 10;
 
     public static final int MAP_LENGTH = 5000;
 
     private final int CROSSING_PLACEMENTS_LENGTH = 3;
-    private int[] policemanTurnTimes;
-    private int[] policemanFakeTurnTimes = {};
+    private int[] policemanTurnPoints = {};
+    private int[] policemanFakeTurnPoints = {};
 
     private ThreadLocalRandom random = ThreadLocalRandom.current();
 
     public GameMap() {
-        determinePoliceManTurnTimes();
+        determineNumberOfPoliceManTurnPoints();
         int[] crossingPlacements = generateRandomCrossings();
     }
 
@@ -37,10 +36,10 @@ public class GameMap {
         return crossingPlacements;
     }
 
-    public void determinePoliceManTurnTimes() {
-        int turnTimes = random.nextInt(MIN_POLICEMAN_TURN_TIMES, MAX_POLICEMAN_TURN_TIMES + 1);
-        int fakeTurnTimes = random.nextInt(MIN_POLICEMAN_FAKE_TURN_TIMES, MAX_POLICEMAN_FAKE_TURN_TIMES + 1);
-        policemanTurnTimes = new int[turnTimes];
-        policemanFakeTurnTimes = new int[fakeTurnTimes];
+    public void determineNumberOfPoliceManTurnPoints() {
+        int turnPoints = random.nextInt(MIN_POLICEMAN_TURN_POINTS, MAX_POLICEMAN_TURN_POINTS + 1);
+        int fakeTurnPoints = random.nextInt(MIN_POLICEMAN_FAKE_TURN_POINTS, MAX_POLICEMAN_FAKE_TURN_POINTS + 1);
+        policemanTurnPoints = new int[turnPoints];
+        policemanFakeTurnPoints = new int[fakeTurnPoints];
     }
 }
