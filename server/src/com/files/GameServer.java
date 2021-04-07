@@ -31,6 +31,8 @@ public class GameServer {
         kryo.register(SomeRequest.class);
         kryo.register(SomeResponse.class);
         kryo.register(Score.class);
+        kryo.register(int[].class);
+        kryo.register(GameMapMessage.class);
     }
 
     private void startServer() {
