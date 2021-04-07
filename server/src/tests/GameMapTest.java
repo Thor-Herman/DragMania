@@ -37,6 +37,8 @@ public class GameMapTest {
 
     private boolean isOverlappingWithAnotherPoint(int turnPoint, int[] turnPointArray) {
         for (int point : turnPointArray) {
+            if (point == turnPoint)
+                continue;
             if (turnPoint >= (point - map.MINIMUM_POLICEMAN_PLACEMENT_SPACING)
                     && turnPoint <= (point + map.MINIMUM_POLICEMAN_PLACEMENT_SPACING))
                 return true;

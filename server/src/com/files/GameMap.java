@@ -1,4 +1,4 @@
-package src.com.files;
+package com.files;
 
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
