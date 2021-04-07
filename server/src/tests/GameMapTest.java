@@ -1,6 +1,5 @@
 package tests;
 
-import src.com.files.GameMap;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,6 +7,8 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import com.files.GameMap;
 
 public class GameMapTest {
 
