@@ -23,13 +23,13 @@ public class Lobby {
             sendGameMap();
     }
 
-    public void received(Connection connection, Object object) {
+    public void received(Connection connection, Message message) {
         if (clientsMap.size() < LOBBY_PLAYER_CRITERIUM)
             sendNotEnoughPlayersMessage(connection);
         if (!clientsMap.containsKey(connection))
             clientsMap.put(connection, 0.0f); // Doesn't take into account different game rooms
-        if (object instanceof Score)
-            handleScoreMessage(connection, object);
+        if (message instanceof Score)
+            handleScoreMessage(connection, message);
     }
 
     private void sendGameMap() {
