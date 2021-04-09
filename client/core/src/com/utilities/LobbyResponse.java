@@ -1,5 +1,5 @@
 package com.utilities;
 
-public class SomeResponse extends Message {
+public class LobbyResponse extends Message {
     public String text;
 }

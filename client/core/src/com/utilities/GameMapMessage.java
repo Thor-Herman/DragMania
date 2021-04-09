@@ -1,6 +1,6 @@
 package com.utilities;
 
-public class GameMapMessage {
+public class GameMapMessage extends Message {
 
     private int[] policemanTurnPoints;
     private int[] policemanFakeTurnPoints;

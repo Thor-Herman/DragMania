@@ -1,6 +1,6 @@
 package com.utilities;
 
-public class Score {
+public class Score extends Message {
 
     public float score;
 }

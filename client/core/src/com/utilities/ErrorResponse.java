@@ -1,4 +1,4 @@
-package com.files;
+package com.utilities;
 
 public class ErrorResponse extends Message {
 
