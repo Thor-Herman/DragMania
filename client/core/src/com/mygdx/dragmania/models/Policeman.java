@@ -22,6 +22,10 @@ public class Policeman {
     private long timePenaltyStart;
     private long timePenaltyStop;
 
+    // Duration in milliseconds
+    private int timePenaltyDuration;
+    private int policeTurnDuration;
+
     // Not correct position
     public static final int xPos = 200;
     public static final int yPos = 800;
@@ -38,6 +42,8 @@ public class Policeman {
         currentTurnPositionIndex = 0;
         policemanTurnStart = 0;
         timePenaltyStart = 0;
+        timePenaltyDuration = 4000;
+        policeTurnDuration = 2000;
 
     }
 
@@ -52,6 +58,8 @@ public class Policeman {
 
     }
 
+    // Check if the policeman has turned or if he should turn back
+    // Allow or disallow car to drive
     public void checkPolicemanTurn() {
         // When policeman turns towards car, start timer and prevent car from driving
         if (hasTurned && policemanTurnStart == 0) {
@@ -63,15 +71,16 @@ public class Policeman {
 
         // Check if two seconds has gone since policeman turn
         // Allow car to drive again
-        if (policemanTurnStart > 0 && (policemanTurnStop-policemanTurnStart) > 2000) {
+        if (policemanTurnStart > 0 && (policemanTurnStop-policemanTurnStart) > policeTurnDuration) {
             toggleTurn(false);
             car.canDrive(true);
             policemanTurnStart = 0;
         }
     }
 
+    // Check if player should receive timepenalty or if the timepenalty is up
     public void checkTimePenalty() {
-        // Start timer for the duration of the policeman turn
+        // Start timer for timepenalty
         if (car.getVelocity() > 0 && hasTurned && timePenaltyStart == 0) {
             car.canDrive(false);
             timePenaltyStart = System.currentTimeMillis();
@@ -80,7 +89,7 @@ public class Policeman {
         timePenaltyStop = System.currentTimeMillis();
 
         // Check if timepenalty is up
-        if (timePenaltyStart > 0 && (timePenaltyStop-timePenaltyStart) > 4000) {
+        if (timePenaltyStart > 0 && (timePenaltyStop-timePenaltyStart) > timePenaltyDuration) {
             car.canDrive(true);
             timePenaltyStart = 0;
         }

@@ -16,7 +16,6 @@ public class GameMap {
     public static final int CROSSING_OFFSET = 10;
 
     public GameMap(ArrayList<Integer> crossingPlacements, ArrayList<Integer> policeManTurnPositions, ArrayList<Integer> policeManFakeTurnPositions, Car car) {
-
         this.crossingPlacements = crossingPlacements;
         this.policeManTurnPositions = policeManTurnPositions;
         this.policeManFakeTurnPositions = policeManFakeTurnPositions;
@@ -24,7 +23,6 @@ public class GameMap {
         this.car = car;
         this.currentCrossing = 0;
         policeman = new Policeman(policeManTurnPositions, policeManFakeTurnPositions, car);
-
     }
 
     public int getCurrentCrossing(){
@@ -34,7 +32,7 @@ public class GameMap {
 
     public void update(float dt) {
         // Check if car has passed crossing with an offset and that there are more crossing to be placed
-        if (car.getPosition() + CROSSING_OFFSET > crossingPlacements.get(getCurrentCrossing()) && crossingPlacements.size()-1 > getCurrentCrossing()) {
+        if (car.getPosition() > crossingPlacements.get(getCurrentCrossing()) + CROSSING_OFFSET && crossingPlacements.size()-1 > getCurrentCrossing()) {
             moveCrossing(crossingPlacements.get(getCurrentCrossing()+1));
         }
         crossing.update(dt);
