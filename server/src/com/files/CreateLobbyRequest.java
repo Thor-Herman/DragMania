@@ -1,5 +1,5 @@
 package com.files;
 
-public class CreateLobbyRequest extends Message {
+public class CreateLobbyRequest {
 
 }

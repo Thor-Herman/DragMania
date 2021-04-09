@@ -65,5 +65,4 @@ public class ReceiveHandler extends Listener {
         } while (lobbies.containsKey(roomCode));
         return roomCode;
     }
-
 }
