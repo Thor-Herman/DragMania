@@ -8,12 +8,10 @@ public class Car {
     private boolean allowedToDrive;
     
     public Car(int maxVelocity) {
-
         this.position = 0;
         this.velocity = 0;
         this.maxVelocity = maxVelocity;
         allowedToDrive = true;
-
     }
 
 	// Accelerates when forward boolean is true. Decelerates when false.
