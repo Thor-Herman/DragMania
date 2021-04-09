@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class LobbyModel {
 
-    private static final int MAX_PLAYER_COUNT = 2;
+    public static final int MAX_PLAYER_COUNT = 2;
     private int currentConnectedCount;
     private String[] usernames = new String[MAX_PLAYER_COUNT];
     private int roomCode;
