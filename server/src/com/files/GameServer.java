@@ -28,7 +28,7 @@ public class GameServer {
 
     private void registerClasses() {
         Kryo kryo = server.getKryo();
-        kryo.register(SomeRequest.class);
+        kryo.register(CreateLobbyRequest.class);
         kryo.register(SomeResponse.class);
         kryo.register(Score.class);
         kryo.register(int[].class);
