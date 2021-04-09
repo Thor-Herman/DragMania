@@ -35,6 +35,7 @@ public class GameServer {
         kryo.register(GameMapMessage.class);
         kryo.register(ErrorResponse.class);
         kryo.register(LobbyResponse.class);
+        kryo.register(JoinLobbyRequest.class);
     }
 
     private void startServer() {
