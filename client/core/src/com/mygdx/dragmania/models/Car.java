@@ -43,12 +43,9 @@ public class Car {
 
     // Allow or disallow a car to drive
     public void canDrive(boolean allowed) {
-        if (allowed) {
-            this.allowedToDrive = true;
-        }
-        else {
+        if (!allowed) {
             this.velocity = 0;
-            this.allowedToDrive = false;
         }
+        this.allowedToDrive = allowed;
     }
 }
