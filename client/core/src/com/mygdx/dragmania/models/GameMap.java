@@ -15,8 +15,6 @@ public class GameMap {
 
     public GameMap(ArrayList<Integer> crossingPlacements, ArrayList<Integer> policeManTurnPositions, ArrayList<Integer> policeManFakeTurnPositions, Car car) {
         this.crossingPlacements = crossingPlacements;
-        this.policeManTurnPositions = policeManTurnPositions;
-        this.policeManFakeTurnPositions = policeManFakeTurnPositions;
         this.crossing = new Crossing(crossingPlacements.get(0));
         this.car = car;
         this.currentCrossing = 0;
