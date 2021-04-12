@@ -5,8 +5,6 @@ import java.util.ArrayList;
 public class GameMap {
 
     private ArrayList<Integer> crossingPlacements;
-    private ArrayList<Integer> policeManTurnPositions;
-    private ArrayList<Integer> policeManFakeTurnPositions;
 
     private Crossing crossing;
     private Car car;
