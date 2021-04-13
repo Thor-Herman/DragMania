@@ -1,8 +1,9 @@
-package com.files;
+package com.utilities;
 
-import com.files.messages.GameMapMessage;
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
+
+import com.utilities.messages.GameMapMessage;
 
 public class GameMapGenerator {
 

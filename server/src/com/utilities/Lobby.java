@@ -1,12 +1,11 @@
-package com.files;
-
-import com.files.messages.Message;
-import com.files.messages.Score;
-import com.files.messages.JoinLobbyRequest;
-import com.files.messages.GameMapMessage;
-import com.files.messages.SomeResponse;
+package com.utilities;
 
 import com.esotericsoftware.kryonet.Connection;
+import com.utilities.messages.GameMapMessage;
+import com.utilities.messages.JoinLobbyRequest;
+import com.utilities.messages.Message;
+import com.utilities.messages.Score;
+import com.utilities.messages.SomeResponse;
 
 import java.util.Map;
 import java.util.HashMap;

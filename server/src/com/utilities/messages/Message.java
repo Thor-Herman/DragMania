@@ -1,4 +1,4 @@
-package com.files.messages;
+package com.utilities.messages;
 
 public abstract class Message {
 

@@ -1,13 +1,12 @@
-package com.files;
-
-import com.files.messages.CreateLobbyRequest;
-import com.files.messages.Message;
-import com.files.messages.ErrorResponse;
-import com.files.messages.LobbyResponse;
+package com.utilities;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.FrameworkMessage.KeepAlive;
+import com.utilities.messages.CreateLobbyRequest;
+import com.utilities.messages.ErrorResponse;
+import com.utilities.messages.LobbyResponse;
+import com.utilities.messages.Message;
 
 import java.util.Map;
 import java.util.HashMap;
