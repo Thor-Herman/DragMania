@@ -6,14 +6,13 @@ import java.util.concurrent.ThreadLocalRandom;
 public class GameMapGenerator {
 
     private int MAP_LENGTH;
-    private final int MIN_POLICEMAN_TURN_POINTS = (int) MAP_LENGTH / 1000;
-    private final int MAX_POLICEMAN_TURN_POINTS = (int) MAP_LENGTH / 500;
-
-    private final int MIN_POLICEMAN_FAKE_TURN_POINTS = MIN_POLICEMAN_TURN_POINTS;
-    private final int MAX_POLICEMAN_FAKE_TURN_POINTS = MAX_POLICEMAN_TURN_POINTS;
+    private int MIN_POLICEMAN_TURN_POINTS;
+    private int MAX_POLICEMAN_TURN_POINTS;
+    private int MIN_POLICEMAN_FAKE_TURN_POINTS;
+    private int MAX_POLICEMAN_FAKE_TURN_POINTS;
     
-    private final int CROSSING_PLACEMENTS_LENGTH = 3;
-    private final int MIN_POLICEMAN_PLACEMENT_SPACING = (int) MAP_LENGTH / 50;
+    private int CROSSING_PLACEMENTS_LENGTH = 3;
+    private int MIN_POLICEMAN_PLACEMENT_SPACING;
 
     private int[] policemanTurnPoints;
     private int[] policemanFakeTurnPoints;
@@ -21,12 +20,22 @@ public class GameMapGenerator {
     private ThreadLocalRandom random = ThreadLocalRandom.current();
 
     public GameMapMessage generateMap(final int MAP_LENGTH) {
+        if (MAP_LENGTH < 500) throw new IllegalArgumentException("Map value too low");
         this.MAP_LENGTH = MAP_LENGTH;
+        determineMapParameters();
         determineNumberOfPolicemanTurnPoints();
         policemanTurnPoints = generatePolicemanTurnPoints(policemanTurnPoints);
         policemanFakeTurnPoints = generatePolicemanTurnPoints(policemanFakeTurnPoints);
         crossingPlacements = generateRandomCrossings();
         return new GameMapMessage(crossingPlacements, policemanTurnPoints, policemanFakeTurnPoints);
+    }
+
+    private void determineMapParameters() {
+        MIN_POLICEMAN_TURN_POINTS = (int) MAP_LENGTH / 1000;
+        MAX_POLICEMAN_TURN_POINTS = (int) MAP_LENGTH / 500;
+        MIN_POLICEMAN_FAKE_TURN_POINTS = MIN_POLICEMAN_TURN_POINTS;
+        MAX_POLICEMAN_FAKE_TURN_POINTS = MAX_POLICEMAN_TURN_POINTS;
+        MIN_POLICEMAN_PLACEMENT_SPACING = (int) MAP_LENGTH / 50;
     }
 
     private int[] generateRandomCrossings() {
