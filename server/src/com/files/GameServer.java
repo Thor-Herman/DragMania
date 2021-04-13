@@ -2,8 +2,6 @@ package com.files;
 
 import java.io.IOException;
 import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryonet.Connection;
-import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
 public class GameServer {
@@ -33,6 +31,8 @@ public class GameServer {
         kryo.register(SomeRequest.class);
         kryo.register(SomeResponse.class);
         kryo.register(Score.class);
+        kryo.register(int[].class);
+        kryo.register(GameMapMessage.class);
     }
 
     private void startServer() {

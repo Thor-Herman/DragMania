@@ -1,6 +1,7 @@
 package com.utilities;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
@@ -40,12 +41,6 @@ public class GameClient {
         client.sendTCP(scoreMessage);
     }
 
-    public void sendScore(float score) {
-        Score scoreMessage = new Score();
-        scoreMessage.score = score;
-        client.sendTCP(scoreMessage);
-    }
-
     private void connectToServer() {
         client.start();
         try {
@@ -61,6 +56,8 @@ public class GameClient {
         kryo.register(SomeRequest.class);
         kryo.register(SomeResponse.class);
         kryo.register(Score.class);
+        kryo.register(int[].class);
+        kryo.register(GameMapMessage.class);
     }
 
     private void setupListeners() {
@@ -73,6 +70,12 @@ public class GameClient {
                 if (object instanceof Score) {
                     Score score = (Score) object;
                     System.out.println(score.score);
+                }
+                if (object instanceof GameMapMessage) {
+                    GameMapMessage map = (GameMapMessage) object;
+                    System.out.println(Arrays.toString(map.getCrossings()));
+                    System.out.println(Arrays.toString(map.getPolicemanTurnPoints()));
+                    System.out.println(Arrays.toString(map.getPolicemanFakeTurnPoints()));
                 }
             }
         });
