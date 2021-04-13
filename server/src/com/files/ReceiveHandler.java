@@ -25,7 +25,6 @@ public class ReceiveHandler extends Listener {
                 .findFirst();
         if (associatedLobby.isPresent())
             associatedLobby.get().removeConnection(connection);
-        // else player must have sent wrong room code
     }
 
     public void received(Connection connection, Object object) {
@@ -59,8 +58,8 @@ public class ReceiveHandler extends Listener {
     private int createNewLobby(Connection connection) {
         Lobby lobby = new Lobby();
         int roomCode = generateRandomRoomCode();
-        lobbies.put(roomCode, lobby);
         lobby.addUser(connection);
+        lobbies.put(roomCode, lobby);
         return roomCode;
     }
 

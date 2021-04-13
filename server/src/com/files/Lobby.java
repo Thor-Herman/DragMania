@@ -15,6 +15,7 @@ public class Lobby {
 
     public static final int LOBBY_PLAYER_CRITERIUM = 2;
     private Map<Connection, Float> clientsMap = new HashMap<>();
+    private GameMapGenerator generator = new GameMapGenerator();
 
     public void removeConnection(Connection connection) {
         clientsMap.remove(connection);
@@ -23,7 +24,8 @@ public class Lobby {
 
     public void addUser(Connection connection) {
         System.out.println("Added connection: " + connection.toString());
-        clientsMap.put(connection, 0.0f);
+        final float INITIAL_SCORE = 0.0f;
+        clientsMap.put(connection, INITIAL_SCORE);
         sendSuccessfulJoinMessage(connection);
         if (clientsMap.size() == LOBBY_PLAYER_CRITERIUM)
             sendGameMap();
@@ -36,13 +38,13 @@ public class Lobby {
             clientsMap.put(connection, 0.0f); // Doesn't take into account different game rooms
         if (message instanceof Score)
             handleScoreMessage(connection, message);
-        if (message instanceof JoinLobbyRequest) {
+        else if (message instanceof JoinLobbyRequest) {
             addUser(connection);
         }
     }
 
     private void sendGameMap() {
-        GameMapMessage map = new GameMapGenerator().generateMap();
+        GameMapMessage map = generator.generateMap();
         for (Connection client : clientsMap.keySet()) {
             client.sendTCP(map);
         }

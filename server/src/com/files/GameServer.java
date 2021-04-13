@@ -53,7 +53,7 @@ public class GameServer {
 
         } catch (IOException e) {
             server.close();
-            System.out.println("Failed to start server");
+            System.out.println("Failed to start server: " + e.getMessage());
         }
     }
 
