@@ -37,7 +37,7 @@ public class ReceiveHandler extends Listener {
     }
 
     private void sendGameMap() {
-        GameMapMessage map = new GameMapGenerator().generateMap();
+        GameMapMessage map = generator.generateMap(2000);
         for (Connection client : clientsMap.keySet()) {
             client.sendTCP(map);
         }

@@ -1,6 +1,5 @@
 package tests;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,10 +13,12 @@ import com.files.GameMapGenerator;
 public class GameMapGeneratorTest {
 
     private GameMapMessage map;
+    private GameMapGenerator generator;
 
     @Before
     public void setUp() {
-        map = new GameMapGenerator().generateMap();
+        generator = new GameMapGenerator();
+        map = generator.generateMap(5000);
     }
 
     @Test
@@ -40,8 +41,8 @@ public class GameMapGeneratorTest {
         for (int point : turnPointArray) {
             if (point == turnPoint)
                 continue;
-            if (turnPoint >= (point - GameMapGenerator.MINIMUM_POLICEMAN_PLACEMENT_SPACING)
-                    && turnPoint <= (point + GameMapGenerator.MINIMUM_POLICEMAN_PLACEMENT_SPACING))
+            if (turnPoint >= (point - generator.getMinPolicemanSpacing())
+                    && turnPoint <= (point + generator.getMinPolicemanSpacing()))
                 return true;
         }
         return false;
@@ -67,11 +68,11 @@ public class GameMapGeneratorTest {
     @Test
     public void testCorrectArraySizes() {
         int turnPointsLength = map.getPolicemanTurnPoints().length;
-        assertTrue(turnPointsLength >= GameMapGenerator.MIN_POLICEMAN_TURN_POINTS
-                && turnPointsLength <= GameMapGenerator.MAX_POLICEMAN_TURN_POINTS);
+        assertTrue(turnPointsLength >= generator.getMinPolicemanFakeTurnPoints()
+                && turnPointsLength <= generator.getMaxPolicemanFakeTurnPoints());
         int fakeTurnPointsLength = map.getPolicemanFakeTurnPoints().length;
-        assertTrue(fakeTurnPointsLength >= GameMapGenerator.MIN_POLICEMAN_TURN_POINTS
-                && fakeTurnPointsLength <= GameMapGenerator.MAX_POLICEMAN_TURN_POINTS);
-        assertEquals(map.getCrossings().length, GameMapGenerator.CROSSING_PLACEMENTS_LENGTH);
+        assertTrue(fakeTurnPointsLength >= generator.getMinPolicemanFakeTurnPoints()
+                && fakeTurnPointsLength <= generator.getMaxPolicemanFakeTurnPoints());
+        assertEquals(map.getCrossings().length, generator.getNumberOfCrossings());
     }
 }
