@@ -1,5 +1,10 @@
 package com.files;
 
+import com.files.messages.CreateLobbyRequest;
+import com.files.messages.Message;
+import com.files.messages.ErrorResponse;
+import com.files.messages.LobbyResponse;
+
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.FrameworkMessage.KeepAlive;

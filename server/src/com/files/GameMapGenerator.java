@@ -1,5 +1,6 @@
 package com.files;
 
+import com.files.messages.GameMapMessage;
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 

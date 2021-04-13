@@ -7,7 +7,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.files.GameMapMessage;
+import com.files.messages.GameMapMessage;
 import com.files.GameMapGenerator;
 
 public class GameMapGeneratorTest {
