@@ -39,6 +39,7 @@ public class GameServer {
         kryo.register(SomeResponse.class);
         kryo.register(Score.class);
         kryo.register(int[].class);
+        kryo.register(String[].class);
         kryo.register(GameMapMessage.class);
         kryo.register(ErrorResponse.class);
         kryo.register(LobbyResponse.class);

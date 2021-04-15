@@ -3,6 +3,7 @@ package com.utilities;
 import com.esotericsoftware.kryonet.Connection;
 import com.utilities.messages.GameMapMessage;
 import com.utilities.messages.JoinLobbyRequest;
+import com.utilities.messages.LobbyResponse;
 import com.utilities.messages.Message;
 import com.utilities.messages.Score;
 import com.utilities.messages.SomeResponse;
@@ -26,9 +27,17 @@ public class Lobby {
         final float INITIAL_SCORE = 0.0f;
         connection.setName(username);
         clientsMap.put(connection, INITIAL_SCORE);
+        notifyOthersOfJoin(connection);
         sendSuccessfulJoinMessage(connection);
         if (clientsMap.size() == LOBBY_PLAYER_CRITERIUM)
             sendGameMap();
+    }
+
+    private void notifyOthersOfJoin(Connection connection) {
+        LobbyResponse response = new LobbyResponse();
+        response.text = "PlayerJoined";
+        response.usernames = getUsernames();
+        clientsMap.keySet().stream().filter(c -> c != connection).forEach(c -> c.sendTCP(response));
     }
 
     public void received(Connection connection, Message message) {
@@ -85,6 +94,6 @@ public class Lobby {
     }
 
     public String[] getUsernames() {
-        return clientsMap.keySet().stream().map(Connection c -> c.getName()).toArray();
+        return clientsMap.keySet().stream().map(c -> c.toString()).toArray(String[]::new);
     }
 }     

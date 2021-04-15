@@ -78,6 +78,7 @@ public class GameClient {
         kryo.register(SomeResponse.class);
         kryo.register(Score.class);
         kryo.register(int[].class);
+        kryo.register(String[].class);
         kryo.register(GameMapMessage.class);
         kryo.register(ErrorResponse.class);
         kryo.register(LobbyResponse.class);
@@ -94,10 +95,6 @@ public class GameClient {
                 if (object instanceof ErrorResponse) {
                     ErrorResponse response = (ErrorResponse) object;
                     System.out.println(response.text);
-                }
-                if (object instanceof LobbyResponse) {
-                    LobbyResponse response = (LobbyResponse) object;
-                    System.out.println(response.roomCode);
                 }
                 if (object instanceof Score) {
                     Score score = (Score) object;
@@ -117,7 +114,7 @@ public class GameClient {
     public static void main(String[] args) {
         GameClient client = getInstance();
         client.setup();
-        client.sendScore(50.0f);
+        client.createGame("TH");
         while (true)
             ; // Runs forever in order to receive server msg
     }
