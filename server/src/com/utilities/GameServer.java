@@ -1,8 +1,15 @@
-package com.files;
+package com.utilities;
 
 import java.io.IOException;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Server;
+import com.utilities.messages.CreateLobbyRequest;
+import com.utilities.messages.ErrorResponse;
+import com.utilities.messages.GameMapMessage;
+import com.utilities.messages.JoinLobbyRequest;
+import com.utilities.messages.LobbyResponse;
+import com.utilities.messages.Score;
+import com.utilities.messages.SomeResponse;
 
 public class GameServer {
 
@@ -28,11 +35,14 @@ public class GameServer {
 
     private void registerClasses() {
         Kryo kryo = server.getKryo();
-        kryo.register(SomeRequest.class);
+        kryo.register(CreateLobbyRequest.class);
         kryo.register(SomeResponse.class);
         kryo.register(Score.class);
         kryo.register(int[].class);
         kryo.register(GameMapMessage.class);
+        kryo.register(ErrorResponse.class);
+        kryo.register(LobbyResponse.class);
+        kryo.register(JoinLobbyRequest.class);
     }
 
     private void startServer() {
@@ -42,7 +52,7 @@ public class GameServer {
 
         } catch (IOException e) {
             server.close();
-            System.out.println("Failed to start server");
+            System.out.println("Failed to start server: " + e.getMessage());
         }
     }
 

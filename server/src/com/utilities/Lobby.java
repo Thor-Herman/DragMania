@@ -1,39 +1,43 @@
-package com.files;
+package com.utilities;
 
 import com.esotericsoftware.kryonet.Connection;
-import com.esotericsoftware.kryonet.Listener;
-import com.esotericsoftware.kryonet.FrameworkMessage.KeepAlive;
+import com.utilities.messages.GameMapMessage;
+import com.utilities.messages.JoinLobbyRequest;
+import com.utilities.messages.Message;
+import com.utilities.messages.Score;
+import com.utilities.messages.SomeResponse;
 
 import java.util.Map;
 import java.util.HashMap;
 
-public class ReceiveHandler extends Listener {
+public class Lobby {
 
     public static final int LOBBY_PLAYER_CRITERIUM = 2;
     private Map<Connection, Float> clientsMap = new HashMap<>();
     private GameMapGenerator generator = new GameMapGenerator();
 
-    public void connected(Connection connection) {
+    public void removeConnection(Connection connection) {
+        clientsMap.remove(connection);
+        // TODO: Notify other connections
+    }
+
+    public void addUser(Connection connection) {
         System.out.println("Added connection: " + connection.toString());
-        clientsMap.put(connection, 0.0f);
+        final float INITIAL_SCORE = 0.0f;
+        clientsMap.put(connection, INITIAL_SCORE);
+        sendSuccessfulJoinMessage(connection);
         if (clientsMap.size() == LOBBY_PLAYER_CRITERIUM)
             sendGameMap();
     }
 
-    public void disconnected(Connection connection) {
-        System.out.println("Removed connection: " + connection.toString());
-        clientsMap.remove(connection);
-    }
-
-    public void received(Connection connection, Object object) {
-        if (object instanceof KeepAlive)
-            return;
+    public void received(Connection connection, Message message) {
         if (clientsMap.size() < LOBBY_PLAYER_CRITERIUM)
             sendNotEnoughPlayersMessage(connection);
-        if (!clientsMap.containsKey(connection))
-            clientsMap.put(connection, 0.0f); // Doesn't take into account different game rooms
-        if (object instanceof Score)
-            handleScoreMessage(connection, object);
+        if (message instanceof Score)
+            handleScoreMessage(connection, message);
+        else if (message instanceof JoinLobbyRequest) {
+            addUser(connection);
+        }
     }
 
     private void sendGameMap() {
@@ -41,6 +45,12 @@ public class ReceiveHandler extends Listener {
         for (Connection client : clientsMap.keySet()) {
             client.sendTCP(map);
         }
+    }
+
+    private void sendSuccessfulJoinMessage(Connection connection) {
+        SomeResponse response = new SomeResponse();
+        response.text = "Success";
+        connection.sendTCP(response);
     }
 
     private void sendNotEnoughPlayersMessage(Connection connection) {
@@ -66,4 +76,8 @@ public class ReceiveHandler extends Listener {
             }
         }
     }
-}
+
+    public boolean contains(Connection connection) {
+        return clientsMap.containsKey(connection);
+    }
+}     

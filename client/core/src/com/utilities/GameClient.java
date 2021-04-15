@@ -8,6 +8,13 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.minlog.Log;
+import com.utilities.messages.CreateLobbyRequest;
+import com.utilities.messages.ErrorResponse;
+import com.utilities.messages.GameMapMessage;
+import com.utilities.messages.JoinLobbyRequest;
+import com.utilities.messages.LobbyResponse;
+import com.utilities.messages.Score;
+import com.utilities.messages.SomeResponse;
 
 public class GameClient {
 
@@ -41,6 +48,17 @@ public class GameClient {
         client.sendTCP(scoreMessage);
     }
 
+    public void joinGame(String username, int roomCode) {
+        JoinLobbyRequest request = new JoinLobbyRequest();
+        request.roomCode = roomCode;
+        client.sendTCP(request);
+    }
+
+    public void createGame(String username) {
+        CreateLobbyRequest request = new CreateLobbyRequest();
+        client.sendTCP(request);
+    }
+
     private void connectToServer() {
         client.start();
         try {
@@ -53,11 +71,14 @@ public class GameClient {
 
     private void registerClasses() {
         Kryo kryo = client.getKryo();
-        kryo.register(SomeRequest.class);
+        kryo.register(CreateLobbyRequest.class);
         kryo.register(SomeResponse.class);
         kryo.register(Score.class);
         kryo.register(int[].class);
         kryo.register(GameMapMessage.class);
+        kryo.register(ErrorResponse.class);
+        kryo.register(LobbyResponse.class);
+        kryo.register(JoinLobbyRequest.class);
     }
 
     private void setupListeners() {
@@ -66,6 +87,14 @@ public class GameClient {
                 if (object instanceof SomeResponse) {
                     SomeResponse response = (SomeResponse) object;
                     System.out.println(response.text);
+                }
+                if (object instanceof ErrorResponse) {
+                    ErrorResponse response = (ErrorResponse) object;
+                    System.out.println(response.text);
+                }
+                if (object instanceof LobbyResponse) {
+                    LobbyResponse response = (LobbyResponse) object;
+                    System.out.println(response.roomCode);
                 }
                 if (object instanceof Score) {
                     Score score = (Score) object;

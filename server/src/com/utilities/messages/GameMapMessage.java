@@ -1,12 +1,13 @@
-package com.utilities;
+package com.utilities.messages;
 
-public class GameMapMessage {
+public class GameMapMessage extends Message {
 
     private int[] policemanTurnPoints;
     private int[] policemanFakeTurnPoints;
     private int[] crossingPlacements;
 
-    public GameMapMessage() {}
+    public GameMapMessage() {
+    }
 
     public GameMapMessage(int[] crossingPlacements, int[] policemanTurnPoints, int[] policemanFakeTurnPoints) {
         this.crossingPlacements = crossingPlacements;
