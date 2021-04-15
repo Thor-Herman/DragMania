@@ -67,5 +67,6 @@ public class LobbyModel {
         for (int i = 0; i < usernames.length ; i++) {
             if (usernames[i].equals(username)) usernames[i] = null;
         }
+        currentConnectedCount--;
     }
 }
