@@ -1,4 +1,4 @@
-package com.utilities;
+package com.utilities.messages;
 
 public class LobbyResponse extends Message {
     public String text;

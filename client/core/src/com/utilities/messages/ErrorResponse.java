@@ -1,4 +1,4 @@
-package com.utilities;
+package com.utilities.messages;
 
 public class ErrorResponse extends Message {
 

@@ -8,6 +8,13 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.minlog.Log;
+import com.utilities.messages.CreateLobbyRequest;
+import com.utilities.messages.ErrorResponse;
+import com.utilities.messages.GameMapMessage;
+import com.utilities.messages.JoinLobbyRequest;
+import com.utilities.messages.LobbyResponse;
+import com.utilities.messages.Score;
+import com.utilities.messages.SomeResponse;
 
 public class GameClient {
 
