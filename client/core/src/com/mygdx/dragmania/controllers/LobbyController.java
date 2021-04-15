@@ -1,17 +1,21 @@
 package com.mygdx.dragmania.controllers;
 
 import com.mygdx.dragmania.models.GameModel;
+import com.mygdx.dragmania.models.LobbyModel;
 import com.utilities.GameClient;
 
 public class LobbyController extends Controller {
 
+    private static LobbyController instance = new LobbyController();
     private GameClient client = GameClient.getInstance();
     private LobbyModel model;
     private MetaController metaController = MetaController.getInstance();
 
-    public LobbyController() {
-        this.model = new LobbyModel();
+    public static LobbyController getInstance() {
+        return instance;
     }
+
+    private LobbyController() {}
 
     public void createGame(String username) {}
 
