@@ -76,4 +76,7 @@ public class LobbyController extends Controller {
         return true;
     }
 
+    public void playerLeftLobby(String username) {
+        model.playerLeftLobby(username);
+    }
 }

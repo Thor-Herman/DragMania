@@ -62,4 +62,10 @@ public class LobbyModel {
     public String toString() {
         return "roomCode: " + roomCode + " isHost: " + isHost + " isConnected: " + isConnected + " usernames: " + Arrays.toString(usernames) + " errorMessage: " + errorMessage;
     }
+
+    public void playerLeftLobby(String username) {
+        for (int i = 0; i < usernames.length ; i++) {
+            if (usernames[i].equals(username)) usernames[i] = null;
+        }
+    }
 }
