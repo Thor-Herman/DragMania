@@ -6,23 +6,26 @@ import com.utilities.messages.ErrorResponse;
 import com.utilities.messages.LobbyResponse;
 
 public class LobbyListener extends Listener {
-    
+
     LobbyController controller = LobbyController.getInstance();
 
-    public void connected(Connection connection, Object object) {
+    public void connected(Connection connection) {
         controller.connected();
     }
 
-    public void disconnected(Connection connection, Object object) {
+    public void disconnected(Connection connection) {
         controller.disconnected();
     }
 
     public void received(Connection connection, Object object) {
         if (object instanceof LobbyResponse) {
             LobbyResponse response = (LobbyResponse) object;
-            if (response.text.equals("Created")) controller.joinSuccess(response.roomCode, null);
-            else if (response.text.equals("PlayerJoined")) controller.playerJoinedLobby(response.username); // controller.joinSuccess(response.roomCode);
-            else if (response.text.equals("Success")) controller.joinSuccess(response.roomCode, response.usernames);
+            if (response.text.equals("Created"))
+                controller.joinSuccess(response.roomCode, null);
+            else if (response.text.equals("PlayerJoined"))
+                controller.playerJoinedLobby(response.username); // controller.joinSuccess(response.roomCode);
+            else if (response.text.equals("Success"))
+                controller.joinSuccess(response.roomCode, response.usernames);
         }
         if (object instanceof ErrorResponse) {
             ErrorResponse response = (ErrorResponse) object;

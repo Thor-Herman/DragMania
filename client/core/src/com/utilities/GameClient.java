@@ -25,7 +25,6 @@ public class GameClient {
     private String ipAddress;
     private static GameClient instance;
 
-
     private GameClient() {
         this.client = new Client();
         this.tcpPort = Env.getTcpPort();
@@ -34,15 +33,16 @@ public class GameClient {
     }
 
     public static GameClient getInstance() {
-        if (instance == null) instance = new GameClient();
+        if (instance == null)
+            instance = new GameClient();
         return instance;
     }
 
     public void setup() { // Don't move this inside constructor
         registerClasses();
         Log.set(Log.LEVEL_DEBUG);
-        connectToServer();
         setupListeners();
+        connectToServer();
     }
 
     public void sendScore(float score) {
@@ -66,17 +66,12 @@ public class GameClient {
 
     private void connectToServer() {
         client.start();
-        new Thread("Connect") {
-            @Override
-            public void run() {
-                try {
-                    client.connect(5000, ipAddress, tcpPort, udpPort);
-                } catch (IOException e) {
-                    client.close();
-                    System.out.println("Something went wrong setting up the client: " + e.toString());
-                }
-            }
-        }.start();
+        try {
+            client.connect(5000, ipAddress, tcpPort, udpPort);
+        } catch (IOException e) {
+            client.close();
+            System.out.println("Something went wrong setting up the client: " + e.toString());
+        }
     }
 
     private void registerClasses() {
@@ -121,7 +116,7 @@ public class GameClient {
     public static void main(String[] args) {
         LobbyController controller = LobbyController.getInstance();
         controller.connectToServer();
-        controller.createGame("TH");
+        controller.joinGame("Tvedt", 8471);
         while (true)
             ; // Runs forever in order to receive server msg
     }
