@@ -66,17 +66,12 @@ public class GameClient {
 
     private void connectToServer() {
         client.start();
-        new Thread("Connect") {
-            @Override
-            public void run() {
-                try {
-                    client.connect(5000, ipAddress, tcpPort, udpPort);
-                } catch (IOException e) {
-                    client.close();
-                    System.out.println("Something went wrong setting up the client: " + e.toString());
-                }
-            }
-        }.start();
+        try {
+            client.connect(5000, ipAddress, tcpPort, udpPort);
+        } catch (IOException e) {
+            client.close();
+            System.out.println("Something went wrong setting up the client: " + e.toString());
+        }
     }
 
     private void registerClasses() {
