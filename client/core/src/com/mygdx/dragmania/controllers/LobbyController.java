@@ -17,6 +17,7 @@ public class LobbyController extends Controller {
     }
 
     private LobbyController() {
+        client.setup();
         model = new LobbyModel(-1, false);
         client = GameClient.getInstance();
         metaController = MetaController.getInstance();

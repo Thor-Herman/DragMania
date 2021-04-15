@@ -30,6 +30,7 @@ public class GameClient {
         this.tcpPort = Env.getTcpPort();
         this.udpPort = Env.getUdpPort();
         this.ipAddress = Env.getIPAddress();
+        setup();
     }
 
     public static GameClient getInstance() {
