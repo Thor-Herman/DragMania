@@ -8,6 +8,7 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.minlog.Log;
+import com.mygdx.dragmania.controllers.LobbyListener;
 import com.utilities.messages.CreateLobbyRequest;
 import com.utilities.messages.ErrorResponse;
 import com.utilities.messages.GameMapMessage;
@@ -110,6 +111,7 @@ public class GameClient {
                 }
             }
         });
+        client.addListener(new LobbyListener());
     }
 
     public static void main(String[] args) {

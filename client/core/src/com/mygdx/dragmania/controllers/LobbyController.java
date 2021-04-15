@@ -21,7 +21,7 @@ public class LobbyController extends Controller {
 
     public void joinGame(String username, int roomCode) {}
 
-    public void joinSuccess() {}
+    public void joinSuccess(int roomCode) {}
 
     public void joinTimeout() {}
 

@@ -66,7 +66,7 @@ public class ReceiveHandler extends Listener {
     private void sendLobbyCode(Connection connection, int roomCode) {
         LobbyResponse response = new LobbyResponse();
         response.roomCode = roomCode;
-        response.text = "Success";
+        response.text = "Created";
         connection.sendTCP(response);
     }
 

@@ -50,8 +50,9 @@ public class Lobby {
     }
 
     private void sendSuccessfulJoinMessage(Connection connection) {
-        SomeResponse response = new SomeResponse();
+        LobbyResponse response = new LobbyResponse();
         response.text = "Success";
+        response.usernames = getUsernames();
         connection.sendTCP(response);
     }
 
@@ -81,5 +82,9 @@ public class Lobby {
 
     public boolean contains(Connection connection) {
         return clientsMap.containsKey(connection);
+    }
+
+    public String[] getUsernames() {
+        return clientsMap.keySet().stream().map(Connection c -> c.getName()).toArray();
     }
 }     
