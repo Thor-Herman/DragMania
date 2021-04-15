@@ -6,18 +6,24 @@ import com.utilities.GameClient;
 
 public class LobbyController extends Controller {
 
-    private static LobbyController instance = new LobbyController();
-    private GameClient client = GameClient.getInstance();
+    private static LobbyController instance;
+    private GameClient client;
     private LobbyModel model;
-    private MetaController metaController = MetaController.getInstance();
+    private MetaController metaController;
 
     public static LobbyController getInstance() {
+        if (instance == null)  instance = new LobbyController();
         return instance;
     }
 
     private LobbyController() {
-        client.setup();
         model = new LobbyModel(-1, false);
+        client = GameClient.getInstance();
+        metaController = MetaController.getInstance();
+    }
+
+    public void connectToServer() {
+        client.setup();
     }
 
     public void connected() {

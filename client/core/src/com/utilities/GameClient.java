@@ -23,7 +23,7 @@ public class GameClient {
     private Client client;
     private int tcpPort, udpPort;
     private String ipAddress;
-    private static final GameClient instance = new GameClient();
+    private static GameClient instance;
 
 
     private GameClient() {
@@ -31,14 +31,14 @@ public class GameClient {
         this.tcpPort = Env.getTcpPort();
         this.udpPort = Env.getUdpPort();
         this.ipAddress = Env.getIPAddress();
-        setup();
     }
 
     public static GameClient getInstance() {
+        if (instance == null) instance = new GameClient();
         return instance;
     }
 
-    private void setup() {
+    public void setup() { // Don't move this inside constructor
         registerClasses();
         Log.set(Log.LEVEL_DEBUG);
         connectToServer();
@@ -66,12 +66,17 @@ public class GameClient {
 
     private void connectToServer() {
         client.start();
-        try {
-            client.connect(5000, ipAddress, tcpPort, udpPort);
-        } catch (IOException e) {
-            client.close();
-            System.out.println("Something went wrong setting up the client: " + e.toString());
-        }
+        new Thread("Connect") {
+            @Override
+            public void run() {
+                try {
+                    client.connect(5000, ipAddress, tcpPort, udpPort);
+                } catch (IOException e) {
+                    client.close();
+                    System.out.println("Something went wrong setting up the client: " + e.toString());
+                }
+            }
+        }.start();
     }
 
     private void registerClasses() {
@@ -115,6 +120,7 @@ public class GameClient {
 
     public static void main(String[] args) {
         LobbyController controller = LobbyController.getInstance();
+        controller.connectToServer();
         controller.createGame("TH");
         while (true)
             ; // Runs forever in order to receive server msg
