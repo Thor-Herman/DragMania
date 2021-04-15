@@ -33,8 +33,6 @@ public class Lobby {
     public void received(Connection connection, Message message) {
         if (clientsMap.size() < LOBBY_PLAYER_CRITERIUM)
             sendNotEnoughPlayersMessage(connection);
-        if (!clientsMap.containsKey(connection))
-            clientsMap.put(connection, 0.0f); // Doesn't take into account different game rooms
         if (message instanceof Score)
             handleScoreMessage(connection, message);
         else if (message instanceof JoinLobbyRequest) {
@@ -43,7 +41,7 @@ public class Lobby {
     }
 
     private void sendGameMap() {
-        GameMapMessage map = generator.generateMap();
+        GameMapMessage map = generator.generateMap(2000);
         for (Connection client : clientsMap.keySet()) {
             client.sendTCP(map);
         }
