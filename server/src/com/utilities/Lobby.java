@@ -24,7 +24,13 @@ public class Lobby {
 
     public void removeConnection(Connection connection) {
         clientsMap.remove(connection);
-        // TODO: Notify other connections
+        LobbyResponse response = new LobbyResponse();
+        response.text = "PlayerLeft";
+        response.username = connection.toString();
+        clientsMap.keySet().forEach(c -> {
+            c.sendTCP(response);
+            System.out.println(c.toString());
+        });
     }
 
     public void addUser(Connection connection, String username) {

@@ -18,6 +18,10 @@ public class ReceiveHandler extends Listener {
 
     public Map<Integer, Lobby> lobbies = new HashMap<>();
 
+    public void connected(Connection connection) {
+        System.out.println("Connection: " + connection.toString());
+    }
+
     public void disconnected(Connection connection) {
         System.out.println("Removed connection: " + connection.toString());
         Optional<Lobby> associatedLobby = lobbies.values().stream().filter(lobby -> lobby.contains(connection))
