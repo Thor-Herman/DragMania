@@ -5,8 +5,6 @@ import com.esotericsoftware.kryonet.Listener;
 import com.utilities.messages.ErrorResponse;
 import com.utilities.messages.LobbyResponse;
 
-import java.util.Arrays;
-
 public class LobbyListener extends Listener {
 
     LobbyController controller = LobbyController.getInstance();
