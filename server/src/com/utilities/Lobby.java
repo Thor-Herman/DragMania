@@ -16,6 +16,11 @@ public class Lobby {
     public static final int LOBBY_PLAYER_CRITERIUM = 2;
     private Map<Connection, Float> clientsMap = new HashMap<>();
     private GameMapGenerator generator = new GameMapGenerator();
+    private final int roomCode;
+
+    public Lobby(int roomCode) {
+        this.roomCode = roomCode;
+    }
 
     public void removeConnection(Connection connection) {
         clientsMap.remove(connection);
@@ -33,10 +38,10 @@ public class Lobby {
             sendGameMap();
     }
 
-    private void notifyOthersOfJoin(Connection connection) {
+    private void notifyOthersOfJoin(java.sql.Connection connection) {
         LobbyResponse response = new LobbyResponse();
         response.text = "PlayerJoined";
-        response.usernames = getUsernames();
+        response.username = connection.toString();
         clientsMap.keySet().stream().filter(c -> c != connection).forEach(c -> c.sendTCP(response));
     }
 
@@ -61,6 +66,7 @@ public class Lobby {
     private void sendSuccessfulJoinMessage(Connection connection) {
         LobbyResponse response = new LobbyResponse();
         response.text = "Success";
+        response.roomCode = roomCode;
         response.usernames = getUsernames();
         connection.sendTCP(response);
     }
@@ -96,4 +102,4 @@ public class Lobby {
     public String[] getUsernames() {
         return clientsMap.keySet().stream().map(c -> c.toString()).toArray(String[]::new);
     }
-}     
+}

@@ -56,8 +56,8 @@ public class ReceiveHandler extends Listener {
     }
 
     private int createNewLobby(Connection connection, String username) {
-        Lobby lobby = new Lobby();
         int roomCode = generateRandomRoomCode();
+        Lobby lobby = new Lobby(roomCode);
         lobby.addUser(connection, username);
         lobbies.put(roomCode, lobby);
         return roomCode;

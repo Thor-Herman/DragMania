@@ -15,18 +15,50 @@ public class LobbyController extends Controller {
         return instance;
     }
 
-    private LobbyController() {}
+    private LobbyController() {
+        model = new LobbyModel(-1, false);
+    }
 
-    public void createGame(String username) {}
+    public void connected() {
+        model.setIsConnected(true);
+    }
 
-    public void joinGame(String username, int roomCode) {}
+    public void disconnected() {
+        model.setIsConnected(false);
+    }
 
-    public void joinSuccess(int roomCode) {}
+    public void createGame(String username) {
+        client.createGame(username);
+        model.setIsHost(true);
+    }
 
-    public void joinTimeout() {}
+    public void joinGame(String username, int roomCode) {
+        client.joinGame(username, roomCode);
+        model.setIsHost(false);
+    }
 
-    public void playerJoinedLobby() {}
+    public void joinSuccess(int roomCode, String[] usernames) {
+        model.setRoomCode(roomCode);
+        if (usernames != null)
+            for (String username : usernames) {
+                model.playerJoinedLobby(username);
+            }
+    }
 
-    private boolean areThereEnoughPlayers(int playerCount) {return true;}
+    public void errorOccurred(String errorMessage) {
+        model.setErrorMessage(errorMessage);
+    }
+
+    public void resetModelOnError() {
+        model.reset();
+    }
+
+    public void playerJoinedLobby(String username) {
+        model.playerJoinedLobby(username);
+    }
+
+    private boolean areThereEnoughPlayers(int playerCount) {
+        return true;
+    }
 
 }
