@@ -16,25 +16,30 @@ public class LobbyController extends Controller {
     }
 
     private LobbyController() {
+        client.setup();
         model = new LobbyModel(-1, false);
     }
 
     public void connected() {
         model.setIsConnected(true);
+        System.out.println(model);
     }
 
     public void disconnected() {
         model.setIsConnected(false);
+        System.out.println(model);
     }
 
     public void createGame(String username) {
         client.createGame(username);
         model.setIsHost(true);
+        System.out.println(model);
     }
 
     public void joinGame(String username, int roomCode) {
         client.joinGame(username, roomCode);
         model.setIsHost(false);
+        System.out.println(model);
     }
 
     public void joinSuccess(int roomCode, String[] usernames) {
@@ -43,18 +48,22 @@ public class LobbyController extends Controller {
             for (String username : usernames) {
                 model.playerJoinedLobby(username);
             }
+        System.out.println(model);
     }
 
     public void errorOccurred(String errorMessage) {
         model.setErrorMessage(errorMessage);
+        System.out.println(model);
     }
 
     public void resetModelOnError() {
         model.reset();
+        System.out.println(model);
     }
 
     public void playerJoinedLobby(String username) {
         model.playerJoinedLobby(username);
+        System.out.println(model);
     }
 
     private boolean areThereEnoughPlayers(int playerCount) {

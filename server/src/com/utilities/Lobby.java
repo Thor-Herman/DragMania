@@ -38,7 +38,7 @@ public class Lobby {
             sendGameMap();
     }
 
-    private void notifyOthersOfJoin(java.sql.Connection connection) {
+    private void notifyOthersOfJoin(Connection connection) {
         LobbyResponse response = new LobbyResponse();
         response.text = "PlayerJoined";
         response.username = connection.toString();

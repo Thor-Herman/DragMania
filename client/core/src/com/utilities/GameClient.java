@@ -8,6 +8,7 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.minlog.Log;
+import com.mygdx.dragmania.controllers.LobbyController;
 import com.mygdx.dragmania.controllers.LobbyListener;
 import com.utilities.messages.CreateLobbyRequest;
 import com.utilities.messages.ErrorResponse;
@@ -30,6 +31,7 @@ public class GameClient {
         this.tcpPort = Env.getTcpPort();
         this.udpPort = Env.getUdpPort();
         this.ipAddress = Env.getIPAddress();
+        setup();
     }
 
     public static GameClient getInstance() {
@@ -112,9 +114,8 @@ public class GameClient {
     }
 
     public static void main(String[] args) {
-        GameClient client = getInstance();
-        client.setup();
-        client.createGame("TH");
+        LobbyController controller = LobbyController.getInstance();
+        controller.createGame("TH");
         while (true)
             ; // Runs forever in order to receive server msg
     }
