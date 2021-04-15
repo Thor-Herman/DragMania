@@ -30,7 +30,6 @@ public class GameClient {
         this.tcpPort = Env.getTcpPort();
         this.udpPort = Env.getUdpPort();
         this.ipAddress = Env.getIPAddress();
-        setup();
     }
 
     public static GameClient getInstance() {
@@ -67,12 +66,17 @@ public class GameClient {
 
     private void connectToServer() {
         client.start();
-        try {
-            client.connect(5000, ipAddress, tcpPort, udpPort);
-        } catch (IOException e) {
-            client.close();
-            System.out.println("Something went wrong setting up the client: " + e.toString());
-        }
+        new Thread("Connect") {
+            @Override
+            public void run() {
+                try {
+                    client.connect(5000, ipAddress, tcpPort, udpPort);
+                } catch (IOException e) {
+                    client.close();
+                    System.out.println("Something went wrong setting up the client: " + e.toString());
+                }
+            }
+        }.start();
     }
 
     private void registerClasses() {
