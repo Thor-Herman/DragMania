@@ -6,7 +6,7 @@ import com.utilities.messages.ErrorResponse;
 import com.utilities.messages.LobbyResponse;
 
 public class LobbyListener extends Listener {
-    
+
     LobbyController controller = LobbyController.getInstance();
 
     public void connected(Connection connection) {

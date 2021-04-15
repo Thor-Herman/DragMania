@@ -25,7 +25,6 @@ public class GameClient {
     private String ipAddress;
     private static GameClient instance;
 
-
     private GameClient() {
         this.client = new Client();
         this.tcpPort = Env.getTcpPort();
@@ -34,15 +33,16 @@ public class GameClient {
     }
 
     public static GameClient getInstance() {
-        if (instance == null) instance = new GameClient();
+        if (instance == null)
+            instance = new GameClient();
         return instance;
     }
 
     public void setup() { // Don't move this inside constructor
         registerClasses();
         Log.set(Log.LEVEL_DEBUG);
-        connectToServer();
         setupListeners();
+        connectToServer();
     }
 
     public void sendScore(float score) {
@@ -116,7 +116,7 @@ public class GameClient {
     public static void main(String[] args) {
         LobbyController controller = LobbyController.getInstance();
         controller.connectToServer();
-        controller.createGame("TH");
+        controller.joinGame("Tvedt", 8471);
         while (true)
             ; // Runs forever in order to receive server msg
     }
