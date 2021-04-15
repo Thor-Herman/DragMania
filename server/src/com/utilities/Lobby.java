@@ -21,9 +21,10 @@ public class Lobby {
         // TODO: Notify other connections
     }
 
-    public void addUser(Connection connection) {
+    public void addUser(Connection connection, String username) {
         System.out.println("Added connection: " + connection.toString());
         final float INITIAL_SCORE = 0.0f;
+        connection.setName(username);
         clientsMap.put(connection, INITIAL_SCORE);
         sendSuccessfulJoinMessage(connection);
         if (clientsMap.size() == LOBBY_PLAYER_CRITERIUM)
@@ -36,7 +37,8 @@ public class Lobby {
         if (message instanceof Score)
             handleScoreMessage(connection, message);
         else if (message instanceof JoinLobbyRequest) {
-            addUser(connection);
+            String username = ((JoinLobbyRequest) message).username;
+            addUser(connection, username);
         }
     }
 

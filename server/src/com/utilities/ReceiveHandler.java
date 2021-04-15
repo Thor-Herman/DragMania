@@ -30,7 +30,8 @@ public class ReceiveHandler extends Listener {
         if (object instanceof KeepAlive)
             return;
         if (object instanceof CreateLobbyRequest) {
-            int roomCode = createNewLobby(connection);
+            String username = ((CreateLobbyRequest) object).username;
+            int roomCode = createNewLobby(connection, username);
             sendLobbyCode(connection, roomCode);
         }
         if (object instanceof Message) {
@@ -54,10 +55,10 @@ public class ReceiveHandler extends Listener {
         connection.sendTCP(error);
     }
 
-    private int createNewLobby(Connection connection) {
+    private int createNewLobby(Connection connection, String username) {
         Lobby lobby = new Lobby();
         int roomCode = generateRandomRoomCode();
-        lobby.addUser(connection);
+        lobby.addUser(connection, username);
         lobbies.put(roomCode, lobby);
         return roomCode;
     }

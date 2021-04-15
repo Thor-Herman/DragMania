@@ -50,12 +50,14 @@ public class GameClient {
 
     public void joinGame(String username, int roomCode) {
         JoinLobbyRequest request = new JoinLobbyRequest();
+        request.username = username;
         request.roomCode = roomCode;
         client.sendTCP(request);
     }
 
     public void createGame(String username) {
         CreateLobbyRequest request = new CreateLobbyRequest();
+        request.username = username;
         client.sendTCP(request);
     }
 
