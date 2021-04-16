@@ -24,14 +24,17 @@ public class GameModel {
         return playerScore;
     }
 
-    public void update(float dt, boolean isTouching, int opponentScore) {
-        this.opponentScore = opponentScore;
+    public void update(float dt, boolean isTouching) {
         gameMap.update(dt);
         car.update(dt, isTouching);
         playerScore = car.getPosition().y;
     }
 
-    public float getOpponentScore() {
+    public void setOpponentScore(int opponentScore) {
+        this.opponentScore = opponentScore;
+    }
+
+    public int getOpponentScore() {
         return opponentScore;
     }
 
