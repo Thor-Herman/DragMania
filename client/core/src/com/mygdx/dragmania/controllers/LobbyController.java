@@ -70,6 +70,7 @@ public class LobbyController extends Controller {
     public void playerJoinedLobby(String username) {
         model.playerJoinedLobby(username);
         System.out.println(model);
+        client.sendScore(50);
     }
 
     private boolean areThereEnoughPlayers(int playerCount) {
