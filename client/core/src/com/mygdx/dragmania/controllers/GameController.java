@@ -12,6 +12,8 @@ public class GameController extends Controller {
     private GameClient client;
 
     private GameModel model;
+    private float timePassedSinceScoreSent = 0;
+    private static final float SCORE_SEND_FREQUENCY = 250;
 
     private GameController() {
         this.client = GameClient.getInstance();
@@ -32,6 +34,11 @@ public class GameController extends Controller {
 
     public void update(float dt, boolean isTouching) {
         model.update(dt, isTouching);
+        timePassedSinceScoreSent += dt;
+        if (timePassedSinceScoreSent >= SCORE_SEND_FREQUENCY) {
+            client.sendScore(model.getPlayerScore());
+            timePassedSinceScoreSent = 0;
+        }
     }
 
     public void setOpponentScore(int opponentScore){
