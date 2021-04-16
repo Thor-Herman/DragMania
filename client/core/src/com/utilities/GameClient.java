@@ -8,6 +8,7 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.minlog.Log;
+import com.mygdx.dragmania.controllers.GameListener;
 import com.mygdx.dragmania.controllers.LobbyController;
 import com.mygdx.dragmania.controllers.LobbyListener;
 import com.utilities.messages.CreateLobbyRequest;
@@ -98,19 +99,10 @@ public class GameClient {
                     ErrorResponse response = (ErrorResponse) object;
                     System.out.println(response.text);
                 }
-                if (object instanceof Score) {
-                    Score score = (Score) object;
-                    System.out.println(score.score);
-                }
-                if (object instanceof GameMapMessage) {
-                    GameMapMessage map = (GameMapMessage) object;
-                    System.out.println(Arrays.toString(map.getCrossings()));
-                    System.out.println(Arrays.toString(map.getPolicemanTurnPoints()));
-                    System.out.println(Arrays.toString(map.getPolicemanFakeTurnPoints()));
-                }
             }
         });
         client.addListener(new LobbyListener());
+        client.addListener(new GameListener()); // TODO: Only add when inside a game?
     }
 
     public static void main(String[] args) {
