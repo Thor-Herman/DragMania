@@ -7,25 +7,23 @@ import com.utilities.Collidable;
 
 public class Car extends Collidable {
 	
+    private static Vector2 startPosition = new Vector2(0, 10); // TODO: Adjust this later
+
     private int acceleration;
-    private int velocity;
+    private int velocity = 0;
     private int maxVelocity;
-    private boolean allowedToDrive;
+    private boolean allowedToDrive = true;
     
     public Car(Texture texture, int acceleration, int maxVelocity) {
-        super(texture);
-        this.velocity = 0;
+        super(startPosition, texture);
         this.maxVelocity = maxVelocity;
         this.acceleration = acceleration;
-        this.allowedToDrive = true;
     }
 
     public Car(float width, float height, int acceleration, int maxVelocity) {
-        super(width, height);
-        this.velocity = 0;
+        super(startPosition, width, height);
         this.maxVelocity = maxVelocity;
         this.acceleration = acceleration;
-        this.allowedToDrive = true;
     }
 
 	// Accelerates when forward boolean is true. Decelerates when false.

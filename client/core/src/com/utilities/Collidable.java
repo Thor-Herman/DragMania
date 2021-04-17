@@ -7,14 +7,18 @@ import com.badlogic.gdx.graphics.Texture;
 public abstract class Collidable {
     private Texture texture;
     private Rectangle hitBox;
+    private Vector2 startPosition;
+    private Vector2 positionVector = new Vector2();
 
-    protected Collidable(Texture texture) {
+    protected Collidable(Vector2 startPosition, Texture texture) {
+        this.startPosition = startPosition;
         this.texture = texture;
-        this.hitBox = new Rectangle(0, 0, texture.getWidth(), texture.getHeight());
+        this.hitBox = new Rectangle(startPosition.x, startPosition.y, texture.getWidth(), texture.getHeight());
     }
 
-    protected Collidable(float width, float height) {
-        this.hitBox = new Rectangle(0, 0, width, height);
+    protected Collidable(Vector2 startPosition, float width, float height) {
+        this.startPosition = startPosition;
+        this.hitBox = new Rectangle(startPosition.x, startPosition.y, width, height);
     }
 
     public Texture getTexture() {
@@ -25,9 +29,12 @@ public abstract class Collidable {
         return this.hitBox;
     }
 
+    public Vector2 getStartPosition() {
+        return this.startPosition;
+    }
+
     public Vector2 getPosition() {
-        Vector2 pos = new Vector2();
-        return hitBox.getPosition(pos);
+        return hitBox.getPosition(positionVector);
     }
 
     public void reposition(Vector2 position) {
