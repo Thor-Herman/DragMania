@@ -1,19 +1,8 @@
 package com.mygdx.dragmania.test.models;
 
-import com.badlogic.gdx.Gdx;
-// import com.badlogic.gdx.audio.Sound;
 import com.mygdx.dragmania.models.Car;
-import com.badlogic.gdx.graphics.Texture;
-
-import com.mygdx.dragmania.models.CarFactory;
-import com.utilities.CarType;
-// import com.utilities.CarSound;
 
 import org.junit.Test;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import static org.junit.Assert.fail;
 
 

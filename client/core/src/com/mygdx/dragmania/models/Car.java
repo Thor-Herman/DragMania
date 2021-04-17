@@ -4,7 +4,6 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.Texture;
 
-import java.util.Map;
 import com.utilities.Collidable;
 import com.utilities.CarSound;
 
@@ -36,7 +35,7 @@ public class Car extends Collidable {
         if (forward && velocity < maxVelocity) {
             velocity += acceleration;
         } else if (!forward && velocity > 0) {
-            velocity--;
+            velocity--; // TODO: Maybe tweak this
         }
     }
     
