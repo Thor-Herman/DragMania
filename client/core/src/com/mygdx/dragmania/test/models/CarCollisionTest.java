@@ -1,38 +1,54 @@
 package com.mygdx.dragmania.test.models;
 
+import com.badlogic.gdx.Gdx;
+// import com.badlogic.gdx.audio.Sound;
 import com.mygdx.dragmania.models.Car;
-
 import com.badlogic.gdx.graphics.Texture;
+
+import com.mygdx.dragmania.models.CarFactory;
+import com.utilities.CarType;
+// import com.utilities.CarSound;
 
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.Assert.fail;
+
 
 public class CarCollisionTest {
 
     @Test
     public void testCollision() {
-        Texture texture = new Texture("textures/cars/car_red.png");
-        Car car1 = new Car(2, texture);
-        Car car2 = new Car(6, texture);
+        float width = 40;
+        float height = 100;
+        int acceleration = 1;
+        int maxVelocity = 1;
+        Car car1 = new Car(width, height, acceleration, maxVelocity);
+        Car car2 = null;
 
         boolean collided = false;
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 70; i++) {
             car1.update(i, true);
-            if (i > 5) {
-                car2.update(i, true);
+            System.out.println("Car1: " + car1.getPosition().y);
+            if (i > 40) {
+                if (car2 == null) {
+                    maxVelocity = 8;
+                    car2 = new Car(width, height, acceleration, maxVelocity);
+                }
+                car2.update(i - 40, true);
+                System.out.println("Car2: " + car2.getPosition().y);
             }
-            if (car1.collides(car2)) {
+            if (car2 != null && car1.collides(car2)) {
                 collided = true;
                 System.out.println("Car 2 collided with car 1");
-                System.out.println(i);
                 break;
             }
         }
-        
         if (!collided) {
-            fail("The cars should have collided");
+            fail("The cars should have collided.");
         }
     }
 }

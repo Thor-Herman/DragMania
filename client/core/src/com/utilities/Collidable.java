@@ -13,6 +13,10 @@ public abstract class Collidable {
         this.hitBox = new Rectangle(0, 0, texture.getWidth(), texture.getHeight());
     }
 
+    public Collidable(float width, float height) {
+        this.hitBox = new Rectangle(0, 0, width, height);
+    }
+
     public Texture getTexture() {
         return this.texture;
     }

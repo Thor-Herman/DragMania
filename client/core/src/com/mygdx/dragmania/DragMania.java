@@ -5,6 +5,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.dragmania.models.Car;
+import com.mygdx.dragmania.test.models.CarCollisionTest;
+import com.mygdx.dragmania.test.models.CarTest;
+
 
 public class DragMania extends ApplicationAdapter {
 	SpriteBatch batch;
