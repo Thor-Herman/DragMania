@@ -10,12 +10,14 @@ public class Car extends Collidable {
     private int acceleration;
     private int velocity;
     private int maxVelocity;
+    private boolean allowedToDrive;
     
     public Car(Texture texture, int acceleration, int maxVelocity) {
         super(texture);
         this.velocity = 0;
         this.maxVelocity = maxVelocity;
         this.acceleration = acceleration;
+        this.allowedToDrive = true;
     }
 
     public Car(float width, float height, int acceleration, int maxVelocity) {
@@ -23,11 +25,13 @@ public class Car extends Collidable {
         this.velocity = 0;
         this.maxVelocity = maxVelocity;
         this.acceleration = acceleration;
+        this.allowedToDrive = true;
     }
 
 	// Accelerates when forward boolean is true. Decelerates when false.
+    // Also checks if the car is allowed to drive
     private void accelerate(boolean forward) {
-        if (forward && velocity < maxVelocity) {
+        if (forward && velocity < maxVelocity && allowedToDrive) {
             velocity += acceleration;
         } else if (!forward && velocity > 0) {
             velocity--; // TODO: Maybe tweak this
@@ -53,5 +57,13 @@ public class Car extends Collidable {
 
     public void setMaxVelocity(int newMaxVelocity) {
         this.maxVelocity = newMaxVelocity;
+    }
+    
+    // Allow or disallow a car to drive
+    public void canDrive(boolean allowed) {
+        if (!allowed) {
+            this.velocity = 0;
+        }
+        this.allowedToDrive = allowed;
     }
 }
