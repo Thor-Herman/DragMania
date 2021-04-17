@@ -8,12 +8,12 @@ public abstract class Collidable {
     private Texture texture;
     private Rectangle hitBox;
 
-    public Collidable(Texture texture) {
+    protected Collidable(Texture texture) {
         this.texture = texture;
         this.hitBox = new Rectangle(0, 0, texture.getWidth(), texture.getHeight());
     }
 
-    public Collidable(float width, float height) {
+    protected Collidable(float width, float height) {
         this.hitBox = new Rectangle(0, 0, width, height);
     }
 
