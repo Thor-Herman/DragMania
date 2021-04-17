@@ -1,15 +1,12 @@
 package com.mygdx.dragmania.models;
 
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.Texture;
 
 import com.utilities.Collidable;
-import com.utilities.CarSound;
 
 public class Car extends Collidable {
 	
-    // private Map<CarSound, Sound> sounds;
     private int acceleration;
     private int velocity;
     private int maxVelocity;
@@ -19,7 +16,6 @@ public class Car extends Collidable {
         this.velocity = 0;
         this.maxVelocity = maxVelocity;
         this.acceleration = acceleration;
-        //this.sounds = sounds;
     }
 
     public Car(float width, float height, int acceleration, int maxVelocity) {
@@ -27,7 +23,6 @@ public class Car extends Collidable {
         this.velocity = 0;
         this.maxVelocity = maxVelocity;
         this.acceleration = acceleration;
-        //this.sounds = sounds;
     }
 
 	// Accelerates when forward boolean is true. Decelerates when false.
@@ -58,19 +53,5 @@ public class Car extends Collidable {
 
     public void setMaxVelocity(int newMaxVelocity) {
         this.maxVelocity = newMaxVelocity;
-    }
-
-    @Override
-    public boolean collides (Collidable collidable){
-        boolean collided = super.collides(collidable);
-        if (collided) {
-            System.out.println("The car collided");
-
-            // Play crash sound
-            //Sound crashSound = sounds.get(CarSound.CRASH);
-            //crashSound.play();
-            // System.out.println("Played sound");
-        }
-        return collided;
     }
 }
