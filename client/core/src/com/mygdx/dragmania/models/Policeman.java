@@ -1,11 +1,14 @@
 package com.mygdx.dragmania.models;
 
+import com.mygdx.dragmania.models.Crossing;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.utilities.CarCrashListener;
+import com.utilities.CarType;
 
 import java.util.ArrayList;
 
-public class Policeman {
+public class Policeman implements CarCrashListener {
 
     private String hasTurned;
     private PolicemanAnimation policemanAnimation;
@@ -28,17 +31,19 @@ public class Policeman {
     // Duration in milliseconds
     private int timePenaltyDuration;
     private int policeTurnDuration;
+    private int timePenaltyDuration2 =  1000;
 
     // Not correct position
     public static final int xPos = 200;
     public static final int yPos = 800;
+
 
     public Policeman(ArrayList<Integer> policemanTurnPositions, ArrayList<Integer> policemanFakeTurnPositions, Car car) {
 
         this.position = new Vector2(xPos, yPos);
         this.hasTurned = "Away";
         // The line below can be commented out to run PolicemanTest
-        this.policemanAnimation = new PolicemanAnimation();
+        //this.policemanAnimation = new PolicemanAnimation();
         this.policemanTurnPositions = policemanTurnPositions;
         this.policemanFakeTurnPositions = policemanFakeTurnPositions;
         this.car = car;
@@ -162,4 +167,27 @@ public class Policeman {
     public Vector2 getPosition() {
         return position;
     }
+
+
+    public void carCrashAlarm(Pedestrian pedestrian) {
+        System.out.println("Car crashed with pedestrian, and gets a 1 second penalty.");
+        // Start timer for timepenalty
+        if (car.getVelocity() > 0 && timePenaltyStart == 0) {
+            car.canDrive(false);
+            timePenaltyStart = System.currentTimeMillis();
+            System.out.println("Timer started");
+            pedestrian.reposition(new Vector2(0, pedestrian.getPosition().y + 100));
+        }
+        timePenaltyStop = System.currentTimeMillis();
+        // Check if timepenalty is up
+        while ((timePenaltyStop - timePenaltyStart) < timePenaltyDuration2 + 1) {
+            timePenaltyStop = System.currentTimeMillis();
+            if ((timePenaltyStop - timePenaltyStart) > timePenaltyDuration2) {
+                car.canDrive(true);
+                System.out.println("The car waited " + (timePenaltyStop-timePenaltyStart)/1000 + " second and can drive.");
+                timePenaltyStart = 0;
+            }
+        }
+    }
+
 }

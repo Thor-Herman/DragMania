@@ -7,12 +7,16 @@ import com.utilities.Collidable;
 
 public class Car extends Collidable {
 	
-    private static Vector2 startPosition = new Vector2(0, 10); // TODO: Adjust this later
+    private static Vector2 startPosition = new Vector2(40, 5); // TODO: Adjust this later
 
     private int acceleration;
     private float velocity = 0;
     private int maxVelocity;
     private boolean allowedToDrive = true;
+
+    public boolean getDrivingStatus() {
+        return this.allowedToDrive;
+    }
     
     public Car(Texture texture, int acceleration, int maxVelocity) {
         super(startPosition, texture);

@@ -6,7 +6,8 @@ public class GameMap {
 
     private ArrayList<Integer> crossingPlacements;
 
-    private Crossing crossing;
+    //private Crossing crossing;
+    
     private Car car;
     private Policeman policeman;
     private final int mapLength;

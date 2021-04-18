@@ -23,8 +23,8 @@ public class PedestrianFactory {
 
         // Initialize VELOCITY
         Map<PedestrianType, Integer> tmpVelocities = new EnumMap<>(PedestrianType.class);
-        tmpVelocities.put(PedestrianType.STANDARD, 1);
-        tmpVelocities.put(PedestrianType.CYCLIST, 1);
+        tmpVelocities.put(PedestrianType.STANDARD, 2);
+        tmpVelocities.put(PedestrianType.CYCLIST, 4);
         tmpVelocities.put(PedestrianType.CHILD, 1);
         tmpVelocities.put(PedestrianType.OLD, 1);
         VELOCITIES = Collections.unmodifiableMap(tmpVelocities);
