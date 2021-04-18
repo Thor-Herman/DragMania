@@ -5,8 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.sound.sampled.SourceDataLine;
-
 import com.mygdx.dragmania.models.GameModel;
 import com.utilities.GameClient;
 import com.utilities.messages.GameMapMessage;
@@ -33,7 +31,11 @@ public class GameController extends Controller {
         return instance;
     }
 
-    public void newGame(GameMapMessage map) {
+    public void readyUp() {
+        client.readyUp();
+    }
+
+    public void receiveGameMap(GameMapMessage map) {
         List<Integer> list = Arrays.stream(map.getCrossings()).boxed().collect(Collectors.toList());
         ArrayList<Integer> crossingPlacements = new ArrayList<>(list);
         list = Arrays.stream(map.getPolicemanTurnPoints()).boxed().collect(Collectors.toList());
@@ -41,27 +43,60 @@ public class GameController extends Controller {
         list = Arrays.stream(map.getPolicemanFakeTurnPoints()).boxed().collect(Collectors.toList());
         ArrayList<Integer> policeManFakeTurnTimes = new ArrayList<>(list);
         String username = ""; // TODO: Change
+        System.out.println(map.toString());
         model = new GameModel(username, crossingPlacements, policeManTurnTimes, policeManFakeTurnTimes);
     }
 
     public void update(float dt, boolean isTouching) {
-        // model.update(dt, isTouching);
+        model.update(dt, isTouching);
         timePassedSinceScoreSent += dt;
         if (timePassedSinceScoreSent >= SCORE_SEND_FREQUENCY) {
-            // client.sendScore(model.getPlayerScore());
-            client.sendScore(50);
+            client.sendScore(model.getPlayerScore());
             timePassedSinceScoreSent = 0;
         }
     }
 
     public void setOpponentScore(int opponentScore) {
         model.setOpponentScore(opponentScore);
+        System.out.println("Score: " + opponentScore);
     }
 
     public void disconnected() {
         model = null;
         LobbyController.getInstance().disconnected();
-        // back();
+        back();
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        LobbyController lobbyController = LobbyController.getInstance();
+        lobbyController.connectToServer();
+        lobbyController.createGame("TH");
+        Thread.sleep(8000);
+        GameController gameController = GameController.getInstance();
+
+        new Thread() {
+            public void run() {
+                long now;
+                long updateTime;
+                long wait;
+
+                final int TARGET_FPS = 60;
+                final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
+
+                while (true) {
+                    now = System.nanoTime();
+                    updateTime = System.nanoTime() - now;
+                    wait = (OPTIMAL_TIME - updateTime) / 1000000;
+                    gameController.update(wait, true);
+
+                    try {
+                        Thread.sleep(wait);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }.start();
     }
 
 }
