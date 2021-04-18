@@ -10,7 +10,7 @@ public class Car extends Collidable {
     private static Vector2 startPosition = new Vector2(0, 10); // TODO: Adjust this later
 
     private int acceleration;
-    private int velocity = 0;
+    private float velocity = 0;
     private int maxVelocity;
     private boolean allowedToDrive = true;
     
@@ -38,14 +38,15 @@ public class Car extends Collidable {
     
     public void update(float dt, boolean isTouching) {
         accelerate(isTouching);
-        reposition(new Vector2(0, getPosition().y + this.velocity*dt));
+        Vector2 newPosition = new Vector2(getPosition().x, getPosition().y + this.velocity*dt);
+        reposition(newPosition);
     }
     
     public int getAcceleration() {
         return this.acceleration;
     }
     
-    public int getVelocity() {
+    public float getVelocity() {
         return this.velocity;
     }
 
