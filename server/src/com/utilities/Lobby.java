@@ -5,11 +5,14 @@ import com.utilities.messages.GameMapMessage;
 import com.utilities.messages.JoinLobbyRequest;
 import com.utilities.messages.LobbyResponse;
 import com.utilities.messages.Message;
+import com.utilities.messages.ReadyMessage;
 import com.utilities.messages.Score;
 import com.utilities.messages.SomeResponse;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class Lobby {
 
@@ -17,6 +20,7 @@ public class Lobby {
     private Map<Connection, Float> clientsMap = new HashMap<>();
     private GameMapGenerator generator = new GameMapGenerator();
     private final int roomCode;
+    private Collection<Connection> readyPlayers = new ArrayList<>();
 
     public Lobby(int roomCode) {
         this.roomCode = roomCode;
@@ -38,10 +42,8 @@ public class Lobby {
         final float INITIAL_SCORE = 0.0f;
         connection.setName(username);
         clientsMap.put(connection, INITIAL_SCORE);
-        notifyOthersOfJoin(connection);
         sendSuccessfulJoinMessage(connection);
-        if (clientsMap.size() == LOBBY_PLAYER_CRITERIUM)
-            sendGameMap();
+        notifyOthersOfJoin(connection);
     }
 
     private void notifyOthersOfJoin(Connection connection) {
@@ -59,7 +61,19 @@ public class Lobby {
         else if (message instanceof JoinLobbyRequest) {
             String username = ((JoinLobbyRequest) message).username;
             addUser(connection, username);
-        }
+        } else if (message instanceof ReadyMessage)
+            readyUp(connection);
+    }
+
+    private void readyUp(Connection connection) {
+        SomeResponse response = new SomeResponse();
+        response.text = "Success";
+        connection.sendTCP(response);
+        if (!readyPlayers.contains(connection))
+            readyPlayers.add(connection);
+        if (readyPlayers.size() == LOBBY_PLAYER_CRITERIUM)
+            sendGameMap();
+        System.out.println(readyPlayers.size());
     }
 
     private void sendGameMap() {

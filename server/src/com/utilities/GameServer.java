@@ -3,13 +3,7 @@ package com.utilities;
 import java.io.IOException;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Server;
-import com.utilities.messages.CreateLobbyRequest;
-import com.utilities.messages.ErrorResponse;
-import com.utilities.messages.GameMapMessage;
-import com.utilities.messages.JoinLobbyRequest;
-import com.utilities.messages.LobbyResponse;
-import com.utilities.messages.Score;
-import com.utilities.messages.SomeResponse;
+import com.utilities.messages.*;
 
 public class GameServer {
 
@@ -44,6 +38,7 @@ public class GameServer {
         kryo.register(ErrorResponse.class);
         kryo.register(LobbyResponse.class);
         kryo.register(JoinLobbyRequest.class);
+        kryo.register(ReadyMessage.class);
     }
 
     private void startServer() {
