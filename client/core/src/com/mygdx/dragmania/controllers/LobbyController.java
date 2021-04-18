@@ -53,7 +53,7 @@ public class LobbyController extends Controller {
         model.setRoomCode(roomCode);
         if (usernames != null)
             for (String username : usernames) {
-                model.playerJoinedLobby(username);
+                playerJoinedLobby(username);
             }
         System.out.println(model);
     }
@@ -70,11 +70,17 @@ public class LobbyController extends Controller {
 
     public void playerJoinedLobby(String username) {
         model.playerJoinedLobby(username);
-        System.out.println(model);
+        if (areThereEnoughPlayers()) {
+            metaController.push(GameController.getInstance());
+            client.readyUp();
+            System.out.println("HI");
+            // TODO: Remove lobbyListener from client
+            // TODO: Add gameListener to client
+        }
     }
 
-    private boolean areThereEnoughPlayers(int playerCount) {
-        return true;
+    private boolean areThereEnoughPlayers() {
+        return model.MAX_PLAYER_COUNT == model.getCurrentConnectedCount();
     }
 
     public void playerLeftLobby(String username) {

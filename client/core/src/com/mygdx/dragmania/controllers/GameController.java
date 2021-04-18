@@ -12,16 +12,14 @@ import com.utilities.messages.GameMapMessage;
 public class GameController extends Controller {
 
     private static GameController instance;
-    private MetaController metaController;
     private GameClient client;
 
     private GameModel model;
-    private float timePassedSinceScoreSent = 0;
     private static final float SCORE_SEND_FREQUENCY = 250;
+    private float timePassedSinceScoreSent = 0;
 
     private GameController() {
         this.client = GameClient.getInstance();
-        this.metaController = MetaController.getInstance();
     }
 
     public static GameController getInstance() {
@@ -48,6 +46,8 @@ public class GameController extends Controller {
     }
 
     public void update(float dt, boolean isTouching) {
+        if (model == null)
+            return; // TODO: Change
         model.update(dt, isTouching);
         timePassedSinceScoreSent += dt;
         if (timePassedSinceScoreSent >= SCORE_SEND_FREQUENCY) {
@@ -65,6 +65,7 @@ public class GameController extends Controller {
         model = null;
         LobbyController.getInstance().disconnected();
         back();
+        // TODO: Remove listener from client
     }
 
     public static void main(String[] args) throws InterruptedException {
