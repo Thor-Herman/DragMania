@@ -1,6 +1,6 @@
 package com.mygdx.dragmania.models;
 
-// Dummy class
+
 public class Crossing {
 
     private float yPos;
@@ -9,9 +9,8 @@ public class Crossing {
         this.yPos = yPos;
     }
 
-
     public void reposition(float newPos) {
-        return;
+        this.yPos = newPos;
     }
 
     public void update(float dt) {
