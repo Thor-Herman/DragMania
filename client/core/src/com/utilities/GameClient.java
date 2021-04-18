@@ -11,13 +11,7 @@ import com.esotericsoftware.minlog.Log;
 import com.mygdx.dragmania.controllers.GameListener;
 import com.mygdx.dragmania.controllers.LobbyController;
 import com.mygdx.dragmania.controllers.LobbyListener;
-import com.utilities.messages.CreateLobbyRequest;
-import com.utilities.messages.ErrorResponse;
-import com.utilities.messages.GameMapMessage;
-import com.utilities.messages.JoinLobbyRequest;
-import com.utilities.messages.LobbyResponse;
-import com.utilities.messages.Score;
-import com.utilities.messages.SomeResponse;
+import com.utilities.messages.*;
 
 public class GameClient {
 
@@ -48,6 +42,7 @@ public class GameClient {
 
     public void sendScore(float score) {
         Score scoreMessage = new Score();
+        scoreMessage.roomCode = 1;
         scoreMessage.score = score;
         client.sendTCP(scoreMessage);
     }
@@ -63,6 +58,12 @@ public class GameClient {
         CreateLobbyRequest request = new CreateLobbyRequest();
         request.username = username;
         client.sendTCP(request);
+    }
+
+    public void readyUp() {
+        ReadyMessage ready = new ReadyMessage();
+        ready.roomCode = 1; // Todo: add room code;
+        client.sendTCP(ready);
     }
 
     private void connectToServer() {
@@ -86,6 +87,7 @@ public class GameClient {
         kryo.register(ErrorResponse.class);
         kryo.register(LobbyResponse.class);
         kryo.register(JoinLobbyRequest.class);
+        kryo.register(ReadyMessage.class);
     }
 
     private void setupListeners() {
@@ -108,7 +110,7 @@ public class GameClient {
     public static void main(String[] args) {
         LobbyController controller = LobbyController.getInstance();
         controller.connectToServer();
-        controller.joinGame("Tvedt", 8471);
+        controller.createGame("TH");
         while (true)
             ; // Runs forever in order to receive server msg
     }

@@ -12,7 +12,8 @@ public class LobbyController extends Controller {
     private MetaController metaController;
 
     public static LobbyController getInstance() {
-        if (instance == null)  instance = new LobbyController();
+        if (instance == null)
+            instance = new LobbyController();
         return instance;
     }
 
@@ -70,7 +71,6 @@ public class LobbyController extends Controller {
     public void playerJoinedLobby(String username) {
         model.playerJoinedLobby(username);
         System.out.println(model);
-        client.sendScore(50);
     }
 
     private boolean areThereEnoughPlayers(int playerCount) {
@@ -80,4 +80,5 @@ public class LobbyController extends Controller {
     public void playerLeftLobby(String username) {
         model.playerLeftLobby(username);
     }
+
 }
