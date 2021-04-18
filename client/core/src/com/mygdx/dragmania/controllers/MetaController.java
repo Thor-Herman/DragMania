@@ -1,13 +1,27 @@
 package com.mygdx.dragmania.controllers;
 
-public class MetaController extends Controller {
+import java.util.Stack;
+
+public class MetaController {
+
+    private Stack<Controller> controllers = new Stack<>();
 
     private static MetaController instance;
 
-    private MetaController() {}
+    private MetaController() {
+    }
 
     public static MetaController getInstance() {
-        if (instance == null) instance = new MetaController();
+        if (instance == null)
+            instance = new MetaController();
         return instance;
+    }
+
+    public void pop() {
+        controllers.pop();
+    }
+
+    public void push(Controller controller) {
+        controllers.push(controller);
     }
 }
