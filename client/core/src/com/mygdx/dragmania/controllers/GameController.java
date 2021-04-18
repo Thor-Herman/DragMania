@@ -13,7 +13,6 @@ public class GameController extends Controller {
 
     private static GameController instance;
     private GameClient client;
-
     private GameModel model;
     private static final float SCORE_SEND_FREQUENCY = 250;
     private float timePassedSinceScoreSent = 0;
@@ -42,12 +41,17 @@ public class GameController extends Controller {
         ArrayList<Integer> policeManFakeTurnTimes = new ArrayList<>(list);
         String username = ""; // TODO: Change
         System.out.println(map.toString());
-        model = new GameModel(username, crossingPlacements, policeManTurnTimes, policeManFakeTurnTimes);
+        model = new GameModel(username, crossingPlacements, policeManTurnTimes, policeManFakeTurnTimes, 2000); // TODO:
+                                                                                                               // Change
+                                                                                                               // map
+                                                                                                               // size
     }
 
     public void update(float dt, boolean isTouching) {
-        if (model == null)
+        if (model.getIsGameOver())
             return; // TODO: Change
+        else if (model.getCar().getPosition() > model.getMapLength()) // TODO: Is this the right place for this?
+            client.sendGameOver();
         model.update(dt, isTouching);
         timePassedSinceScoreSent += dt;
         if (timePassedSinceScoreSent >= SCORE_SEND_FREQUENCY) {

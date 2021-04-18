@@ -39,6 +39,7 @@ public class GameServer {
         kryo.register(LobbyResponse.class);
         kryo.register(JoinLobbyRequest.class);
         kryo.register(ReadyMessage.class);
+        kryo.register(GameOverMessage.class);
     }
 
     private void startServer() {

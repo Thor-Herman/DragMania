@@ -88,6 +88,7 @@ public class GameClient {
         kryo.register(LobbyResponse.class);
         kryo.register(JoinLobbyRequest.class);
         kryo.register(ReadyMessage.class);
+        kryo.register(GameOverMessage.class);
     }
 
     private void setupListeners() {
@@ -107,6 +108,10 @@ public class GameClient {
         client.addListener(new GameListener()); // TODO: Only add when inside a game?
     }
 
+    public void sendGameOver() {
+        client.sendTCP(new GameOverMessage());
+    }
+
     public static void main(String[] args) {
         LobbyController controller = LobbyController.getInstance();
         controller.connectToServer();
@@ -114,4 +119,5 @@ public class GameClient {
         while (true)
             ; // Runs forever in order to receive server msg
     }
+
 }

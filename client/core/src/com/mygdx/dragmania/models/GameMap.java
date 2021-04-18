@@ -9,7 +9,7 @@ public class GameMap {
     private Crossing crossing;
     private Car car;
     private Policeman policeman;
-    private int mapLength;
+    private final int mapLength;
 
     private int currentCrossing;
     public static final int CROSSING_OFFSET = 10;
@@ -23,10 +23,9 @@ public class GameMap {
         this.mapLength = mapLength;
     }
 
-    public int getCurrentCrossing(){
+    public int getCurrentCrossing() {
         return this.currentCrossing;
     }
-
 
     public void update(float dt) {
         // Check if car has passed crossing with an offset and that there are more crossing to be placed
@@ -53,6 +52,4 @@ public class GameMap {
     public int getMapLength() {
         return mapLength;
     }
-
-
 }

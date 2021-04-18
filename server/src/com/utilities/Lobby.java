@@ -2,6 +2,7 @@ package com.utilities;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.utilities.messages.GameMapMessage;
+import com.utilities.messages.GameOverMessage;
 import com.utilities.messages.JoinLobbyRequest;
 import com.utilities.messages.LobbyResponse;
 import com.utilities.messages.Message;
@@ -63,6 +64,15 @@ public class Lobby {
             addUser(connection, username);
         } else if (message instanceof ReadyMessage)
             readyUp(connection);
+        else if (message instanceof GameOverMessage)
+            handleGameOver();
+    }
+
+    private void handleGameOver() {
+        // TODO: Validate
+        for (Connection client : clientsMap) {
+            client.sendTCP(new GameOverMessage());
+        }
     }
 
     private void readyUp(Connection connection) {

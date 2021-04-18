@@ -11,6 +11,7 @@ public class GameModel {
     private int playerScore;
     private int opponentScore;
     private GameMap gameMap;
+    private boolean isGameOver;
     
     public GameModel(String username, ArrayList<Integer> crossingPlacements, ArrayList<Integer> policeManTurnTimes, ArrayList<Integer> policeManFakeTurnTimes, int mapLength) {
         player = new Player(username);
@@ -18,6 +19,7 @@ public class GameModel {
         car.setMaxVelocity(3);
         gameMap = new GameMap(crossingPlacements, policeManTurnTimes, policeManFakeTurnTimes, mapLength, car);
         opponentScore = 0;
+        isGameOver = false;
     }
 
     public int getPlayerScore() {
@@ -25,6 +27,8 @@ public class GameModel {
     }
 
     public void update(float dt, boolean isTouching) {
+        if (isGameOver)
+            throw new IllegalStateException("Game is over");
         gameMap.update(dt);
         car.update(dt, isTouching);
         playerScore = car.getPosition().y;
@@ -46,7 +50,12 @@ public class GameModel {
         return car;
     }
 
-    public void gameIsUp(boolean won){
+    public void gameIsUp(boolean won) {
         player.gameIsUp(won);
+        isGameOver = true;
+    }
+
+    public boolean getIsGameOver() {
+        return isGameOver;
     }
 }
