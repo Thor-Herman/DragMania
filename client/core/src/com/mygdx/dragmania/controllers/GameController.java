@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.badlogic.gdx.Gdx;
 import com.mygdx.dragmania.models.GameModel;
 import com.utilities.GameClient;
 import com.utilities.messages.GameMapMessage;
@@ -14,7 +15,7 @@ public class GameController extends Controller {
     private static GameController instance;
     private GameClient client;
     private GameModel model;
-    private static final float SCORE_SEND_FREQUENCY = 250;
+    private static final float SCORE_SEND_FREQUENCY = 0.250f;
     private float timePassedSinceScoreSent = 0;
 
     private GameController() {
@@ -41,17 +42,22 @@ public class GameController extends Controller {
         ArrayList<Integer> policeManFakeTurnTimes = new ArrayList<>(list);
         String username = ""; // TODO: Change
         System.out.println(map.toString());
-        model = new GameModel(username, crossingPlacements, policeManTurnTimes, policeManFakeTurnTimes, 2000); // TODO:
-                                                                                                               // Change
-                                                                                                               // map
-                                                                                                               // size
+        Gdx.app.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+                model = new GameModel(username, crossingPlacements, policeManTurnTimes, policeManFakeTurnTimes, 2000); // TODO: Change map size
+            }
+        });
     }
 
     public void update(float dt, boolean isTouching) {
+        if (model == null) {
+            System.out.println("Empty"); return;}
         if (model.getIsGameOver())
             return; // TODO: Change
         else if (model.getCar().getPosition() > model.getMapLength()) // TODO: Is this the right place for this?
             client.sendGameOver();
+        System.out.println(dt);
         model.update(dt, isTouching);
         timePassedSinceScoreSent += dt;
         if (timePassedSinceScoreSent >= SCORE_SEND_FREQUENCY) {
