@@ -28,7 +28,7 @@ public class GameMap {
 
     public void update(float dt) {
         // Check if car has passed crossing with an offset and that there are more crossing to be placed
-        if (car.getPosition() > crossingPlacements.get(getCurrentCrossing()) + CROSSING_OFFSET && crossingPlacements.size()-1 > getCurrentCrossing()) {
+        if (car.getPosition().y > crossingPlacements.get(getCurrentCrossing()) + CROSSING_OFFSET && crossingPlacements.size()-1 > getCurrentCrossing()) {
             moveCrossing(crossingPlacements.get(getCurrentCrossing()+1));
         }
         crossing.update(dt);

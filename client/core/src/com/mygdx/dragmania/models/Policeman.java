@@ -98,7 +98,7 @@ public class Policeman {
 
     // Use turn positions and car position to determine if the policeman should turn towards player
     public void checkIfPolicemanShouldTurn() {
-        if (car.getPosition() > policemanTurnPositions.get(currentTurnPositionIndex) && !hasTurned) {
+        if (car.getPosition().y > policemanTurnPositions.get(currentTurnPositionIndex) && !hasTurned) {
             toggleTurn(true);
             currentTurnPositionIndex++;
         }

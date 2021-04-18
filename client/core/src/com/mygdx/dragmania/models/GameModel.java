@@ -2,21 +2,24 @@ package com.mygdx.dragmania.models;
 
 import java.util.ArrayList;
 
+import com.utilities.CarType;
+
 public class GameModel {
 
     private Player player;
     private Car car;
-    private int playerScore;
-    private int opponentScore;
+    private float playerScore;
+    private float opponentScore;
     private GameMap gameMap;
 
     public GameModel(String username, ArrayList<Integer> crossingPlacements, ArrayList<Integer> policeManTurnTimes, ArrayList<Integer> policeManFakeTurnTimes) {
         player = new Player(username);
-        car = new Car(3);
+        car = CarFactory.makeCar(CarType.NORMAL); // TODO: Pass CarType in dynamically
+        car.setMaxVelocity(3);
         gameMap = new GameMap(crossingPlacements, policeManTurnTimes, policeManFakeTurnTimes, car);
     }
 
-    public int getPlayerScore() {
+    public float getPlayerScore() {
         return playerScore;
     }
 
@@ -24,10 +27,10 @@ public class GameModel {
         this.opponentScore = opponentScore;
         gameMap.update(dt);
         car.update(dt, isTouching);
-        playerScore = car.getPosition();
+        playerScore = car.getPosition().y;
     }
 
-    public int getOpponentScore() {
+    public float getOpponentScore() {
         return opponentScore;
     }
 
