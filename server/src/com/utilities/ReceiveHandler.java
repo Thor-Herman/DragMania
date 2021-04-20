@@ -18,6 +18,10 @@ public class ReceiveHandler extends Listener {
 
     public Map<Integer, Lobby> lobbies = new HashMap<>();
 
+    public void connected(Connection connection) {
+        System.out.println("Connection: " + connection.toString());
+    }
+
     public void disconnected(Connection connection) {
         System.out.println("Removed connection: " + connection.toString());
         Optional<Lobby> associatedLobby = lobbies.values().stream().filter(lobby -> lobby.contains(connection))
@@ -30,7 +34,8 @@ public class ReceiveHandler extends Listener {
         if (object instanceof KeepAlive)
             return;
         if (object instanceof CreateLobbyRequest) {
-            int roomCode = createNewLobby(connection);
+            String username = ((CreateLobbyRequest) object).username;
+            int roomCode = createNewLobby(connection, username);
             sendLobbyCode(connection, roomCode);
         }
         if (object instanceof Message) {
@@ -54,10 +59,10 @@ public class ReceiveHandler extends Listener {
         connection.sendTCP(error);
     }
 
-    private int createNewLobby(Connection connection) {
-        Lobby lobby = new Lobby();
+    private int createNewLobby(Connection connection, String username) {
         int roomCode = generateRandomRoomCode();
-        lobby.addUser(connection);
+        Lobby lobby = new Lobby(roomCode);
+        lobby.addUser(connection, username);
         lobbies.put(roomCode, lobby);
         return roomCode;
     }
@@ -65,7 +70,7 @@ public class ReceiveHandler extends Listener {
     private void sendLobbyCode(Connection connection, int roomCode) {
         LobbyResponse response = new LobbyResponse();
         response.roomCode = roomCode;
-        response.text = "Success";
+        response.text = "Created";
         connection.sendTCP(response);
     }
 

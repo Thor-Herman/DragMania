@@ -8,6 +8,8 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.minlog.Log;
+import com.mygdx.dragmania.controllers.LobbyController;
+import com.mygdx.dragmania.controllers.LobbyListener;
 import com.utilities.messages.CreateLobbyRequest;
 import com.utilities.messages.ErrorResponse;
 import com.utilities.messages.GameMapMessage;
@@ -21,8 +23,7 @@ public class GameClient {
     private Client client;
     private int tcpPort, udpPort;
     private String ipAddress;
-    private static final GameClient instance = new GameClient();
-
+    private static GameClient instance;
 
     private GameClient() {
         this.client = new Client();
@@ -32,14 +33,16 @@ public class GameClient {
     }
 
     public static GameClient getInstance() {
+        if (instance == null)
+            instance = new GameClient();
         return instance;
     }
 
-    private void setup() {
+    public void setup() { // Don't move this inside constructor
         registerClasses();
         Log.set(Log.LEVEL_DEBUG);
-        connectToServer();
         setupListeners();
+        connectToServer();
     }
 
     public void sendScore(float score) {
@@ -50,12 +53,14 @@ public class GameClient {
 
     public void joinGame(String username, int roomCode) {
         JoinLobbyRequest request = new JoinLobbyRequest();
+        request.username = username;
         request.roomCode = roomCode;
         client.sendTCP(request);
     }
 
     public void createGame(String username) {
         CreateLobbyRequest request = new CreateLobbyRequest();
+        request.username = username;
         client.sendTCP(request);
     }
 
@@ -75,6 +80,7 @@ public class GameClient {
         kryo.register(SomeResponse.class);
         kryo.register(Score.class);
         kryo.register(int[].class);
+        kryo.register(String[].class);
         kryo.register(GameMapMessage.class);
         kryo.register(ErrorResponse.class);
         kryo.register(LobbyResponse.class);
@@ -92,10 +98,6 @@ public class GameClient {
                     ErrorResponse response = (ErrorResponse) object;
                     System.out.println(response.text);
                 }
-                if (object instanceof LobbyResponse) {
-                    LobbyResponse response = (LobbyResponse) object;
-                    System.out.println(response.roomCode);
-                }
                 if (object instanceof Score) {
                     Score score = (Score) object;
                     System.out.println(score.score);
@@ -108,12 +110,13 @@ public class GameClient {
                 }
             }
         });
+        client.addListener(new LobbyListener());
     }
 
     public static void main(String[] args) {
-        GameClient client = getInstance();
-        client.setup();
-        client.sendScore(50.0f);
+        LobbyController controller = LobbyController.getInstance();
+        controller.connectToServer();
+        controller.joinGame("Tvedt", 8471);
         while (true)
             ; // Runs forever in order to receive server msg
     }

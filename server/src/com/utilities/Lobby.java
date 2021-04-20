@@ -3,6 +3,7 @@ package com.utilities;
 import com.esotericsoftware.kryonet.Connection;
 import com.utilities.messages.GameMapMessage;
 import com.utilities.messages.JoinLobbyRequest;
+import com.utilities.messages.LobbyResponse;
 import com.utilities.messages.Message;
 import com.utilities.messages.Score;
 import com.utilities.messages.SomeResponse;
@@ -15,19 +16,39 @@ public class Lobby {
     public static final int LOBBY_PLAYER_CRITERIUM = 2;
     private Map<Connection, Float> clientsMap = new HashMap<>();
     private GameMapGenerator generator = new GameMapGenerator();
+    private final int roomCode;
+
+    public Lobby(int roomCode) {
+        this.roomCode = roomCode;
+    }
 
     public void removeConnection(Connection connection) {
         clientsMap.remove(connection);
-        // TODO: Notify other connections
+        LobbyResponse response = new LobbyResponse();
+        response.text = "PlayerLeft";
+        response.username = connection.toString();
+        clientsMap.keySet().forEach(c -> {
+            c.sendTCP(response);
+            System.out.println(c.toString());
+        });
     }
 
-    public void addUser(Connection connection) {
+    public void addUser(Connection connection, String username) {
         System.out.println("Added connection: " + connection.toString());
         final float INITIAL_SCORE = 0.0f;
+        connection.setName(username);
         clientsMap.put(connection, INITIAL_SCORE);
+        notifyOthersOfJoin(connection);
         sendSuccessfulJoinMessage(connection);
         if (clientsMap.size() == LOBBY_PLAYER_CRITERIUM)
             sendGameMap();
+    }
+
+    private void notifyOthersOfJoin(Connection connection) {
+        LobbyResponse response = new LobbyResponse();
+        response.text = "PlayerJoined";
+        response.username = connection.toString();
+        clientsMap.keySet().stream().filter(c -> c != connection).forEach(c -> c.sendTCP(response));
     }
 
     public void received(Connection connection, Message message) {
@@ -36,7 +57,8 @@ public class Lobby {
         if (message instanceof Score)
             handleScoreMessage(connection, message);
         else if (message instanceof JoinLobbyRequest) {
-            addUser(connection);
+            String username = ((JoinLobbyRequest) message).username;
+            addUser(connection, username);
         }
     }
 
@@ -48,8 +70,10 @@ public class Lobby {
     }
 
     private void sendSuccessfulJoinMessage(Connection connection) {
-        SomeResponse response = new SomeResponse();
+        LobbyResponse response = new LobbyResponse();
         response.text = "Success";
+        response.roomCode = roomCode;
+        response.usernames = getUsernames();
         connection.sendTCP(response);
     }
 
@@ -80,4 +104,8 @@ public class Lobby {
     public boolean contains(Connection connection) {
         return clientsMap.containsKey(connection);
     }
-}     
+
+    public String[] getUsernames() {
+        return clientsMap.keySet().stream().map(c -> c.toString()).toArray(String[]::new);
+    }
+}
