@@ -7,6 +7,7 @@ import com.utilities.CarCrashListener;
 import com.utilities.CarType;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Policeman implements CarCrashListener {
 
@@ -14,8 +15,8 @@ public class Policeman implements CarCrashListener {
     private PolicemanAnimation policemanAnimation;
     private Vector2 position;
 
-    private ArrayList<Integer> policemanTurnPositions;
-    private ArrayList<Integer> policemanFakeTurnPositions;
+    private List<Integer> policemanTurnPositions;
+    private List<Integer> policemanFakeTurnPositions;
 
     private Car car;
     private int currentTurnPositionIndex;
@@ -38,12 +39,12 @@ public class Policeman implements CarCrashListener {
     public static final int yPos = 800;
 
 
-    public Policeman(ArrayList<Integer> policemanTurnPositions, ArrayList<Integer> policemanFakeTurnPositions, Car car) {
+    public Policeman(List<Integer> policemanTurnPositions, List<Integer> policemanFakeTurnPositions, Car car) {
 
         this.position = new Vector2(xPos, yPos);
         this.hasTurned = "Away";
         // The line below can be commented out to run PolicemanTest
-        //this.policemanAnimation = new PolicemanAnimation();
+//        this.policemanAnimation = new PolicemanAnimation();
         this.policemanTurnPositions = policemanTurnPositions;
         this.policemanFakeTurnPositions = policemanFakeTurnPositions;
         this.car = car;
@@ -176,7 +177,6 @@ public class Policeman implements CarCrashListener {
             car.canDrive(false);
             timePenaltyStart = System.currentTimeMillis();
             System.out.println("Timer started");
-            pedestrian.reposition(new Vector2(0, pedestrian.getPosition().y + 100));
         }
         timePenaltyStop = System.currentTimeMillis();
         // Check if timepenalty is up

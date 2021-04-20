@@ -1,17 +1,20 @@
 package com.mygdx.dragmania.test.models;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.dragmania.DragMania;
 import com.mygdx.dragmania.models.Car;
 import com.mygdx.dragmania.models.CarFactory;
 import com.mygdx.dragmania.models.Pedestrian;
 import com.mygdx.dragmania.models.PedestrianFactory;
 import com.mygdx.dragmania.models.Policeman;
-import com.badlogic.gdx.graphics.Texture;
-import com.mygdx.dragmania.models.PolicemanAnimation;
 import com.utilities.CarType;
 import com.utilities.PedestrianType;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.List;
+import java.util.ArrayList;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -26,8 +29,8 @@ public class PolicemanTest {
     private Pedestrian pedestrian;
     private Car car;
 
-    private ArrayList<Integer> policeManTurnPositions;
-    private ArrayList<Integer> policeManFakeTurnPositions;
+    private List<Integer> policeManTurnPositions;
+    private List<Integer> policeManFakeTurnPositions;
 
     @Before
     public void setUp() {
@@ -61,7 +64,6 @@ public class PolicemanTest {
         policeman.checkPolicemanTurn();
         assertEquals("Towards", policeman.getHasTurned());
 
-
     @Test
     public void testCarCrashListener() {
         setUp();
@@ -81,7 +83,7 @@ public class PolicemanTest {
             pedestrian.update(i);
             assertTrue(pedestrian.getVelocity() > 0);
             if (pedestrian.collides(car)) {
-                pedestrian.crashed();
+                pedestrian.fireCarCrashAlarm();
                 //Check that the car's speed is set to 0 when it collides with a pedestrian
                 assertTrue(car.getVelocity() == 0);
                 //Check that pedestrian is repositioned when after collission with a car

@@ -11,7 +11,7 @@ import java.util.Collection;
 public class Pedestrian extends Collidable {
 
     private float velocity;
-    private Collection<CarCrashListener> carCrashListeners = new ArrayList<CarCrashListener>();
+    private Collection<CarCrashListener> carCrashListeners = new ArrayList<>();
 
     public Pedestrian(Vector2 startPosition, float velocity, Texture texture) {
         super(startPosition, texture); 
@@ -40,12 +40,7 @@ public class Pedestrian extends Collidable {
         carCrashListeners.remove(carCrashListener);
     }
 
-    public void crashed() {
-        fireCarCrashAlarm();
-    }
-
-
-    private void fireCarCrashAlarm() {
+    public void fireCarCrashAlarm() {
         for (CarCrashListener carCrashListener : carCrashListeners) {
             carCrashListener.carCrashAlarm(this);
         }

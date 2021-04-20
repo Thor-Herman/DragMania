@@ -1,6 +1,6 @@
 package com.mygdx.dragmania.models;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.utilities.CarType;
 
@@ -12,12 +12,13 @@ public class GameModel {
     private int opponentScore;
     private GameMap gameMap;
     private boolean isGameOver;
-    
-    public GameModel(String username, ArrayList<Integer> crossingPlacements, ArrayList<Integer> policeManTurnTimes, ArrayList<Integer> policeManFakeTurnTimes, int mapLength) {
+
+
+    public GameModel(String username, List<Integer> pedestrianPlacements, List<Integer> policeManTurnTimes, List<Integer> policeManFakeTurnTimes, int mapLength) {
         player = new Player(username);
         car = CarFactory.makeCar(CarType.NORMAL); // TODO: Pass CarType in dynamically
-        car.setMaxVelocity(3);
-        gameMap = new GameMap(crossingPlacements, policeManTurnTimes, policeManFakeTurnTimes, mapLength, car);
+        // car.setMaxVelocity(3);
+        gameMap = new GameMap(pedestrianPlacements, policeManTurnTimes, policeManFakeTurnTimes, maplength, car);
         opponentScore = 0;
         isGameOver = false;
     }
