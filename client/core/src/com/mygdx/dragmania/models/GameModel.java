@@ -8,18 +8,19 @@ public class GameModel {
 
     private Player player;
     private Car car;
-    private float playerScore;
-    private float opponentScore;
+    private int playerScore;
+    private int opponentScore;
     private GameMap gameMap;
-
-    public GameModel(String username, ArrayList<Integer> crossingPlacements, ArrayList<Integer> policeManTurnTimes, ArrayList<Integer> policeManFakeTurnTimes) {
+    
+    public GameModel(String username, ArrayList<Integer> crossingPlacements, ArrayList<Integer> policeManTurnTimes, ArrayList<Integer> policeManFakeTurnTimes, int mapLength) {
         player = new Player(username);
         car = CarFactory.makeCar(CarType.NORMAL); // TODO: Pass CarType in dynamically
         car.setMaxVelocity(3);
-        gameMap = new GameMap(crossingPlacements, policeManTurnTimes, policeManFakeTurnTimes, car);
+        gameMap = new GameMap(crossingPlacements, policeManTurnTimes, policeManFakeTurnTimes, mapLength, car);
+        opponentScore = 0;
     }
 
-    public float getPlayerScore() {
+    public int getPlayerScore() {
         return playerScore;
     }
 

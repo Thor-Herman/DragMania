@@ -9,16 +9,18 @@ public class GameMap {
     private Crossing crossing;
     private Car car;
     private Policeman policeman;
+    private int mapLength;
 
     private int currentCrossing;
     public static final int CROSSING_OFFSET = 10;
 
-    public GameMap(ArrayList<Integer> crossingPlacements, ArrayList<Integer> policeManTurnPositions, ArrayList<Integer> policeManFakeTurnPositions, Car car) {
+    public GameMap(ArrayList<Integer> crossingPlacements, ArrayList<Integer> policeManTurnPositions, ArrayList<Integer> policeManFakeTurnPositions, int mapLength, Car car) {
         this.crossingPlacements = crossingPlacements;
         this.crossing = new Crossing(crossingPlacements.get(0));
         this.car = car;
         this.currentCrossing = 0;
         policeman = new Policeman(policeManTurnPositions, policeManFakeTurnPositions, car);
+        this.mapLength = mapLength;
     }
 
     public int getCurrentCrossing(){
@@ -42,6 +44,14 @@ public class GameMap {
     public void moveCrossing(int yPos) {
         getCrossing().reposition(yPos);
         this.currentCrossing++;
+    }
+
+    public Policeman getPoliceman() {
+        return policeman;
+    }
+
+    public int getMapLength() {
+        return mapLength;
     }
 
 
