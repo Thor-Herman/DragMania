@@ -2,17 +2,11 @@ package com.mygdx.dragmania.test.models;
 
 import com.mygdx.dragmania.DragMania;
 import com.mygdx.dragmania.models.Car;
-import com.mygdx.dragmania.models.CarFactory;
 import com.mygdx.dragmania.models.Policeman;
 import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.dragmania.models.PolicemanAnimation;
 import com.utilities.CarType;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.ArrayList;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -49,13 +43,14 @@ public class PolicemanTest {
     // To run test, comment out the initialization of policemanAnimation in Policeman
     @Test
     public void testCheckPolicemanTurn() {
-        assertEquals(false, policeman.getHasTurned());
-        policeman.checkPolicemanTurn();
-        assertEquals(false, policeman.getHasTurned());
 
-        policeman.toggleTurn(true);
+        assertEquals("Away", policeman.getHasTurned());
         policeman.checkPolicemanTurn();
-        assertEquals(true, policeman.getHasTurned());
+        assertEquals("Away", policeman.getHasTurned());
+
+        policeman.toggleTurn("Towards");
+        policeman.checkPolicemanTurn();
+        assertEquals("Towards", policeman.getHasTurned());
 
 
     }
