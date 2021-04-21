@@ -64,6 +64,7 @@ public class CreateGameView extends View {
         sb.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         sb.draw(backArrow.getBackArrow(), backArrow.getPosition().x, backArrow.getPosition().y, backArrow.getWidth()/3, backArrow.getHeight()/3);
         sb.draw(getPinButton.getButton(), screenWidth/2-(getPinButton.getWidth()/2), getPinButton.getPosition().y, getPinButton.getWidth(), getPinButton.getHeight());
+        pin = Integer.toString(LobbyController.getInstance().getModel().getRoomCode());
         if(pin != "") {
             glyphLayout1.setText(font, pin);
             font.draw(sb, glyphLayout1, screenWidth/2-(glyphLayout1.width/2), (float) (screenHeight*0.7));
@@ -77,7 +78,6 @@ public class CreateGameView extends View {
         if(getPinButton.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
             LobbyController.getInstance().createGame("test");
             // Get from controller
-            pin = Integer.toString(LobbyController.getInstance().getModel().getRoomCode());
         }
     }
 }
