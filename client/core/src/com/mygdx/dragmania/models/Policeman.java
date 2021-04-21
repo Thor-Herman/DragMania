@@ -171,7 +171,7 @@ public class Policeman implements CarCrashListener {
 
 
     public void carCrashAlarm(Pedestrian pedestrian) {
-        System.out.println("Car crashed with pedestrian, and gets a 1 second penalty.");
+        System.out.println("Car: " + car.getPosition() + "crashed with pedestrian: " + pedestrian.getPosition() + ", and gets a 1 second penalty.");
         // Start timer for timepenalty
         if (car.getVelocity() > 0 && timePenaltyStart == 0) {
             car.canDrive(false);

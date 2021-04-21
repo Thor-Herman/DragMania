@@ -13,9 +13,10 @@ public class GameMap {
     private Policeman policeman;
     private final int mapLength;
 
-    private Pedestrian pedestrian;
+    private Pedestrian pedestrian = null;
     private Iterator<Integer> pedestrianPlacements;
-    public static final int PEDESTRIAN_CAR_OFFSET = 200;
+    public static final int PEDESTRIAN_CAR_OFFSET= 400;
+    public static final int PEDESTRIAN_CAR_OFFSET_BACKWARD = 150;
     private PedestrianGenerationInfo nextPedestrianInfo;
 
     public GameMap(List<Integer> pedestrianPlacements, List<Integer> policeManTurnPositions, List<Integer> policeManFakeTurnPositions, int mapLength, Car car) {
@@ -23,42 +24,49 @@ public class GameMap {
         this.car = car;
         policeman = new Policeman(policeManTurnPositions, policeManFakeTurnPositions, car);
         this.mapLength = mapLength;
-        setNextPedestrianInfo();
+        if (this.pedestrianPlacements.hasNext()) {
+            setNextPedestrianInfo();
+        }
     }
 
     public void update(float dt) {
+
         // Check if car has passed crossing with an offset and that there are more crossing to be placed
 //        System.out.println(car.getPosition().y + PEDESTRIAN_CAR_OFFSET);
 //        System.out.println(this.nextPedestrianInfo.getStartPosition().y);
-        if (car.getPosition().y + PEDESTRIAN_CAR_OFFSET > this.nextPedestrianInfo.getStartPosition().y) {
-            createPedestrian();
-            setNextPedestrianInfo();
+        if (this.nextPedestrianInfo != null) {
+            if ((car.getPosition().y + PEDESTRIAN_CAR_OFFSET > this.nextPedestrianInfo.getStartPosition().y) && this.pedestrian == null) {
+                createPedestrian();
+
+            }
         }
 
-        // Delete pedestrian if the car is past it
+        if (pedestrian != null) {
+            pedestrian.update(dt);
+            if (car.getPosition().y > this.pedestrian.getPosition().y + PEDESTRIAN_CAR_OFFSET_BACKWARD) {
+                deletePedestrian();
+            }
+        }
 
         checkForCrash();
         policeman.update(dt);
-        if (pedestrian != null) {
-            pedestrian.update(dt);
-        }
     }
 
     private void createPedestrian() {
-        if (pedestrian != null) {
-            this.pedestrian.removeCarCrashListener(policeman);
-        }
         this.pedestrian = PedestrianFactory.makePedestrian(nextPedestrianInfo.getType(), nextPedestrianInfo.getStartPosition());
-        this.pedestrian.addCarCrashListener(policeman);
-        setNextPedestrianInfo();
         System.out.println("Pedestrian created");
-    }
-    
-    private void setNextPedestrianInfo() {
+        this.pedestrian.addCarCrashListener(policeman);
         if (this.pedestrianPlacements.hasNext()) {
-            this.nextPedestrianInfo = new PedestrianGenerationInfo(
-                new Vector2(0, pedestrianPlacements.next()), PedestrianType.STANDARD
-            );
+            setNextPedestrianInfo();
+        }
+    }
+
+    public void deletePedestrian() {
+        this.pedestrian.removeCarCrashListener(policeman);
+        this.pedestrian = null;
+        this.nextPedestrianInfo = null;
+        if (this.pedestrianPlacements.hasNext()) {
+            setNextPedestrianInfo();
         }
     }
 
@@ -70,9 +78,14 @@ public class GameMap {
         return mapLength;
     }
     
+    private void setNextPedestrianInfo() {
+        this.nextPedestrianInfo = new PedestrianGenerationInfo(new Vector2(0, pedestrianPlacements.next()), PedestrianType.STANDARD);
+    }
+
     private void checkForCrash() {
         if (pedestrian != null && pedestrian.collides(car)) {
             pedestrian.fireCarCrashAlarm();
+            this.pedestrian = null;
         }
     }
 

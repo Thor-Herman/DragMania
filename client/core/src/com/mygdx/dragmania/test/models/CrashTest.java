@@ -21,12 +21,12 @@ public class CrashTest {
     @Test
     public void pedestrianCarCrashTest() {
         Car car = CarFactory.makeCar(CarType.NORMAL);
-        List<Integer> pedestrianPlacements = Arrays.asList(1000, 2000);
+        List<Integer> pedestrianPlacements = Arrays.asList(1000, 2000, 3000, 4000, 5000);
         List<Integer> policemanTurnTimes = Arrays.asList(10000);
 
         GameMap map = new GameMap(pedestrianPlacements, policemanTurnTimes, policemanTurnTimes, car); 
         
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 70; i++) {
             map.update(i);
             car.update(i, true);
             System.out.println("Car position: " + car.getPosition());

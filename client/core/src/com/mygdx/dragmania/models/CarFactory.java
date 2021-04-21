@@ -48,7 +48,7 @@ public class CarFactory {
         }
         catch(NullPointerException e) {
             // For testing purposes
-            return new Car(40, 100, acceleration, maxVelocity);
+            return new Car(200, 300, acceleration, maxVelocity);
         }
     }
 }
