@@ -78,7 +78,7 @@ public class ReceiveHandler extends Listener {
         ThreadLocalRandom random = ThreadLocalRandom.current();
         int roomCode;
         do {
-            roomCode = random.nextInt(0, 9999);
+            roomCode = random.nextInt(1000, 9999);
         } while (lobbies.containsKey(roomCode));
         return roomCode;
     }
