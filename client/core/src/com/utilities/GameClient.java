@@ -8,15 +8,10 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.minlog.Log;
+import com.mygdx.dragmania.controllers.GameListener;
 import com.mygdx.dragmania.controllers.LobbyController;
 import com.mygdx.dragmania.controllers.LobbyListener;
-import com.utilities.messages.CreateLobbyRequest;
-import com.utilities.messages.ErrorResponse;
-import com.utilities.messages.GameMapMessage;
-import com.utilities.messages.JoinLobbyRequest;
-import com.utilities.messages.LobbyResponse;
-import com.utilities.messages.Score;
-import com.utilities.messages.SomeResponse;
+import com.utilities.messages.*;
 
 public class GameClient {
 
@@ -47,6 +42,7 @@ public class GameClient {
 
     public void sendScore(float score) {
         Score scoreMessage = new Score();
+        scoreMessage.roomCode = 1;
         scoreMessage.score = score;
         client.sendTCP(scoreMessage);
     }
@@ -62,6 +58,12 @@ public class GameClient {
         CreateLobbyRequest request = new CreateLobbyRequest();
         request.username = username;
         client.sendTCP(request);
+    }
+
+    public void readyUp() {
+        ReadyMessage ready = new ReadyMessage();
+        ready.roomCode = 1; // Todo: add room code;
+        client.sendTCP(ready);
     }
 
     private void connectToServer() {
@@ -85,6 +87,8 @@ public class GameClient {
         kryo.register(ErrorResponse.class);
         kryo.register(LobbyResponse.class);
         kryo.register(JoinLobbyRequest.class);
+        kryo.register(ReadyMessage.class);
+        kryo.register(GameOverMessage.class);
     }
 
     private void setupListeners() {
@@ -98,26 +102,22 @@ public class GameClient {
                     ErrorResponse response = (ErrorResponse) object;
                     System.out.println(response.text);
                 }
-                if (object instanceof Score) {
-                    Score score = (Score) object;
-                    System.out.println(score.score);
-                }
-                if (object instanceof GameMapMessage) {
-                    GameMapMessage map = (GameMapMessage) object;
-                    System.out.println(Arrays.toString(map.getCrossings()));
-                    System.out.println(Arrays.toString(map.getPolicemanTurnPoints()));
-                    System.out.println(Arrays.toString(map.getPolicemanFakeTurnPoints()));
-                }
             }
         });
         client.addListener(new LobbyListener());
+        client.addListener(new GameListener()); // TODO: Only add when inside a game?
+    }
+
+    public void sendGameOver() {
+        client.sendTCP(new GameOverMessage());
     }
 
     public static void main(String[] args) {
         LobbyController controller = LobbyController.getInstance();
         controller.connectToServer();
-        controller.joinGame("Tvedt", 8471);
+        controller.createGame("TH");
         while (true)
             ; // Runs forever in order to receive server msg
     }
+
 }
