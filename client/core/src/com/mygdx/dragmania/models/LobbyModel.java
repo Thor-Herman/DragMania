@@ -58,6 +58,10 @@ public class LobbyModel {
         this.isHost = isHost;
     }
 
+    public int getRoomCode() {
+        return roomCode;
+    }
+
     @Override
     public String toString() {
         return "roomCode: " + roomCode + " isHost: " + isHost + " isConnected: " + isConnected + " usernames: " + Arrays.toString(usernames) + " errorMessage: " + errorMessage;

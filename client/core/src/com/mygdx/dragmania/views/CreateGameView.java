@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.mygdx.dragmania.controllers.LobbyController;
 import com.mygdx.dragmania.views.buttons.GetPinButton;
 
 public class CreateGameView extends View {
@@ -74,8 +75,9 @@ public class CreateGameView extends View {
 
     public void checkGetPinTouched() {
         if(getPinButton.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
+            LobbyController.getInstance().createGame("test");
             // Get from controller
-            pin = "0000";
+            pin = Integer.toString(LobbyController.getInstance().getModel().getRoomCode());
         }
     }
 }

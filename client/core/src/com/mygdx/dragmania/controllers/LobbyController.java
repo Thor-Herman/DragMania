@@ -78,6 +78,10 @@ public class LobbyController {
         }
     }
 
+    public LobbyModel getModel() {
+        return model;
+    }
+
     private boolean areThereEnoughPlayers() {
         return LobbyModel.MAX_PLAYER_COUNT == model.getCurrentConnectedCount();
     }
