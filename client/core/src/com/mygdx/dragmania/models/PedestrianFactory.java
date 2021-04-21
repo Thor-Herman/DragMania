@@ -15,7 +15,7 @@ public class PedestrianFactory {
     static {
         // Initialize TEXTURES
         Map<PedestrianType, String> tmpTextures = new EnumMap<>(PedestrianType.class);
-        tmpTextures.put(PedestrianType.STANDARD, "textures/pedestrians/");
+        tmpTextures.put(PedestrianType.STANDARD, "pedestrian.png");
         tmpTextures.put(PedestrianType.CYCLIST, "textures/pedestrians/");
         tmpTextures.put(PedestrianType.CHILD, "textures/pedestrians/");
         tmpTextures.put(PedestrianType.OLD, "textures/pedestrians/");
@@ -23,7 +23,7 @@ public class PedestrianFactory {
 
         // Initialize VELOCITY
         Map<PedestrianType, Integer> tmpVelocities = new EnumMap<>(PedestrianType.class);
-        tmpVelocities.put(PedestrianType.STANDARD, 2);
+        tmpVelocities.put(PedestrianType.STANDARD, 150);
         tmpVelocities.put(PedestrianType.CYCLIST, 4);
         tmpVelocities.put(PedestrianType.CHILD, 1);
         tmpVelocities.put(PedestrianType.OLD, 1);
@@ -33,15 +33,16 @@ public class PedestrianFactory {
     private PedestrianFactory() {}
 
     public static Pedestrian makePedestrian(PedestrianType type, Vector2 startPosition) {
-        int velocity = VELOCITIES.get(type);
+        int xVelocity = VELOCITIES.get(type);
+        int yVelocity = VELOCITIES.get(type);
 
         try {
             Texture texture = new Texture(TEXTURES.get(type));
-            return new Pedestrian(startPosition, velocity, texture);
+            return new Pedestrian(startPosition, xVelocity, yVelocity, texture);
         }
         catch(NullPointerException e) {
             // For testing purposes
-            return new Pedestrian(startPosition, velocity, 40, 100);
+            return new Pedestrian(startPosition, xVelocity, yVelocity, 40, 100);
         }
     }
 }

@@ -44,7 +44,7 @@ public class Policeman implements CarCrashListener {
         this.position = new Vector2(xPos, yPos);
         this.hasTurned = "Away";
         // The line below can be commented out to run PolicemanTest
-//        this.policemanAnimation = new PolicemanAnimation();
+        this.policemanAnimation = new PolicemanAnimation();
         this.policemanTurnPositions = policemanTurnPositions;
         this.policemanFakeTurnPositions = policemanFakeTurnPositions;
         this.car = car;

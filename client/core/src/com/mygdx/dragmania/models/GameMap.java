@@ -15,8 +15,8 @@ public class GameMap {
 
     private Pedestrian pedestrian = null;
     private Iterator<Integer> pedestrianPlacements;
-    public static final int PEDESTRIAN_CAR_OFFSET= 400;
-    public static final int PEDESTRIAN_CAR_OFFSET_BACKWARD = 150;
+    public static final int PEDESTRIAN_CAR_OFFSET = 900;
+    public static final int PEDESTRIAN_CAR_OFFSET_BACKWARD = 100;
     private PedestrianGenerationInfo nextPedestrianInfo;
 
     public GameMap(List<Integer> pedestrianPlacements, List<Integer> policeManTurnPositions, List<Integer> policeManFakeTurnPositions, int mapLength, Car car) {
@@ -37,11 +37,11 @@ public class GameMap {
         if (this.nextPedestrianInfo != null) {
             if ((car.getPosition().y + PEDESTRIAN_CAR_OFFSET > this.nextPedestrianInfo.getStartPosition().y) && this.pedestrian == null) {
                 createPedestrian();
-
             }
         }
 
         if (pedestrian != null) {
+            // pedestrian.setyVelocity(-car.getVelocity());
             pedestrian.update(dt);
             if (car.getPosition().y > this.pedestrian.getPosition().y + PEDESTRIAN_CAR_OFFSET_BACKWARD) {
                 deletePedestrian();
@@ -55,6 +55,9 @@ public class GameMap {
     private void createPedestrian() {
         this.pedestrian = PedestrianFactory.makePedestrian(nextPedestrianInfo.getType(), nextPedestrianInfo.getStartPosition());
         System.out.println("Pedestrian created");
+        System.out.println("Pedestrian hitbox: " + pedestrian.getHitBox());
+        System.out.println("Car hitbox:" + car.getHitBox());
+        System.out.println("Car position: " + car.getPosition());
         this.pedestrian.addCarCrashListener(policeman);
         if (this.pedestrianPlacements.hasNext()) {
             setNextPedestrianInfo();
@@ -85,6 +88,12 @@ public class GameMap {
     private void checkForCrash() {
         if (pedestrian != null && pedestrian.collides(car)) {
             pedestrian.fireCarCrashAlarm();
+
+            System.out.println("Height: " + car.getTexture().getHeight());
+            System.out.println("Hitbox: " + car.getHitBox());
+            System.out.println("Pedestrian hitbox2: " + pedestrian.getHitBox());
+
+
             this.pedestrian = null;
         }
     }

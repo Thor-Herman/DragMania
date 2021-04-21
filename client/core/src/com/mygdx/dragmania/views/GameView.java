@@ -5,21 +5,28 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.mygdx.dragmania.models.Car;
 import com.mygdx.dragmania.models.GameModel;
+import com.mygdx.dragmania.models.Pedestrian;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GameView extends View{
 
-    private Texture car;
+    private Car car;
     private float screenWidth;
     private float screenHeight;
     private Texture policeMan;
     private GameModel gameModel;
 
-    private ArrayList<Integer> crossing;
+    private List<Integer> pedestrianPlacements;
+    private Pedestrian pedestrian;
     private ArrayList<Integer> policeturn;
     private ArrayList<Integer> policefake;
 
@@ -33,22 +40,28 @@ public class GameView extends View{
 
     protected GameView(ViewManager viewManager) {
         super(viewManager);
-        car = new Texture("car_red2.png");
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
 
         // Only for testing purposes
-        crossing = new ArrayList<>();
-        crossing.add(1);
+        pedestrianPlacements = new ArrayList<>();
+        pedestrianPlacements.add(1100);
+        pedestrianPlacements.add(1400);
+        pedestrianPlacements.add(1700);
+        pedestrianPlacements.add(2000);
         policeturn = new ArrayList<>();
-        policeturn.add(200);
-        policeturn.add(400);
-        policeturn.add(700);
+        //policeturn.add(200);
+        // policeturn.add(400);
+        // policeturn.add(700);
         policefake = new ArrayList<>();
         policefake.add(50);
         policefake.add(250);
 
-        gameModel = new GameModel("player", crossing, policeturn, policefake, 1000);
+        gameModel = new GameModel("player", pedestrianPlacements, policeturn, policefake, 2000);
+        car = gameModel.getCar();
+        car.setScaledTexture(0.33);
+        car.overrideHitBox(Gdx.graphics.getWidth()/2-car.getTexture().getWidth()/2, 225, car.getTexture().getWidth(), car.getTexture().getHeight());
+        car.reposition(car.getPosition());
 
         // Generating font
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("GovtAgentBB.ttf"));
@@ -75,23 +88,19 @@ public class GameView extends View{
     @Override
     public void update(float dt) {
         // Update other classes depending on wheter the player is touching and check if backarrow is touched
-        if(Gdx.input.isTouched()) {
-            gameModel.getCar().update(dt, true);
+        boolean isTouched = Gdx.input.isTouched();
+        if(isTouched) {
             checkBackTouched(backArrow);
-            gameModel.update(dt, true, 0);
         }
-        else {
-            gameModel.getCar().update(dt, false);
-            gameModel.update(dt, false, 0);
-        }
+        gameModel.update(dt, isTouched);
 
         // Set finish line position if the player has come far enough
-        if(gameModel.getCar().getPosition() >= gameModel.getGameMap().getMapLength()-finishLineOffset && finishLineYPos == -400) {
+        if(car.getPosition().y >= gameModel.getGameMap().getMapLength()-finishLineOffset && finishLineYPos == -400) {
             finishLineYPos = 1900;
         }
 
         // Finish game if player crosses the finishline
-        if(gameModel.getCar().getPosition() > gameModel.getGameMap().getMapLength()) {
+        if(car.getPosition().y > gameModel.getGameMap().getMapLength()) {
             viewManager.push(new GameFinishedView(viewManager));
         }
     }
@@ -147,11 +156,10 @@ public class GameView extends View{
                 midLineYPositions[i] = midLineYPositions[i] - offset;
             }
         }
-
     }
 
     public void drawFinishLine(ShapeRenderer sr, int yPos) {
-        if(gameModel.getCar().getPosition() >= gameModel.getGameMap().getMapLength()-finishLineOffset) {
+        if(car.getPosition().y >= gameModel.getGameMap().getMapLength()-finishLineOffset) {
             sr.setColor(Color.WHITE);
             sr.rect(0, yPos, screenWidth, 50);
         }
@@ -162,8 +170,6 @@ public class GameView extends View{
         if(finishLineYPos > -400) {
             finishLineYPos -= offset;
         }
-
-
     }
 
     public void renderTopSector(ShapeRenderer sr) {
@@ -173,8 +179,8 @@ public class GameView extends View{
 
     public void moveLines() {
         repositionLine();
-        moveMidlines(gameModel.getCar().getVelocity());
-        moveFinishLine(gameModel.getCar().getVelocity());
+        moveMidlines((int) car.getVelocity());
+        moveFinishLine((int) car.getVelocity());
     }
 
     public void repositionLine() {
@@ -188,15 +194,22 @@ public class GameView extends View{
     }
 
     public void drawTextures(SpriteBatch sb) {
-        sb.draw(car, Gdx.graphics.getWidth()/2-car.getWidth()/6, 225, car.getWidth()/3, car.getHeight()/3);
+        Texture carTexture = car.getTexture();
+        sb.draw(carTexture, Gdx.graphics.getWidth()/2-car.getTexture().getWidth()/2, 225, carTexture.getWidth(), carTexture.getHeight());
         Texture policeTexture = gameModel.getGameMap().getPoliceman().getAnimation();
         sb.draw(policeTexture, screenWidth/2-policeTexture.getWidth(), screenHeight-400, policeTexture.getWidth()*2, policeTexture.getHeight()*2);
         sb.draw(backArrow.getBackArrow(), backArrow.getPosition().x, backArrow.getPosition().y, backArrow.getWidth()/3, backArrow.getHeight()/3);
+        this.pedestrian = gameModel.getGameMap().getPedestrian();
+        if (this.pedestrian != null) {
+            Texture pedestrianTexture = this.pedestrian.getTexture();
+            Vector2 pedestrianPosition = this.pedestrian.getPosition();
+            sb.draw(pedestrianTexture, pedestrianPosition.x, pedestrianPosition.y, pedestrianTexture.getWidth(), pedestrianTexture.getHeight());
+        }
     }
 
     public void drawFonts(SpriteBatch sb) {
         font.draw(sb, "Your score: ", 100, 1975);
-        font.draw(sb, Integer.toString(gameModel.getCar().getPosition()), 200, 1875);
+        font.draw(sb, Integer.toString((int) car.getPosition().y), 200, 1875);
         font.draw(sb, "Rivals score: ", 700, 1975);
         font.draw(sb, Integer.toString(gameModel.getOpponentScore()), 825, 1875);
     }

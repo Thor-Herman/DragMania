@@ -23,8 +23,9 @@ public class CrashTest {
         Car car = CarFactory.makeCar(CarType.NORMAL);
         List<Integer> pedestrianPlacements = Arrays.asList(1000, 2000, 3000, 4000, 5000);
         List<Integer> policemanTurnTimes = Arrays.asList(10000);
+        int mapLength = 10000;
 
-        GameMap map = new GameMap(pedestrianPlacements, policemanTurnTimes, policemanTurnTimes, car); 
+        GameMap map = new GameMap(pedestrianPlacements, policemanTurnTimes, policemanTurnTimes, mapLength, car);
         
         for (int i = 0; i < 70; i++) {
             map.update(i);

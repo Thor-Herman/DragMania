@@ -10,27 +10,40 @@ import java.util.Collection;
 
 public class Pedestrian extends Collidable {
 
-    private float velocity;
+    private float xVelocity;
+    private float yVelocity;
     private Collection<CarCrashListener> carCrashListeners = new ArrayList<>();
 
-    public Pedestrian(Vector2 startPosition, float velocity, Texture texture) {
-        super(startPosition, texture); 
-        this.velocity = velocity;
+    public Pedestrian(Vector2 startPosition, float xVelocity, float yVelocity, Texture texture) {
+        super(startPosition, texture);
+        this.xVelocity = xVelocity;
+        this.yVelocity = yVelocity;
     }
 
-    public Pedestrian(Vector2 startPosition, float velocity, float width, float height) {
+    public Pedestrian(Vector2 startPosition, float xVelocity, float yVelocity, float width, float height) {
         super(startPosition, width, height);
-        this.velocity = velocity;
+        this.xVelocity = xVelocity;
+        this.yVelocity = yVelocity;
     }
   
     public void update(float dt) {
-        Vector2 newPosition = new Vector2(getPosition().x + this.velocity*dt, getPosition().y);
+        Vector2 newPosition = new Vector2(getPosition().x + this.xVelocity*dt, getPosition().y - this.yVelocity*dt);
         reposition(newPosition);
     }
 
-    public float getVelocity() {
-        return this.velocity;
+    public float getxVelocity() {
+        return this.xVelocity;
     }
+
+    public float getyVelocity() {
+        return this.yVelocity;
+    }
+    /*
+    public void setyVelocity(float newVelocity) {
+        this.yVelocity = newVelocity;
+    }
+    */
+
 
     public void addCarCrashListener(CarCrashListener carCrashListener) {
         carCrashListeners.add(carCrashListener);

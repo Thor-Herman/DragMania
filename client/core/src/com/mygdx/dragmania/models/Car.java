@@ -1,5 +1,6 @@
 package com.mygdx.dragmania.models;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.Texture;
 
@@ -7,7 +8,7 @@ import com.utilities.Collidable;
 
 public class Car extends Collidable {
 	
-    private static Vector2 startPosition = new Vector2(40, 5); // TODO: Adjust this later
+    private static Vector2 startPosition = new Vector2(40, 0); // TODO: Adjust this later
 
     private int acceleration;
     private float velocity = 0;
@@ -61,7 +62,17 @@ public class Car extends Collidable {
     public void setMaxVelocity(int newMaxVelocity) {
         this.maxVelocity = newMaxVelocity;
     }
-    
+
+    public void overrideHitBox(int x, int y, int width, int height) {
+        super.hitBox = new Rectangle(x, y, width, height);
+    }
+
+    @Override
+    public Rectangle getHitBox() {
+        return this.hitBox;
+    }
+
+
     // Allow or disallow a car to drive
     public void canDrive(boolean allowed) {
         if (!allowed) {

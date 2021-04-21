@@ -55,7 +55,7 @@ public class GameController extends Controller {
             System.out.println("Empty"); return;}
         if (model.getIsGameOver())
             return; // TODO: Change
-        else if (model.getCar().getPosition() > model.getMapLength()) // TODO: Is this the right place for this?
+        else if (model.getCar().getPosition().y > model.getGameMap().getMapLength()) // TODO: Is this the right place for this?
             client.sendGameOver();
         System.out.println(dt);
         model.update(dt, isTouching);

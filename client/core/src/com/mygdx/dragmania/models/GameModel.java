@@ -17,8 +17,7 @@ public class GameModel {
     public GameModel(String username, List<Integer> pedestrianPlacements, List<Integer> policeManTurnTimes, List<Integer> policeManFakeTurnTimes, int mapLength) {
         player = new Player(username);
         car = CarFactory.makeCar(CarType.NORMAL); // TODO: Pass CarType in dynamically
-        // car.setMaxVelocity(3);
-        gameMap = new GameMap(pedestrianPlacements, policeManTurnTimes, policeManFakeTurnTimes, maplength, car);
+        gameMap = new GameMap(pedestrianPlacements, policeManTurnTimes, policeManFakeTurnTimes, mapLength, car);
         opponentScore = 0;
         isGameOver = false;
     }
@@ -32,7 +31,7 @@ public class GameModel {
             throw new IllegalStateException("Game is over");
         gameMap.update(dt);
         car.update(dt, isTouching);
-        playerScore = car.getPosition().y;
+        playerScore = (int) car.getPosition().y;
     }
 
     public void setOpponentScore(int opponentScore) {

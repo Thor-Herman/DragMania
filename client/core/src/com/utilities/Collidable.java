@@ -3,17 +3,18 @@ package com.utilities;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.Texture;
+import com.utilities.TextureScaler;
 
 public abstract class Collidable {
     private Texture texture;
-    private Rectangle hitBox;
+    protected Rectangle hitBox;
     private Vector2 startPosition;
     private Vector2 positionVector = new Vector2();
 
     protected Collidable(Vector2 startPosition, Texture texture) {
         this.startPosition = startPosition;
         this.texture = texture;
-        this.hitBox = new Rectangle(startPosition.x, startPosition.y, texture.getWidth(), texture.getHeight());
+        this.hitBox = new Rectangle(startPosition.x, startPosition.y, texture.getWidth()-40, texture.getHeight()-40);
     }
 
     protected Collidable(Vector2 startPosition, float width, float height) {
@@ -44,5 +45,12 @@ public abstract class Collidable {
     public boolean collides(Collidable collidable) {
         return hitBox.overlaps(collidable.getHitBox());
     }
+
+    public void setScaledTexture(double scale) {
+        texture = TextureScaler.scale(texture, scale);
+        hitBox.setWidth(texture.getWidth());
+        hitBox.setHeight(texture.getHeight());
+    }
+    
 }
 

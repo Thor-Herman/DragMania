@@ -63,6 +63,7 @@ public class PolicemanTest {
         policeman.toggleTurn("Towards");
         policeman.checkPolicemanTurn();
         assertEquals("Towards", policeman.getHasTurned());
+    }
 
     @Test
     public void testCarCrashListener() {
@@ -81,7 +82,7 @@ public class PolicemanTest {
         for (int i = 2; i < 10; i++) {
             car.update(i, true);
             pedestrian.update(i);
-            assertTrue(pedestrian.getVelocity() > 0);
+            assertTrue(pedestrian.getxVelocity() > 0);
             if (pedestrian.collides(car)) {
                 pedestrian.fireCarCrashAlarm();
                 //Check that the car's speed is set to 0 when it collides with a pedestrian
