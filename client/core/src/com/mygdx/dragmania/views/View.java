@@ -21,7 +21,6 @@ public abstract class View extends ScreenAdapter {
         if(backArrow.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
             viewManager.pop();
         }
-
     }
 
     public abstract void update(float dt);

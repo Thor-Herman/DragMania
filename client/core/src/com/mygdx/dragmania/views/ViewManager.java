@@ -7,6 +7,7 @@ import java.util.Stack;
 public class ViewManager {
 
     private Stack<View> views;
+    private static ViewManager instance;
 
     public ViewManager() {
         views = new Stack<View>();
@@ -24,6 +25,10 @@ public class ViewManager {
 
     public void render(float dt){
         views.peek().render(dt);
-    }
+    }    
 
+    public static ViewManager getInstance() {
+        if (instance == null) instance = new ViewManager();
+        return instance;
+    }
 }

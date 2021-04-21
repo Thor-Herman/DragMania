@@ -10,7 +10,7 @@ import com.mygdx.dragmania.models.GameModel;
 import com.utilities.GameClient;
 import com.utilities.messages.GameMapMessage;
 
-public class GameController extends Controller {
+public class GameController {
 
     private static GameController instance;
     private GameClient client;
@@ -74,40 +74,6 @@ public class GameController extends Controller {
     public void disconnected() {
         model = null;
         LobbyController.getInstance().disconnected();
-        back();
         // TODO: Remove listener from client
     }
-
-    public static void main(String[] args) throws InterruptedException {
-        LobbyController lobbyController = LobbyController.getInstance();
-        lobbyController.connectToServer();
-        lobbyController.createGame("TH");
-        Thread.sleep(8000);
-        GameController gameController = GameController.getInstance();
-
-        new Thread() {
-            public void run() {
-                long now;
-                long updateTime;
-                long wait;
-
-                final int TARGET_FPS = 60;
-                final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
-
-                while (true) {
-                    now = System.nanoTime();
-                    updateTime = System.nanoTime() - now;
-                    wait = (OPTIMAL_TIME - updateTime) / 1000000;
-                    gameController.update(wait, true);
-
-                    try {
-                        Thread.sleep(wait);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }.start();
-    }
-
 }
