@@ -43,7 +43,7 @@ public class Car extends Collidable {
     
     public void update(float dt, boolean isTouching) {
         accelerate(isTouching);
-        Vector2 newPosition = new Vector2(getPosition().x, getPosition().y + this.velocity*dt);
+        Vector2 newPosition = new Vector2(getPosition().x, getPosition().y + (float)Math.ceil(this.velocity*dt));
         reposition(newPosition);
     }
     
