@@ -7,7 +7,7 @@ import com.utilities.Collidable;
 
 public class Car extends Collidable {
 	
-    private static Vector2 startPosition = new Vector2(0, 10); // TODO: Adjust this later
+    private static Vector2 startPosition = new Vector2(0, 0); // TODO: Adjust this later
 
     private int acceleration;
     private int velocity = 0;
@@ -38,7 +38,7 @@ public class Car extends Collidable {
     
     public void update(float dt, boolean isTouching) {
         accelerate(isTouching);
-        reposition(new Vector2(0, getPosition().y + this.velocity*dt));
+        reposition(new Vector2(0, getPosition().y + (float)Math.ceil(this.velocity*dt)));
     }
     
     public int getAcceleration() {
