@@ -13,6 +13,7 @@ public class Car extends Collidable {
     private int velocity = 0;
     private int maxVelocity;
     private boolean allowedToDrive = true;
+    private final static int ROUNDING_CORRECTION = 100;
     
     public Car(Texture texture, int acceleration, int maxVelocity) {
         super(startPosition, texture);
@@ -38,7 +39,7 @@ public class Car extends Collidable {
     
     public void update(float dt, boolean isTouching) {
         accelerate(isTouching);
-        reposition(new Vector2(0, getPosition().y + (float)Math.ceil(this.velocity*dt)));
+        reposition(new Vector2(0, getPosition().y + ROUNDING_CORRECTION*(this.velocity*dt)));
     }
     
     public int getAcceleration() {
