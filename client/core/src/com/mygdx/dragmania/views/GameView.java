@@ -48,7 +48,7 @@ public class GameView extends View{
         policefake.add(50);
         policefake.add(250);
 
-        gameModel = new GameModel("player", crossing, policeturn, policefake, 1000);
+        gameModel = new GameModel("player", crossing, policeturn, policefake, 3000);
 
         // Generating font
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("GovtAgentBB.ttf"));
@@ -76,22 +76,21 @@ public class GameView extends View{
     public void update(float dt) {
         // Update other classes depending on wheter the player is touching and check if backarrow is touched
         if(Gdx.input.isTouched()) {
-            gameModel.getCar().update(dt, true);
             checkBackTouched(backArrow);
-            gameModel.update(dt, true, 0);
+            gameModel.update(dt, true);
         }
         else {
             gameModel.getCar().update(dt, false);
-            gameModel.update(dt, false, 0);
+            gameModel.update(dt, false);
         }
 
         // Set finish line position if the player has come far enough
-        if(gameModel.getCar().getPosition() >= gameModel.getGameMap().getMapLength()-finishLineOffset && finishLineYPos == -400) {
+        if(gameModel.getCar().getPosition().y >= gameModel.getGameMap().getMapLength()-finishLineOffset && finishLineYPos == -400) {
             finishLineYPos = 1900;
         }
 
         // Finish game if player crosses the finishline
-        if(gameModel.getCar().getPosition() > gameModel.getGameMap().getMapLength()) {
+        if(gameModel.getCar().getPosition().y > gameModel.getGameMap().getMapLength()) {
             viewManager.push(new GameFinishedView(viewManager));
         }
     }
@@ -151,7 +150,7 @@ public class GameView extends View{
     }
 
     public void drawFinishLine(ShapeRenderer sr, int yPos) {
-        if(gameModel.getCar().getPosition() >= gameModel.getGameMap().getMapLength()-finishLineOffset) {
+        if(gameModel.getCar().getPosition().y >= gameModel.getGameMap().getMapLength()-finishLineOffset) {
             sr.setColor(Color.WHITE);
             sr.rect(0, yPos, screenWidth, 50);
         }
@@ -196,7 +195,7 @@ public class GameView extends View{
 
     public void drawFonts(SpriteBatch sb) {
         font.draw(sb, "Your score: ", 100, 1975);
-        font.draw(sb, Integer.toString(gameModel.getCar().getPosition()), 200, 1875);
+        font.draw(sb, Integer.toString((int)gameModel.getCar().getPosition().y), 200, 1875);
         font.draw(sb, "Rivals score: ", 700, 1975);
         font.draw(sb, Integer.toString(gameModel.getOpponentScore()), 825, 1875);
     }
