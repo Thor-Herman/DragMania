@@ -31,7 +31,7 @@ public class GameModel {
             throw new IllegalStateException("Game is over");
         gameMap.update(dt);
         car.update(dt, isTouching);
-        playerScore = (int) car.getPosition().y;
+        playerScore = (int) car.getPosition().y/10; // Divide because the score gets too high
     }
 
     public void setOpponentScore(int opponentScore) {

@@ -1,12 +1,9 @@
 package com.mygdx.dragmania.models;
 
-import com.mygdx.dragmania.models.Crossing;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.utilities.CarCrashListener;
-import com.utilities.CarType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Policeman implements CarCrashListener {
@@ -171,7 +168,9 @@ public class Policeman implements CarCrashListener {
 
 
     public void carCrashAlarm(Pedestrian pedestrian) {
-        System.out.println("Car: " + car.getPosition() + "crashed with pedestrian: " + pedestrian.getPosition() + ", and gets a 1 second penalty.");
+        System.out.println("Car: " + car.getPosition() + " crashed with pedestrian: " + pedestrian.getPosition() + ", and gets a 1 second penalty.");
+        System.out.println("Car hitbox: " + car.getHitBox());
+        System.out.println("Pedestrian hitbox: " + pedestrian.getHitBox());
         // Start timer for timepenalty
         if (car.getVelocity() > 0 && timePenaltyStart == 0) {
             car.canDrive(false);

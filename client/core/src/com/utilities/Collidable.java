@@ -38,6 +38,10 @@ public abstract class Collidable {
         return hitBox.getPosition(positionVector);
     }
 
+    public float getTopYPosition() {
+        return getPosition().y + hitBox.getHeight();
+    }
+
     public void reposition(Vector2 position) {
         hitBox.setPosition(position);
     }

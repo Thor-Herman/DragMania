@@ -14,36 +14,32 @@ public class Pedestrian extends Collidable {
     private float yVelocity;
     private Collection<CarCrashListener> carCrashListeners = new ArrayList<>();
 
-    public Pedestrian(Vector2 startPosition, float xVelocity, float yVelocity, Texture texture) {
+    public Pedestrian(Vector2 startPosition, float xVelocity, Texture texture) {
         super(startPosition, texture);
         this.xVelocity = xVelocity;
-        this.yVelocity = yVelocity;
     }
 
-    public Pedestrian(Vector2 startPosition, float xVelocity, float yVelocity, float width, float height) {
+    public Pedestrian(Vector2 startPosition, float xVelocity, float width, float height) {
         super(startPosition, width, height);
         this.xVelocity = xVelocity;
-        this.yVelocity = yVelocity;
     }
   
     public void update(float dt) {
-        Vector2 newPosition = new Vector2(getPosition().x + this.xVelocity*dt, getPosition().y - this.yVelocity*dt);
+        Vector2 newPosition = new Vector2(getPosition().x + getXVelocity()*dt, getPosition().y + getYVelocity()*dt);
         reposition(newPosition);
     }
 
-    public float getxVelocity() {
+    public float getXVelocity() {
         return this.xVelocity;
     }
 
-    public float getyVelocity() {
+    public float getYVelocity() {
         return this.yVelocity;
     }
-    /*
-    public void setyVelocity(float newVelocity) {
+
+    public void setYVelocity(float newVelocity) {
         this.yVelocity = newVelocity;
     }
-    */
-
 
     public void addCarCrashListener(CarCrashListener carCrashListener) {
         carCrashListeners.add(carCrashListener);
