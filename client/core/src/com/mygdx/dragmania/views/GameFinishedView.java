@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.mygdx.dragmania.controllers.GameController;
 import com.mygdx.dragmania.models.GameModel;
 import com.mygdx.dragmania.views.buttons.MainMenuButton;
 import com.mygdx.dragmania.views.buttons.RematchButton;
@@ -71,7 +72,7 @@ public class GameFinishedView extends View{
 
     public void checkRematchButtonTouched() {
         if(rematchButton.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
-            viewManager.push(new GameView(viewManager));
+            GameController.getInstance().readyUp();
         }
     }
 
