@@ -34,6 +34,8 @@ public class GameView extends View{
 
     private BackArrow backArrow;
 
+    private float scaleConstant;
+
     protected GameView(ViewManager viewManager) {
         super(viewManager);
         //car = new Texture("car_red2.png");
@@ -51,7 +53,7 @@ public class GameView extends View{
         //policefake.add(50);
         //policefake.add(250);
 
-        gameModel = new GameModel("player", crossing, policeturn, policefake, 3000);
+        gameModel = new GameModel("player", crossing, policeturn, policefake, 1000);
 
         // Generating font
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("GovtAgentBB.ttf"));
@@ -73,6 +75,7 @@ public class GameView extends View{
         // Converting screen size to meters
         finishLineOffset = 29;
         carPosition = 0;
+        scaleConstant = screenHeight/1000;
     }
 
 
@@ -92,11 +95,10 @@ public class GameView extends View{
 
         // Set finish line position if the player has come far enough
         // if(car.getPosition().y >= gameMap.getMapLength()-screenHeight)
-        /*
-        if(carPosition >= gameModel.getGameMap().getMapLength()-screenHeight) {
+
+        if(carPosition >= gameModel.getGameMap().getMapLength()-screenHeight/76 && finishLineYPos==-400) {
             finishLineYPos = (int) (screenHeight*0.9);
         }
-        */
         // Finish game if player crosses the finishline
         if(carPosition > gameModel.getGameMap().getMapLength()) {
             viewManager.push(new GameFinishedView(viewManager));
@@ -158,11 +160,13 @@ public class GameView extends View{
     }
 
     public void drawFinishLine(ShapeRenderer sr, int yPos) {
-        if(carPosition >= gameModel.getGameMap().getMapLength()-screenHeight) {
+        /*
+        if(finishLineYPos > -400) {
             float diff = gameModel.getGameMap().getMapLength()-carPosition;
             sr.setColor(Color.WHITE);
-            sr.rect(0, (float) ((225 + diff + gameModel.getCar().getTexture().getHeight()/3)*1.4), screenWidth, 50);
+            sr.rect(0, (float) screenHeight-(carPosition*2), screenWidth, 50);
         }
+         */
         /*
         if(car.getPosition().y >= gameMap.getMapLength()-screenHeight) {
             float diff = mapLength-car.getPosition().y;
@@ -170,6 +174,10 @@ public class GameView extends View{
             sr.rect(0, carTextureStartOffset + diff + car.getTexture().getHeight(), screenWidth, 50);
         }
          */
+        if(finishLineYPos > -400) {
+            sr.setColor(Color.WHITE);
+            sr.rect(0, finishLineYPos, screenWidth, 50);
+        }
     }
 
     // Only move finish line if player has come far enough
@@ -189,7 +197,7 @@ public class GameView extends View{
     public void moveLines() {
         repositionLine();
         moveMidlines(gameModel.getCar().getVelocity());
-        //moveFinishLine(gameModel.getCar().getVelocity());
+        moveFinishLine(gameModel.getCar().getVelocity());
     }
 
     public void repositionLine() {
@@ -203,9 +211,9 @@ public class GameView extends View{
     }
 
     public void drawTextures(SpriteBatch sb) {
-        sb.draw(gameModel.getCar().getTexture(), Gdx.graphics.getWidth()/2-gameModel.getCar().getTexture().getWidth()/6, 225, gameModel.getCar().getTexture().getWidth()/3, gameModel.getCar().getTexture().getHeight()/3);
+        sb.draw(gameModel.getCar().getTexture(), Gdx.graphics.getWidth()/2-gameModel.getCar().getTexture().getWidth()/(3*scaleConstant), 225, (int)(gameModel.getCar().getTexture().getWidth()/(1.5*scaleConstant)), (int)(gameModel.getCar().getTexture().getHeight()/(1.5*scaleConstant)));
         Texture policeTexture = gameModel.getGameMap().getPoliceman().getAnimation();
-        sb.draw(policeTexture, screenWidth/2-policeTexture.getWidth(), (float) (screenHeight*0.8), policeTexture.getWidth()*2, policeTexture.getHeight()*2);
+        sb.draw(policeTexture, screenWidth/2-(policeTexture.getWidth()*scaleConstant)/2, (float) (screenHeight*0.8), policeTexture.getWidth()*scaleConstant, policeTexture.getHeight()*scaleConstant);
         sb.draw(backArrow.getBackArrow(), backArrow.getPosition().x, backArrow.getPosition().y, backArrow.getWidth()/3, backArrow.getHeight()/3);
     }
 
