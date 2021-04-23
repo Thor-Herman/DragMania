@@ -63,7 +63,7 @@ public class GameController {
         boolean hasCrossedFinishedLine = model.getCar().getPosition().y > model.getGameMap().getMapLength();
         if (hasCrossedFinishedLine) {
             client.sendGameOver();
-            ViewManager.getInstance().push(new GameFinishedView(ViewManager.getInstance()));
+            gameOver();
         }
         model.update(dt, isTouching);
         timePassedSinceScoreSent += dt;
@@ -76,6 +76,15 @@ public class GameController {
     public void setOpponentScore(int opponentScore) {
         model.setOpponentScore(opponentScore);
         System.out.println("Score: " + opponentScore);
+    }
+
+    public void gameOver() {
+        ViewManager.getInstance().push(new GameFinishedView(ViewManager.getInstance()));
+        reset();
+    }
+
+    private void reset() {
+        model = null;
     }
 
     public void disconnected() {

@@ -4,6 +4,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.FrameworkMessage.KeepAlive;
 import com.utilities.messages.GameMapMessage;
+import com.utilities.messages.GameOverMessage;
 import com.utilities.messages.Score;
 
 public class GameListener extends Listener {
@@ -17,6 +18,8 @@ public class GameListener extends Listener {
             updateOpponentScore(object);
         else if (object instanceof GameMapMessage)
             setGameMap(object);
+        else if (object instanceof GameOverMessage)
+            controller.gameOver();
     }
 
     private void updateOpponentScore(Object object) {
