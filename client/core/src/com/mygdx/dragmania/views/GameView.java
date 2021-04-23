@@ -41,16 +41,16 @@ public class GameView extends View {
 
         // Only for testing purposes
         List<Integer> pedestrianPlacements = new ArrayList<>(Arrays.asList(
-                // 200*10
+//                 200*10
         ));
         List<Integer> policeTurn = new ArrayList<>(Arrays.asList(
-                200*10,
-                400*10,
-                700*10
+//                200*10,
+//                400*10,
+//                700*10
         ));
         List<Integer> policeFake = new ArrayList<>(Arrays.asList(
-                50*10,
-                250*10
+//                50*10,
+//                250*10
         ));
 
         gameModel = new GameModel("player", pedestrianPlacements, policeTurn, policeFake, mapLength);
@@ -119,7 +119,7 @@ public class GameView extends View {
         if(car.getPosition().y >= gameMap.getMapLength()-screenHeight) {
             float diff = mapLength-car.getPosition().y;
             sr.setColor(Color.WHITE);
-            sr.rect(0, carTextureStartOffset + diff, screenWidth, 50);
+            sr.rect(0, carTextureStartOffset + diff + car.getTexture().getHeight(), screenWidth, 50);
         }
     }
 

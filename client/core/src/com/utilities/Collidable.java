@@ -14,7 +14,7 @@ public abstract class Collidable {
     protected Collidable(Vector2 startPosition, Texture texture) {
         this.startPosition = startPosition;
         this.texture = texture;
-        this.hitBox = new Rectangle(startPosition.x, startPosition.y, texture.getWidth()-40, texture.getHeight()-40);
+        this.hitBox = new Rectangle(startPosition.x, startPosition.y, texture.getWidth(), texture.getHeight());
     }
 
     protected Collidable(Vector2 startPosition, float width, float height) {
