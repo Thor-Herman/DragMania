@@ -16,6 +16,7 @@ public class CreateGameView extends View {
     private BitmapFont font;
     private BitmapFont font2;
     private String pin;
+    private LobbyController controller = LobbyController.getInstance();
 
     private float screenWidth;
     private float screenHeight;
@@ -74,8 +75,17 @@ public class CreateGameView extends View {
         sb.end();
     }
 
+    @Override
+    public void checkBackTouched(BackArrow backArrow) {
+        if(backArrow.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
+            controller.resetModel();
+            viewManager.pop();
+        }
+    }
+
     public void checkGetPinTouched() {
         if(getPinButton.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
+            LobbyController.getInstance().resetModel();
             LobbyController.getInstance().createGame("test");
             // Get from controller
         }

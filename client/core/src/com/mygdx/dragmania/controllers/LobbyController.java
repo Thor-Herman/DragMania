@@ -32,7 +32,7 @@ public class LobbyController {
         System.out.println(model);
     }
 
-    public void disconnected() {
+    public void resetModel() {
         model.reset();
         System.out.println(model);
     }
