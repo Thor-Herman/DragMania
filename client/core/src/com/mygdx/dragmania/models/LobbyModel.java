@@ -19,6 +19,8 @@ public class LobbyModel {
     }
 
     public void reset() {
+        this.currentConnectedCount = 0;
+        this.usernames = new String[MAX_PLAYER_COUNT];
         this.roomCode = -1;
         this.isHost = false;
         this.isConnected = false;

@@ -33,7 +33,7 @@ public class LobbyController {
     }
 
     public void disconnected() {
-        model.setIsConnected(false);
+        model.reset();
         System.out.println(model);
     }
 

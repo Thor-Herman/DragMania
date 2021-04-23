@@ -7,6 +7,7 @@ public class GameMapMessage extends Message {
     private int[] crossingPlacements;
     private int mapLength;
 
+    public GameMapMessage() {}
 
     public GameMapMessage(int[] crossingPlacements, int[] policemanTurnPoints, int[] policemanFakeTurnPoints, int mapLength) {
         this.crossingPlacements = crossingPlacements;
