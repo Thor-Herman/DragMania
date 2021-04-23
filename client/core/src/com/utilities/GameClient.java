@@ -2,6 +2,8 @@ package com.utilities;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
@@ -20,6 +22,7 @@ public class GameClient {
     private String ipAddress;
     private int roomCode;
     private static GameClient instance;
+    private boolean isReconnecting = false;
 
     private GameClient() {
         this.client = new Client();
@@ -38,6 +41,7 @@ public class GameClient {
         registerClasses();
         Log.set(Log.LEVEL_DEBUG);
         setupListeners();
+        client.start();
         connectToServer();
     }
 
@@ -69,12 +73,25 @@ public class GameClient {
     }
 
     private void connectToServer() {
-        client.start();
         try {
             client.connect(5000, ipAddress, tcpPort, udpPort);
         } catch (IOException e) {
             client.close();
-            System.out.println("Something went wrong setting up the client: " + e.toString());
+            System.out.println("Something went wrong when connecting: " + e.toString());
+            attemptReconnect();
+        }
+    }
+
+    public void attemptReconnect() {
+        if (! isReconnecting) {
+            isReconnecting = true;
+            new Timer().scheduleAtFixedRate(new TimerTask(){
+                @Override
+                public void run(){
+                    if (client.isConnected()) this.cancel();
+                    connectToServer();
+                }
+            },0,5000);
         }
     }
 
@@ -95,20 +112,7 @@ public class GameClient {
     }
 
     private void setupListeners() {
-        client.addListener(new Listener() {
-            public void received(Connection connection, Object object) {
-                if (object instanceof LobbyResponse) {
-                    LobbyResponse message = (LobbyResponse) object;
-                    if (message.text.equals("Created")){
-                        roomCode = message.roomCode;
-                    }
-                }
-                if (object instanceof ErrorResponse) {
-                    ErrorResponse response = (ErrorResponse) object;
-                    System.out.println(response.text);
-                }
-            }
-        });
+        client.addListener(new ClientListener());
         client.addListener(new LobbyListener());
         client.addListener(new GameListener()); // TODO: Only add when inside a game?
     }
@@ -124,5 +128,9 @@ public class GameClient {
         request.roomCode = roomCode;
         client.sendTCP(request);
         roomCode = -1;
+    }
+
+    public void setRoomCode(int roomCode) {
+        this.roomCode = roomCode;
     }
 }
