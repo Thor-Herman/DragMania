@@ -91,6 +91,7 @@ public class GameClient {
         kryo.register(JoinLobbyRequest.class);
         kryo.register(ReadyMessage.class);
         kryo.register(GameOverMessage.class);
+        kryo.register(LeaveLobbyRequest.class);
     }
 
     private void setupListeners() {
@@ -129,8 +130,7 @@ public class GameClient {
     }
 
     public void leaveGame() {
-        client.close();
+        client.sendTCP(new LeaveLobbyRequest());
         roomCode = -1;
-        connectToServer();
     }
 }
