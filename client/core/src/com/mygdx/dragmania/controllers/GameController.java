@@ -20,6 +20,7 @@ public class GameController {
     private GameModel model;
     private static final float SCORE_SEND_FREQUENCY = 0.250f;
     private float timePassedSinceScoreSent = 0;
+    private boolean isSendingGameOver = false;
 
     private GameController() {
         this.client = GameClient.getInstance();
@@ -56,12 +57,12 @@ public class GameController {
     }
 
     public void update(float dt, boolean isTouching) {
-        if (model == null) {
-            System.out.println("Empty"); return;}
-        if (model.getIsGameOver())
-            return; // TODO: Change
+        if (model == null || model.getIsGameOver()) {
+            return;
+        }
         boolean hasCrossedFinishedLine = model.getCar().getPosition().y > model.getGameMap().getMapLength();
-        if (hasCrossedFinishedLine) {
+        if (hasCrossedFinishedLine && !isSendingGameOver) {
+            isSendingGameOver = true;
             client.sendGameOver();
         }
         model.update(dt, isTouching);
@@ -86,6 +87,7 @@ public class GameController {
             }
         });
         model = null;
+        isSendingGameOver = false;
     }
 
 
