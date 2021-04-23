@@ -92,12 +92,6 @@ public class GameController {
         isSendingGameOver = false;
     }
 
-
-    public void disconnected() {
-        model = null;
-        // TODO: Remove listener from client
-    }
-
     public GameModel getModel() {
         return this.model;
     }
