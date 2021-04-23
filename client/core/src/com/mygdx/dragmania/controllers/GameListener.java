@@ -19,7 +19,12 @@ public class GameListener extends Listener {
         else if (object instanceof GameMapMessage)
             setGameMap(object);
         else if (object instanceof GameOverMessage)
-            controller.gameOver();
+            handleGameOver(object);
+    }
+
+    private void handleGameOver(Object object) {
+        GameOverMessage message = (GameOverMessage) object;
+        controller.gameOver(message.won);
     }
 
     private void updateOpponentScore(Object object) {

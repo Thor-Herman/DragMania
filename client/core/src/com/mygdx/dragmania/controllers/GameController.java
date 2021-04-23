@@ -78,7 +78,7 @@ public class GameController {
         System.out.println("Score: " + opponentScore);
     }
 
-    public void gameOver() {
+    public void gameOver(boolean won) {
         ViewManager viewManager = ViewManager.getInstance();
         Gdx.app.postRunnable(new Runnable() {
             @Override
@@ -86,6 +86,7 @@ public class GameController {
                 viewManager.push(new GameFinishedView(viewManager));
             }
         });
+        model.gameIsUp(won);
         model = null;
         isSendingGameOver = false;
     }
