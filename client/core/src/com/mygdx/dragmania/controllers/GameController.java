@@ -50,8 +50,8 @@ public class GameController {
         Gdx.app.postRunnable(new Runnable() {
             @Override
             public void run() {
-                if (model == null) model = new GameModel(username, crossingPlacements, policeManTurnTimes, policeManFakeTurnTimes, 200); // TODO: Change map size
-                else model.newGame(crossingPlacements, policeManTurnTimes, policeManFakeTurnTimes, 200);
+                if (model == null) model = new GameModel(username, crossingPlacements, policeManTurnTimes, policeManFakeTurnTimes, map.getMapLength()); // TODO: Change map size
+                else model.newGame(crossingPlacements, policeManTurnTimes, policeManFakeTurnTimes, map.getMapLength());
                 ViewManager viewManager = ViewManager.getInstance();
                 viewManager.push(new GameView(viewManager));
             }
