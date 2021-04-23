@@ -89,13 +89,11 @@ public class Lobby {
             readyPlayers.add(connection);
         if (readyPlayers.size() == LOBBY_PLAYER_CRITERIUM) {
             sendGameMap();
-            System.out.println("Sent game map");
         }
-        System.out.println("No. of players ready" + readyPlayers.size());
     }
 
     private void sendGameMap() {
-        GameMapMessage map = generator.generateMap(200);
+        GameMapMessage map = generator.generateMap(2000);
         for (Connection client : clientsMap.keySet()) {
             client.sendTCP(map);
         }
