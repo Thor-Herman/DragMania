@@ -95,7 +95,6 @@ public class GameController {
 
     public void disconnected() {
         model = null;
-        LobbyController.getInstance().disconnected();
         // TODO: Remove listener from client
     }
 

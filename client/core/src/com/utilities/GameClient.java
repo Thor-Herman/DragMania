@@ -110,12 +110,6 @@ public class GameClient {
                 }
             }
         });
-        client.addListener(new Listener() {
-            @Override
-            public void received(Connection connection, Object o) {
-                if (o instanceof Message) System.out.println("roomCode: " + roomCode);
-            }
-        });
         client.addListener(new LobbyListener());
         client.addListener(new GameListener()); // TODO: Only add when inside a game?
     }
@@ -136,6 +130,7 @@ public class GameClient {
 
     public void leaveGame() {
         client.close();
+        roomCode = -1;
         connectToServer();
     }
 }

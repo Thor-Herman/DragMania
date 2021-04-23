@@ -26,7 +26,6 @@ public class MainMenuView extends View {
         joinGameButton = new JoinGameButton(200, 700);
         createGameButton = new CreateGameButton(200, 1000);
         background = new Texture("background_straight.png");
-        LobbyController.getInstance().connectToServer();
     }
 
     @Override

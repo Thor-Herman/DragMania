@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.dragmania.controllers.LobbyController;
 import com.mygdx.dragmania.views.HelpView;
 import com.mygdx.dragmania.views.MainMenuView;
 import com.mygdx.dragmania.views.ViewManager;
@@ -21,6 +22,7 @@ public class DragMania extends ApplicationAdapter {
 	public void create () {
 		viewManager = ViewManager.getInstance();
 		viewManager.push(new MainMenuView(viewManager));
+		LobbyController.getInstance().connectToServer();
 	}
 
 	@Override
