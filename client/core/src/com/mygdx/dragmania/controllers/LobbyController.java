@@ -1,5 +1,6 @@
 package com.mygdx.dragmania.controllers;
 
+import com.badlogic.gdx.Gdx;
 import com.mygdx.dragmania.models.LobbyModel;
 import com.mygdx.dragmania.views.GameView;
 import com.mygdx.dragmania.views.ViewManager;
@@ -71,7 +72,12 @@ public class LobbyController {
         model.playerJoinedLobby(username);
         if (areThereEnoughPlayers()) {
             client.readyUp();
-            ViewManager.getInstance().push(new GameView(ViewManager.getInstance()));
+            Gdx.app.postRunnable(new Runnable() {
+                @Override
+                public void run() {
+                    ViewManager.getInstance().push(new GameView(ViewManager.getInstance()));
+                }
+            });
             System.out.println("HI");
             // TODO: Remove lobbyListener from client
             // TODO: Add gameListener to client
