@@ -49,6 +49,7 @@ public class GameClient {
     }
 
     public void joinGame(String username, int roomCode) {
+        this.roomCode = roomCode;
         JoinLobbyRequest request = new JoinLobbyRequest();
         request.username = username;
         request.roomCode = roomCode;
@@ -63,7 +64,7 @@ public class GameClient {
 
     public void readyUp() {
         ReadyMessage ready = new ReadyMessage();
-        ready.roomCode = 1; // Todo: add room code;
+        ready.roomCode = roomCode;
         client.sendTCP(ready);
     }
 
@@ -97,7 +98,8 @@ public class GameClient {
             public void received(Connection connection, Object object) {
                 if (object instanceof LobbyResponse) {
                     LobbyResponse message = (LobbyResponse) object;
-                    if (message.text.equals("Success")|| message.text.equals("Created")){
+                    if (message.text.equals("Created")){
+                        System.out.println(message.roomCode);
                         roomCode = message.roomCode;
                     }
 
@@ -106,6 +108,12 @@ public class GameClient {
                     ErrorResponse response = (ErrorResponse) object;
                     System.out.println(response.text);
                 }
+            }
+        });
+        client.addListener(new Listener() {
+            @Override
+            public void received(Connection connection, Object o) {
+                if (o instanceof Message) System.out.println("roomCode: " + roomCode);
             }
         });
         client.addListener(new LobbyListener());
