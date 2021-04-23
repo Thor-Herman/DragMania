@@ -24,7 +24,7 @@ public class LobbyListener extends Listener {
             if (response.text.equals("Created")) controller.joinSuccess(response.roomCode, null);
             else if (response.text.equals("PlayerJoined")) controller.playerJoinedLobby(response.username); // controller.joinSuccess(response.roomCode);
             else if (response.text.equals("Success")) controller.joinSuccess(response.roomCode, response.usernames);
-            else if (response.text.equals("PlayerLeft")) controller.playerLeftLobby(response.username);
+            else if (response.text.equals("PlayerLeft") || response.text.equals("SuccessfullyLeft")) controller.disconnected();
         }
         if (object instanceof ErrorResponse) {
             ErrorResponse response = (ErrorResponse) object;

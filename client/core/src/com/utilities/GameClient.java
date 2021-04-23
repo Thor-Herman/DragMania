@@ -100,10 +100,8 @@ public class GameClient {
                 if (object instanceof LobbyResponse) {
                     LobbyResponse message = (LobbyResponse) object;
                     if (message.text.equals("Created")){
-                        System.out.println(message.roomCode);
                         roomCode = message.roomCode;
                     }
-
                 }
                 if (object instanceof ErrorResponse) {
                     ErrorResponse response = (ErrorResponse) object;
@@ -121,16 +119,10 @@ public class GameClient {
         client.sendTCP(message);
     }
 
-    public static void main(String[] args) {
-        LobbyController controller = LobbyController.getInstance();
-        controller.connectToServer();
-        controller.createGame("TH");
-        while (true)
-            ; // Runs forever in order to receive server msg
-    }
-
     public void leaveGame() {
-        client.sendTCP(new LeaveLobbyRequest());
+        LeaveLobbyRequest request = new LeaveLobbyRequest();
+        request.roomCode = roomCode;
+        client.sendTCP(request);
         roomCode = -1;
     }
 }

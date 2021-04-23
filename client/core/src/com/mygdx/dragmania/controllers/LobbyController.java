@@ -85,8 +85,4 @@ public class LobbyController {
         return LobbyModel.MAX_PLAYER_COUNT == model.getCurrentConnectedCount();
     }
 
-    public void playerLeftLobby(String username) {
-        model.playerLeftLobby(username);
-    }
-
 }

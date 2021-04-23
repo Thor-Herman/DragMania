@@ -148,6 +148,12 @@ public class GameView extends View{
         sb.end();
     }
 
+    @Override
+    public void checkBackTouched(BackArrow backArrow) {
+        if(backArrow.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY()))
+            controller.leaveGame();
+    }
+
     public void renderMidLines(ShapeRenderer sr){
         drawMidLine(sr, midLineYPositions[0]);
         drawMidLine(sr, midLineYPositions[1]);
