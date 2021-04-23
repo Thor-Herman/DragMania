@@ -27,6 +27,9 @@ public class GameView extends View{
     private int finishLineYPos;
     private int finishLineOffset;
 
+    private int carPosition;
+    private static final int ROUNDING_CORRECTION = 100;
+
     private BitmapFont font;
 
     private BackArrow backArrow;
@@ -68,7 +71,8 @@ public class GameView extends View{
         // Initialize finish line to be under the screen
         finishLineYPos = -400;
         // Converting screen size to meters
-        finishLineOffset = 12;
+        finishLineOffset = 29;
+        carPosition = 0;
     }
 
 
@@ -84,13 +88,15 @@ public class GameView extends View{
             gameModel.update(dt, false);
         }
 
+        carPosition = (int)gameModel.getCar().getPosition().y/ROUNDING_CORRECTION;
+
         // Set finish line position if the player has come far enough
-        if(gameModel.getCar().getPosition().y >= gameModel.getGameMap().getMapLength()-finishLineOffset && finishLineYPos == -400) {
+        if(carPosition >= gameModel.getGameMap().getMapLength()-finishLineOffset && finishLineYPos == -400) {
             finishLineYPos = 1900;
         }
 
         // Finish game if player crosses the finishline
-        if(gameModel.getCar().getPosition().y > gameModel.getGameMap().getMapLength()) {
+        if(carPosition > gameModel.getGameMap().getMapLength()) {
             viewManager.push(new GameFinishedView(viewManager));
         }
     }
@@ -150,7 +156,7 @@ public class GameView extends View{
     }
 
     public void drawFinishLine(ShapeRenderer sr, int yPos) {
-        if(gameModel.getCar().getPosition().y >= gameModel.getGameMap().getMapLength()-finishLineOffset) {
+        if(carPosition >= gameModel.getGameMap().getMapLength()-finishLineOffset) {
             sr.setColor(Color.WHITE);
             sr.rect(0, yPos, screenWidth, 50);
         }
@@ -195,7 +201,7 @@ public class GameView extends View{
 
     public void drawFonts(SpriteBatch sb) {
         font.draw(sb, "Your score: ", 100, 1975);
-        font.draw(sb, Integer.toString((int)gameModel.getCar().getPosition().y), 200, 1875);
+        font.draw(sb, Integer.toString(carPosition), 200, 1875);
         font.draw(sb, "Rivals score: ", 700, 1975);
         font.draw(sb, Integer.toString(gameModel.getOpponentScore()), 825, 1875);
     }

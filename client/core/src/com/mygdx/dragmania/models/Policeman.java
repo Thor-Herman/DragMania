@@ -33,6 +33,9 @@ public class Policeman {
     public static final int xPos = 200;
     public static final int yPos = 800;
 
+    private int carPosition;
+    private static final int ROUNDING_CORRECTION = 100;
+
     public Policeman(ArrayList<Integer> policemanTurnPositions, ArrayList<Integer> policemanFakeTurnPositions, Car car) {
 
         this.position = new Vector2(xPos, yPos);
@@ -50,10 +53,12 @@ public class Policeman {
         policeTurnDuration = 2000;
         policeTurnDelayStart = 0;
         policeFakeTurnDelayStart = 0;
+        carPosition = 0;
 
     }
 
     public void update(float dt) {
+        carPosition = (int) car.getPosition().y/ROUNDING_CORRECTION;
         checkIfPolicemanShouldTurn();
         checkIfPolicemanShouldFakeTurn();
         checkIfAllowedToDrive();
@@ -116,7 +121,7 @@ public class Policeman {
     // Use turn positions and car position to determine if the policeman should turn towards player
     public void checkIfPolicemanShouldTurn() {
         if (currentTurnPositionIndex < policemanTurnPositions.size()) {
-            if (car.getPosition().y > policemanTurnPositions.get(currentTurnPositionIndex)) {
+            if (carPosition > policemanTurnPositions.get(currentTurnPositionIndex)) {
                 currentTurnPositionIndex++;
                 policeTurnDelayStart = System.currentTimeMillis();
                 toggleTurn("Sideways");
@@ -129,7 +134,7 @@ public class Policeman {
 
     public void checkIfPolicemanShouldFakeTurn() {
         if (currentFakeTurnPositionIndex < policemanFakeTurnPositions.size()) {
-            if (car.getPosition().y > policemanFakeTurnPositions.get(currentFakeTurnPositionIndex)){
+            if (carPosition > policemanFakeTurnPositions.get(currentFakeTurnPositionIndex)){
                 currentFakeTurnPositionIndex++;
                 if (hasTurned.equals("Away") && policeTurnDelayStart == 0) {
                     policeFakeTurnDelayStart = System.currentTimeMillis();
