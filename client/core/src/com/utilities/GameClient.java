@@ -96,8 +96,11 @@ public class GameClient {
         client.addListener(new Listener() {
             public void received(Connection connection, Object object) {
                 if (object instanceof LobbyResponse) {
-                    Message message = (Message) object;
-                    roomCode = message.roomCode;
+                    LobbyResponse message = (LobbyResponse) object;
+                    if (message.text.equals("Success")|| message.text.equals("Created")){
+                        roomCode = message.roomCode;
+                    }
+
                 }
                 if (object instanceof ErrorResponse) {
                     ErrorResponse response = (ErrorResponse) object;
