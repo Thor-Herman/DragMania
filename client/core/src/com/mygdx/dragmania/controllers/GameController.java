@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import com.badlogic.gdx.Gdx;
 import com.mygdx.dragmania.models.GameModel;
+import com.mygdx.dragmania.views.GameFinishedView;
 import com.mygdx.dragmania.views.GameView;
 import com.mygdx.dragmania.views.ViewManager;
 import com.utilities.GameClient;
@@ -47,7 +48,7 @@ public class GameController {
         Gdx.app.postRunnable(new Runnable() {
             @Override
             public void run() {
-                model = new GameModel(username, crossingPlacements, policeManTurnTimes, policeManFakeTurnTimes, 2000); // TODO: Change map size
+                model = new GameModel(username, crossingPlacements, policeManTurnTimes, policeManFakeTurnTimes, 200); // TODO: Change map size
                 ViewManager viewManager = ViewManager.getInstance();
                 viewManager.push(new GameView(viewManager));
             }
@@ -59,9 +60,11 @@ public class GameController {
             System.out.println("Empty"); return;}
         if (model.getIsGameOver())
             return; // TODO: Change
-        else if (model.getCar().getPosition().y > model.getGameMap().getMapLength()) // TODO: Is this the right place for this?
+        boolean hasCrossedFinishedLine = model.getCar().getPosition().y > model.getGameMap().getMapLength();
+        if (hasCrossedFinishedLine) {
             client.sendGameOver();
-        System.out.println(dt);
+            ViewManager.getInstance().push(new GameFinishedView(ViewManager.getInstance()));
+        }
         model.update(dt, isTouching);
         timePassedSinceScoreSent += dt;
         if (timePassedSinceScoreSent >= SCORE_SEND_FREQUENCY) {

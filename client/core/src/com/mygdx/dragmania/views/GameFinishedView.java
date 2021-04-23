@@ -21,7 +21,7 @@ public class GameFinishedView extends View{
     private static GlyphLayout glyphLayout = new GlyphLayout();
     private String gameStatus;
 
-    protected GameFinishedView(ViewManager viewManager) {
+    public GameFinishedView(ViewManager viewManager) {
         super(viewManager);
         background = new Texture("background_plain.png");
         // Generate font
