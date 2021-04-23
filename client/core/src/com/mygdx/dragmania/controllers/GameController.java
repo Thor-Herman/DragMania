@@ -97,7 +97,12 @@ public class GameController {
     }
 
     public void leaveGame() {
-        client.leaveGame();
-        ViewManager.getInstance().push(new MainMenuView(ViewManager.getInstance()));
+        Gdx.app.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+                client.leaveGame();
+                ViewManager.getInstance().push(new MainMenuView(ViewManager.getInstance()));
+            }
+        });
     }
 }
