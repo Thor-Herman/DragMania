@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.mygdx.dragmania.models.GameModel;
 import com.mygdx.dragmania.views.buttons.MainMenuButton;
 import com.mygdx.dragmania.views.buttons.RematchButton;
 
@@ -20,9 +21,11 @@ public class GameFinishedView extends View{
 
     private static GlyphLayout glyphLayout = new GlyphLayout();
     private String gameStatus;
+    private GameModel model;
 
-    public GameFinishedView(ViewManager viewManager) {
+    public GameFinishedView(ViewManager viewManager, GameModel model) {
         super(viewManager);
+        this.model = model;
         background = new Texture("background_plain.png");
         // Generate font
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("GovtAgentBB.ttf"));
@@ -58,6 +61,7 @@ public class GameFinishedView extends View{
         SpriteBatch sb = new SpriteBatch();
         sb.begin();
         sb.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        String gameStatus = model.getOpponentScore() < model.getPlayerScore() ? "Game Won" : "Game Lost";
         glyphLayout.setText(font, gameStatus);
         font.draw(sb, glyphLayout, screenWidth/2-(glyphLayout.width/2), (float) (screenHeight*0.8));
         sb.draw(rematchButton.getButton(), screenWidth/2-(rematchButton.getWidth()/2), rematchButton.getPosition().y, rematchButton.getWidth(), rematchButton.getHeight());

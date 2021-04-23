@@ -83,11 +83,10 @@ public class GameController {
         Gdx.app.postRunnable(new Runnable() {
             @Override
             public void run() {
-                viewManager.push(new GameFinishedView(viewManager));
+                viewManager.push(new GameFinishedView(viewManager, model));
             }
         });
         model.gameIsUp(won);
-        model = null;
         isSendingGameOver = false;
     }
 
