@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.mygdx.dragmania.controllers.GameController;
 import com.mygdx.dragmania.models.GameModel;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class GameView extends View{
     private Texture policeMan;
     private GameModel gameModel;
     private Texture stopSign;
+    private GameController controller;
 
     private ArrayList<Integer> crossing;
     private ArrayList<Integer> policeturn;
@@ -49,6 +51,9 @@ public class GameView extends View{
     protected GameView(ViewManager viewManager) {
         super(viewManager);
         stopSign = new Texture("stop.png");
+        car = new Texture("car_red2.png");
+        controller = GameController.getInstance();
+
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
 
@@ -99,11 +104,10 @@ public class GameView extends View{
         // Update other classes depending on wheter the player is touching and check if backarrow is touched
         if(Gdx.input.isTouched()) {
             checkBackTouched(backArrow);
-            gameModel.update(dt, true);
+            controller.update(dt, true);
         }
         else {
-            gameModel.getCar().update(dt, false);
-            gameModel.update(dt, false);
+            controller.update(dt, false);
         }
 
         carPosition = (int)gameModel.getCar().getPosition().y/ROUNDING_CORRECTION;
