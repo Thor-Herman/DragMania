@@ -19,7 +19,7 @@ public class DragMania extends ApplicationAdapter {
 	
 	@Override
 	public void create () {
-		viewManager = new ViewManager();
+		viewManager = ViewManager.getInstance();
 		viewManager.push(new MainMenuView(viewManager));
 	}
 

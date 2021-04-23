@@ -72,13 +72,17 @@ public class LobbyController {
         model.playerJoinedLobby(username);
         if (areThereEnoughPlayers()) {
             client.readyUp();
+            ViewManager viewManager = ViewManager.getInstance();
             Gdx.app.postRunnable(new Runnable() {
                 @Override
                 public void run() {
-                    ViewManager.getInstance().push(new GameView(ViewManager.getInstance()));
+                    viewManager.push(new GameView(viewManager));
+                    System.out.println("HI");
+
                 }
             });
-            System.out.println("HI");
+
+
             // TODO: Remove lobbyListener from client
             // TODO: Add gameListener to client
         }
