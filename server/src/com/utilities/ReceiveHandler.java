@@ -47,7 +47,6 @@ public class ReceiveHandler extends Listener {
     private void handleMessage(Connection connection, Message message) {
         if (!lobbies.containsKey(message.roomCode)) {
             sendErrorMessage(connection, "No such room code exists");
-            connection.close();
         } else {
             lobbies.get(message.roomCode).received(connection, message);
         }
