@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 
 import com.badlogic.gdx.Gdx;
 import com.mygdx.dragmania.models.GameModel;
+import com.mygdx.dragmania.views.GameView;
+import com.mygdx.dragmania.views.ViewManager;
 import com.utilities.GameClient;
 import com.utilities.messages.GameMapMessage;
 
@@ -46,6 +48,8 @@ public class GameController {
             @Override
             public void run() {
                 model = new GameModel(username, crossingPlacements, policeManTurnTimes, policeManFakeTurnTimes, 2000); // TODO: Change map size
+                ViewManager viewManager = ViewManager.getInstance();
+                viewManager.push(new GameView(viewManager));
             }
         });
     }
@@ -75,5 +79,9 @@ public class GameController {
         model = null;
         LobbyController.getInstance().disconnected();
         // TODO: Remove listener from client
+    }
+
+    public GameModel getModel() {
+        return this.model;
     }
 }

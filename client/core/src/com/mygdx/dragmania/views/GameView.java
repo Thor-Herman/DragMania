@@ -53,11 +53,12 @@ public class GameView extends View{
         stopSign = new Texture("stop.png");
         car = new Texture("car_red2.png");
         controller = GameController.getInstance();
+        gameModel = controller.getModel();
 
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
 
-        // Only for testing purposes
+        /*// Only for testing purposes
         crossing = new ArrayList<>();
         crossing.add(1);
         policeturn = new ArrayList<>();
@@ -68,7 +69,7 @@ public class GameView extends View{
         //policefake.add(50);
         //policefake.add(250);
 
-        gameModel = new GameModel("player", crossing, policeturn, policefake, 1000);
+        gameModel = new GameModel("player", crossing, policeturn, policefake, 1000);*/
 
         // Generating font
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("GovtAgentBB.ttf"));
