@@ -18,6 +18,7 @@ public class GameClient {
     private Client client;
     private int tcpPort, udpPort;
     private String ipAddress;
+    private int roomCode;
     private static GameClient instance;
 
     private GameClient() {
@@ -42,7 +43,7 @@ public class GameClient {
 
     public void sendScore(float score) {
         Score scoreMessage = new Score();
-        scoreMessage.roomCode = 1;
+        scoreMessage.roomCode = roomCode;
         scoreMessage.score = score;
         client.sendTCP(scoreMessage);
     }
@@ -94,9 +95,9 @@ public class GameClient {
     private void setupListeners() {
         client.addListener(new Listener() {
             public void received(Connection connection, Object object) {
-                if (object instanceof SomeResponse) {
-                    SomeResponse response = (SomeResponse) object;
-                    System.out.println(response.text);
+                if (object instanceof LobbyResponse) {
+                    Message message = (Message) object;
+                    roomCode = message.roomCode;
                 }
                 if (object instanceof ErrorResponse) {
                     ErrorResponse response = (ErrorResponse) object;
@@ -109,7 +110,9 @@ public class GameClient {
     }
 
     public void sendGameOver() {
-        client.sendTCP(new GameOverMessage());
+        GameOverMessage message = new GameOverMessage();
+        message.roomCode = roomCode;
+        client.sendTCP(message);
     }
 
     public static void main(String[] args) {
