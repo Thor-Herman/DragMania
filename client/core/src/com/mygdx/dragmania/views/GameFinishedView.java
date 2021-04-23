@@ -78,7 +78,7 @@ public class GameFinishedView extends View{
 
     public void checkMainMenuButtonTouched() {
         if(mainMenuButton.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
-            viewManager.push(new MainMenuView(viewManager));
+            GameController.getInstance().leaveGame();
         }
     }
 }

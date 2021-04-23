@@ -9,6 +9,7 @@ import com.badlogic.gdx.Gdx;
 import com.mygdx.dragmania.models.GameModel;
 import com.mygdx.dragmania.views.GameFinishedView;
 import com.mygdx.dragmania.views.GameView;
+import com.mygdx.dragmania.views.MainMenuView;
 import com.mygdx.dragmania.views.ViewManager;
 import com.utilities.GameClient;
 import com.utilities.messages.GameMapMessage;
@@ -100,5 +101,10 @@ public class GameController {
 
     public GameModel getModel() {
         return this.model;
+    }
+
+    public void leaveGame() {
+        client.leaveGame();
+        ViewManager.getInstance().push(new MainMenuView(ViewManager.getInstance()));
     }
 }

@@ -134,4 +134,8 @@ public class GameClient {
             ; // Runs forever in order to receive server msg
     }
 
+    public void leaveGame() {
+        client.close();
+        connectToServer();
+    }
 }
