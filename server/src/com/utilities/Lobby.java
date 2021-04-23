@@ -70,7 +70,7 @@ public class Lobby {
 
     private void handleGameOver() {
         // TODO: Validate
-        for (Connection client : clientsMap) {
+        for (Connection client : clientsMap.keySet()) {
             client.sendTCP(new GameOverMessage());
         }
     }
