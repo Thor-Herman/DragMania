@@ -9,11 +9,15 @@ import com.utilities.messages.Message;
 import com.utilities.messages.ReadyMessage;
 import com.utilities.messages.Score;
 import com.utilities.messages.SomeResponse;
+import com.utilities.messages.LeaveLobbyRequest;
 
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 import java.util.Collection;
+import java.util.Comparator;
 
 public class Lobby {
 
@@ -66,6 +70,9 @@ public class Lobby {
             readyUp(connection);
         else if (message instanceof GameOverMessage)
             handleGameOver();
+        else if (message instanceof LeaveLobbyRequest) {
+            handleLeaveLobbyRequest(connection);
+        }
     }
 
     private void handleGameOver() {
@@ -73,9 +80,9 @@ public class Lobby {
         for (Connection client : clientsMap.keySet()) {
             GameOverMessage gameOverMessage = new GameOverMessage();
             gameOverMessage.won = false;
-            if (clientsMap.get(client) > generator.getMapLength()) {
-                gameOverMessage.won = true;
-            }
+            float max = clientsMap.values().stream().max(Comparator.naturalOrder()).get();
+            List<Connection> winner = clientsMap.entrySet().stream().filter(e -> e.getValue() == max)
+                    .map(Map.Entry::getKey).collect(Collectors.toList());
             client.sendTCP(gameOverMessage);
             System.out.println("Game Over!!!");
         }
@@ -129,6 +136,14 @@ public class Lobby {
                 connection.sendUDP(score);
             }
         }
+    }
+
+    private void handleLeaveLobbyRequest(Connection connection) {
+        LobbyResponse response = new LobbyResponse();
+        response.text = "SuccessfullyLeft";
+        connection.sendTCP(response);
+        removeConnection(connection);
+        System.out.println("Player requested leave");
     }
 
     public boolean contains(Connection connection) {
