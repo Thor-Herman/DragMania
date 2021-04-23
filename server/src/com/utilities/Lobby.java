@@ -71,7 +71,13 @@ public class Lobby {
     private void handleGameOver() {
         // TODO: Validate
         for (Connection client : clientsMap.keySet()) {
-            client.sendTCP(new GameOverMessage());
+            GameOverMessage gameOverMessage = new GameOverMessage();
+            gameOverMessage.won = false;
+            if (clientsMap.get(client) > generator.getMapLength()) {
+                gameOverMessage.won = true;
+            }
+            client.sendTCP(gameOverMessage);
+            System.out.println("Game Over!!!");
         }
     }
 
@@ -81,13 +87,15 @@ public class Lobby {
         connection.sendTCP(response);
         if (!readyPlayers.contains(connection))
             readyPlayers.add(connection);
-        if (readyPlayers.size() == LOBBY_PLAYER_CRITERIUM)
+        if (readyPlayers.size() == LOBBY_PLAYER_CRITERIUM) {
             sendGameMap();
-        System.out.println(readyPlayers.size());
+            System.out.println("Sent game map");
+        }
+        System.out.println("No. of players ready" + readyPlayers.size());
     }
 
     private void sendGameMap() {
-        GameMapMessage map = generator.generateMap(2000);
+        GameMapMessage map = generator.generateMap(200);
         for (Connection client : clientsMap.keySet()) {
             client.sendTCP(map);
         }
