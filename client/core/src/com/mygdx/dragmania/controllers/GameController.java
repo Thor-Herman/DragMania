@@ -63,7 +63,6 @@ public class GameController {
         boolean hasCrossedFinishedLine = model.getCar().getPosition().y > model.getGameMap().getMapLength();
         if (hasCrossedFinishedLine) {
             client.sendGameOver();
-            gameOver();
         }
         model.update(dt, isTouching);
         timePassedSinceScoreSent += dt;
@@ -79,13 +78,16 @@ public class GameController {
     }
 
     public void gameOver() {
-        ViewManager.getInstance().push(new GameFinishedView(ViewManager.getInstance()));
-        reset();
-    }
-
-    private void reset() {
+        ViewManager viewManager = ViewManager.getInstance();
+        Gdx.app.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+                viewManager.push(new GameFinishedView(viewManager));
+            }
+        });
         model = null;
     }
+
 
     public void disconnected() {
         model = null;
