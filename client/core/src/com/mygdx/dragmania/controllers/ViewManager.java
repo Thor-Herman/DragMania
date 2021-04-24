@@ -9,9 +9,8 @@ public class ViewManager {
     private Stack<View> views;
     private static ViewManager instance;
 
-    public ViewManager() {
+    private ViewManager() {
         views = new Stack<View>();
-
     }
 
     public void push(View view) {
@@ -27,12 +26,13 @@ public class ViewManager {
         views.pop().dispose();
     }
 
-    public void render(float dt){
+    public void render(float dt) {
         views.peek().render(dt);
-    }    
+    }
 
     public static ViewManager getInstance() {
-        if (instance == null) instance = new ViewManager();
+        if (instance == null)
+            instance = new ViewManager();
         return instance;
     }
 }

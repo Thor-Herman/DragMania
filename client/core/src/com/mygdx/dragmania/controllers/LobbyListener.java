@@ -7,7 +7,7 @@ import com.utilities.messages.LobbyResponse;
 
 public class LobbyListener extends Listener {
 
-    LobbyController controller = LobbyController.getInstance();
+    private LobbyController controller = LobbyController.getInstance();
 
     public void connected(Connection connection) {
         controller.connected();
@@ -21,10 +21,14 @@ public class LobbyListener extends Listener {
         if (object instanceof LobbyResponse) {
             LobbyResponse response = (LobbyResponse) object;
             System.out.println(response.text);
-            if (response.text.equals("Created")) controller.joinSuccess(response.roomCode, null);
-            else if (response.text.equals("PlayerJoined")) controller.playerJoinedLobby(response.username); // controller.joinSuccess(response.roomCode);
-            else if (response.text.equals("Success")) controller.joinSuccess(response.roomCode, response.usernames);
-            else if (response.text.equals("PlayerLeft") || response.text.equals("SuccessfullyLeft")) controller.resetModel();
+            if (response.text.equals("Created"))
+                controller.joinSuccess(response.roomCode, null);
+            else if (response.text.equals("PlayerJoined"))
+                controller.playerJoinedLobby(response.username); // controller.joinSuccess(response.roomCode);
+            else if (response.text.equals("Success"))
+                controller.joinSuccess(response.roomCode, response.usernames);
+            else if (response.text.equals("PlayerLeft") || response.text.equals("SuccessfullyLeft"))
+                controller.resetModel();
         }
         if (object instanceof ErrorResponse) {
             ErrorResponse response = (ErrorResponse) object;
