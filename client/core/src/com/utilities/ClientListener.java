@@ -7,7 +7,7 @@ import com.utilities.messages.LobbyResponse;
 
 public class ClientListener extends Listener {
 
-    GameClient client = GameClient.getInstance();
+    private GameClient client = GameClient.getInstance();
 
     public void received(Connection connection, Object object) {
         if (object instanceof LobbyResponse) {
