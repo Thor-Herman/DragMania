@@ -3,6 +3,7 @@ package com.mygdx.dragmania.views;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.mygdx.dragmania.views.buttons.MainMenuButton;
@@ -14,6 +15,11 @@ public class GameFinishedView extends View{
     private BitmapFont font;
     private RematchButton rematchButton;
     private MainMenuButton mainMenuButton;
+    private float screenWidth;
+    private float screenHeight;
+
+    private static GlyphLayout glyphLayout = new GlyphLayout();
+    private String gameStatus;
 
     protected GameFinishedView(ViewManager viewManager) {
         super(viewManager);
@@ -26,6 +32,9 @@ public class GameFinishedView extends View{
         generator.dispose();
         rematchButton = new RematchButton(200, 500);
         mainMenuButton = new MainMenuButton(200, 800);
+        screenWidth = Gdx.graphics.getWidth();
+        screenHeight = Gdx.graphics.getHeight();
+        gameStatus = "Game Won!";
     }
 
     @Override
@@ -49,9 +58,10 @@ public class GameFinishedView extends View{
         SpriteBatch sb = new SpriteBatch();
         sb.begin();
         sb.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        font.draw(sb, "Game Won!", 250, 1750);
-        sb.draw(rematchButton.getButton(), rematchButton.getPosition().x, rematchButton.getPosition().y, rematchButton.getWidth(), rematchButton.getHeight());
-        sb.draw(mainMenuButton.getButton(), mainMenuButton.getPosition().x, mainMenuButton.getPosition().y, mainMenuButton.getWidth(), mainMenuButton.getHeight());
+        glyphLayout.setText(font, gameStatus);
+        font.draw(sb, glyphLayout, screenWidth/2-(glyphLayout.width/2), (float) (screenHeight*0.8));
+        sb.draw(rematchButton.getButton(), screenWidth/2-(rematchButton.getWidth()/2), rematchButton.getPosition().y, rematchButton.getWidth(), rematchButton.getHeight());
+        sb.draw(mainMenuButton.getButton(), screenWidth/2-(rematchButton.getWidth()/2), mainMenuButton.getPosition().y, mainMenuButton.getWidth(), mainMenuButton.getHeight());
         sb.end();
     }
 

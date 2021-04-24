@@ -13,12 +13,14 @@ public class CreateGameView extends View {
     private GetPinButton getPinButton;
     private Texture background;
     private BitmapFont font;
+    private BitmapFont font2;
     private String pin;
 
     private float screenWidth;
     private float screenHeight;
 
-    private static GlyphLayout glyphLayout = new GlyphLayout();
+    private static GlyphLayout glyphLayout1 = new GlyphLayout();
+    private static GlyphLayout glyphLayout2 = new GlyphLayout();
 
     public CreateGameView(ViewManager viewManager) {
         super(viewManager);
@@ -32,7 +34,9 @@ public class CreateGameView extends View {
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 200;
         font = generator.generateFont(parameter);
-        //generator.dispose();
+        parameter.size = 50;
+        font2 = generator.generateFont(parameter);
+        generator.dispose();
         pin = "";
     }
 
@@ -60,8 +64,10 @@ public class CreateGameView extends View {
         sb.draw(backArrow.getBackArrow(), backArrow.getPosition().x, backArrow.getPosition().y, backArrow.getWidth()/3, backArrow.getHeight()/3);
         sb.draw(getPinButton.getButton(), screenWidth/2-(getPinButton.getWidth()/2), getPinButton.getPosition().y, getPinButton.getWidth(), getPinButton.getHeight());
         if(pin != "") {
-            glyphLayout.setText(font, pin);
-            font.draw(sb, glyphLayout, screenWidth/2-(glyphLayout.width/2), (float) (screenHeight*0.7));
+            glyphLayout1.setText(font, pin);
+            font.draw(sb, glyphLayout1, screenWidth/2-(glyphLayout1.width/2), (float) (screenHeight*0.7));
+            glyphLayout2.setText(font2, "Send this pin to your buddy and wait here");
+            font2.draw(sb, glyphLayout2, screenWidth/2-(glyphLayout2.width/2), (float) (screenHeight*0.6));
         }
         sb.end();
     }
