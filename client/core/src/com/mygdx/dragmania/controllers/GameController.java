@@ -7,16 +7,20 @@ import java.util.stream.Collectors;
 
 import com.badlogic.gdx.Gdx;
 import com.mygdx.dragmania.models.GameModel;
+import com.mygdx.dragmania.views.GameFinishedView;
+import com.mygdx.dragmania.views.GameView;
+import com.mygdx.dragmania.views.MainMenuView;
 import com.utilities.GameClient;
 import com.utilities.messages.GameMapMessage;
 
-public class GameController extends Controller {
+public class GameController {
 
     private static GameController instance;
     private GameClient client;
     private GameModel model;
     private static final float SCORE_SEND_FREQUENCY = 0.250f;
     private float timePassedSinceScoreSent = 0;
+    private boolean isSendingGameOver = false;
 
     private GameController() {
         this.client = GameClient.getInstance();
@@ -45,19 +49,23 @@ public class GameController extends Controller {
         Gdx.app.postRunnable(new Runnable() {
             @Override
             public void run() {
-                model = new GameModel(username, crossingPlacements, policeManTurnTimes, policeManFakeTurnTimes, 2000); // TODO: Change map size
+                if (model == null) model = new GameModel(username, crossingPlacements, policeManTurnTimes, policeManFakeTurnTimes, map.getMapLength()); // TODO: Change map size
+                else model.newGame(crossingPlacements, policeManTurnTimes, policeManFakeTurnTimes, map.getMapLength());
+                ViewManager viewManager = ViewManager.getInstance();
+                viewManager.push(new GameView(viewManager));
             }
         });
     }
 
     public void update(float dt, boolean isTouching) {
-        if (model == null) {
-            System.out.println("Empty"); return;}
-        if (model.getIsGameOver())
-            return; // TODO: Change
-        else if (model.getCar().getPosition().y > model.getGameMap().getMapLength()) // TODO: Is this the right place for this?
+        if (model == null || model.getIsGameOver()) {
+            return;
+        }
+        boolean hasCrossedFinishedLine = model.getCar().getPosition().y > model.getGameMap().getMapLength();
+        if (hasCrossedFinishedLine && !isSendingGameOver) {
+            isSendingGameOver = true;
             client.sendGameOver();
-        System.out.println(dt);
+        }
         model.update(dt, isTouching);
         timePassedSinceScoreSent += dt;
         if (timePassedSinceScoreSent >= SCORE_SEND_FREQUENCY) {
@@ -71,43 +79,30 @@ public class GameController extends Controller {
         System.out.println("Score: " + opponentScore);
     }
 
-    public void disconnected() {
-        model = null;
-        LobbyController.getInstance().disconnected();
-        back();
-        // TODO: Remove listener from client
-    }
-
-    public static void main(String[] args) throws InterruptedException {
-        LobbyController lobbyController = LobbyController.getInstance();
-        lobbyController.connectToServer();
-        lobbyController.createGame("TH");
-        Thread.sleep(8000);
-        GameController gameController = GameController.getInstance();
-
-        new Thread() {
+    public void gameOver(boolean won) {
+        ViewManager viewManager = ViewManager.getInstance();
+        Gdx.app.postRunnable(new Runnable() {
+            @Override
             public void run() {
-                long now;
-                long updateTime;
-                long wait;
-
-                final int TARGET_FPS = 60;
-                final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
-
-                while (true) {
-                    now = System.nanoTime();
-                    updateTime = System.nanoTime() - now;
-                    wait = (OPTIMAL_TIME - updateTime) / 1000000;
-                    gameController.update(wait, true);
-
-                    try {
-                        Thread.sleep(wait);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
+                viewManager.push(new GameFinishedView(viewManager, model));
             }
-        }.start();
+        });
+        model.gameIsUp(won);
+        isSendingGameOver = false;
     }
 
+    public GameModel getModel() {
+        return this.model;
+    }
+
+    public void leaveGame() {
+        ViewManager viewManager = ViewManager.getInstance();
+        Gdx.app.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+                client.leaveGame();
+                viewManager.push(new MainMenuView(viewManager));
+            }
+        });
+    }
 }

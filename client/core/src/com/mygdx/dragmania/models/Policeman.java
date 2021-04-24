@@ -34,7 +34,6 @@ public class Policeman {
     public static final int yPos = 800;
 
     private int carPosition;
-    private static final int ROUNDING_CORRECTION = 100;
 
     public Policeman(ArrayList<Integer> policemanTurnPositions, ArrayList<Integer> policemanFakeTurnPositions, Car car) {
 
@@ -58,7 +57,7 @@ public class Policeman {
     }
 
     public void update(float dt) {
-        carPosition = (int) car.getPosition().y/ROUNDING_CORRECTION;
+        carPosition = (int) car.getPosition().y;
         checkIfPolicemanShouldTurn();
         checkIfPolicemanShouldFakeTurn();
         checkIfAllowedToDrive();

@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.mygdx.dragmania.controllers.LobbyController;
+import com.mygdx.dragmania.controllers.ViewManager;
 import com.mygdx.dragmania.views.buttons.GetPinButton;
 
 public class CreateGameView extends View {
@@ -15,6 +17,7 @@ public class CreateGameView extends View {
     private BitmapFont font;
     private BitmapFont font2;
     private String pin;
+    private LobbyController controller = LobbyController.getInstance();
 
     private float screenWidth;
     private float screenHeight;
@@ -63,7 +66,9 @@ public class CreateGameView extends View {
         sb.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         sb.draw(backArrow.getBackArrow(), backArrow.getPosition().x, backArrow.getPosition().y, backArrow.getWidth()/3, backArrow.getHeight()/3);
         sb.draw(getPinButton.getButton(), screenWidth/2-(getPinButton.getWidth()/2), getPinButton.getPosition().y, getPinButton.getWidth(), getPinButton.getHeight());
-        if(pin != "") {
+        pin = Integer.toString(LobbyController.getInstance().getModel().getRoomCode());
+        System.out.println(pin);
+        if(pin.length() == 4) {
             glyphLayout1.setText(font, pin);
             font.draw(sb, glyphLayout1, screenWidth/2-(glyphLayout1.width/2), (float) (screenHeight*0.7));
             glyphLayout2.setText(font2, "Send this pin to your buddy and wait here");
@@ -72,10 +77,19 @@ public class CreateGameView extends View {
         sb.end();
     }
 
+    @Override
+    public void checkBackTouched(BackArrow backArrow) {
+        if(backArrow.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
+            controller.resetModel();
+            viewManager.pop();
+        }
+    }
+
     public void checkGetPinTouched() {
         if(getPinButton.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
+            LobbyController.getInstance().resetModel();
+            LobbyController.getInstance().createGame("test");
             // Get from controller
-            pin = "0000";
         }
     }
 }

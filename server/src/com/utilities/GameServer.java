@@ -10,7 +10,6 @@ public class GameServer {
     private static Server server;
     private int tcpPort, udpPort;
     private static GameServer instance = new GameServer();
-
     public static GameServer getInstance() {
         return instance;
     }
@@ -40,6 +39,7 @@ public class GameServer {
         kryo.register(JoinLobbyRequest.class);
         kryo.register(ReadyMessage.class);
         kryo.register(GameOverMessage.class);
+        kryo.register(LeaveLobbyRequest.class);
     }
 
     private void startServer() {

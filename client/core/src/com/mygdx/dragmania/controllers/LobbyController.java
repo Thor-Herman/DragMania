@@ -1,15 +1,13 @@
 package com.mygdx.dragmania.controllers;
 
-import com.mygdx.dragmania.models.GameModel;
 import com.mygdx.dragmania.models.LobbyModel;
 import com.utilities.GameClient;
 
-public class LobbyController extends Controller {
+public class LobbyController {
 
     private static LobbyController instance;
     private GameClient client;
     private LobbyModel model;
-    private MetaController metaController;
 
     public static LobbyController getInstance() {
         if (instance == null)
@@ -20,7 +18,6 @@ public class LobbyController extends Controller {
     private LobbyController() {
         model = new LobbyModel(-1, false);
         client = GameClient.getInstance();
-        metaController = MetaController.getInstance();
     }
 
     public void connectToServer() {
@@ -32,8 +29,8 @@ public class LobbyController extends Controller {
         System.out.println(model);
     }
 
-    public void disconnected() {
-        model.setIsConnected(false);
+    public void resetModel() {
+        model.reset();
         System.out.println(model);
     }
 
@@ -71,20 +68,18 @@ public class LobbyController extends Controller {
     public void playerJoinedLobby(String username) {
         model.playerJoinedLobby(username);
         if (areThereEnoughPlayers()) {
-            metaController.push(GameController.getInstance());
             client.readyUp();
-            System.out.println("HI");
             // TODO: Remove lobbyListener from client
             // TODO: Add gameListener to client
         }
     }
 
-    private boolean areThereEnoughPlayers() {
-        return model.MAX_PLAYER_COUNT == model.getCurrentConnectedCount();
+    public LobbyModel getModel() {
+        return model;
     }
 
-    public void playerLeftLobby(String username) {
-        model.playerLeftLobby(username);
+    private boolean areThereEnoughPlayers() {
+        return LobbyModel.MAX_PLAYER_COUNT == model.getCurrentConnectedCount();
     }
 
 }

@@ -16,7 +16,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ReceiveHandler extends Listener {
 
-    public Map<Integer, Lobby> lobbies = new HashMap<>();
+    private Map<Integer, Lobby> lobbies = new HashMap<>();
 
     public void connected(Connection connection) {
         System.out.println("Connection: " + connection.toString());
@@ -47,7 +47,6 @@ public class ReceiveHandler extends Listener {
     private void handleMessage(Connection connection, Message message) {
         if (!lobbies.containsKey(message.roomCode)) {
             sendErrorMessage(connection, "No such room code exists");
-            connection.close();
         } else {
             lobbies.get(message.roomCode).received(connection, message);
         }
@@ -71,6 +70,7 @@ public class ReceiveHandler extends Listener {
         LobbyResponse response = new LobbyResponse();
         response.roomCode = roomCode;
         response.text = "Created";
+        System.out.println("Response: " + response.roomCode);
         connection.sendTCP(response);
     }
 
@@ -78,7 +78,7 @@ public class ReceiveHandler extends Listener {
         ThreadLocalRandom random = ThreadLocalRandom.current();
         int roomCode;
         do {
-            roomCode = random.nextInt(0, 9999);
+            roomCode = random.nextInt(1000, 9999);
         } while (lobbies.containsKey(roomCode));
         return roomCode;
     }

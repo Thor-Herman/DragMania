@@ -3,6 +3,7 @@ package com.mygdx.dragmania.views;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.dragmania.controllers.ViewManager;
 import com.mygdx.dragmania.views.buttons.CreateGameButton;
 import com.mygdx.dragmania.views.buttons.HelpButton;
 import com.mygdx.dragmania.views.buttons.JoinGameButton;

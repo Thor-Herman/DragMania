@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.mygdx.dragmania.controllers.GameController;
+import com.mygdx.dragmania.controllers.ViewManager;
 import com.mygdx.dragmania.models.GameModel;
 
 import java.util.ArrayList;
@@ -20,17 +22,17 @@ public class GameView extends View{
     private Texture policeMan;
     private GameModel gameModel;
     private Texture stopSign;
+    private GameController controller;
 
     private ArrayList<Integer> crossing;
     private ArrayList<Integer> policeturn;
     private ArrayList<Integer> policefake;
 
-    private int[] midLineYPositions;
-    private int finishLineYPos;
+    private float[] midLineYPositions;
+    private float finishLineYPos;
     private int finishLineOffset;
 
     private int carPosition;
-    private static final int ROUNDING_CORRECTION = 100;
 
     private BitmapFont font;
 
@@ -46,13 +48,16 @@ public class GameView extends View{
     private static GlyphLayout glyphLayout3 = new GlyphLayout();
     private static GlyphLayout glyphLayout4 = new GlyphLayout();
 
-    protected GameView(ViewManager viewManager) {
+    public GameView(ViewManager viewManager) {
         super(viewManager);
         stopSign = new Texture("stop.png");
+        controller = GameController.getInstance();
+        gameModel = controller.getModel();
+
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
 
-        // Only for testing purposes
+        /*// Only for testing purposes
         crossing = new ArrayList<>();
         crossing.add(1);
         policeturn = new ArrayList<>();
@@ -63,7 +68,7 @@ public class GameView extends View{
         //policefake.add(50);
         //policefake.add(250);
 
-        gameModel = new GameModel("player", crossing, policeturn, policefake, 1000);
+        gameModel = new GameModel("player", crossing, policeturn, policefake, 1000);*/
 
         // Generating font
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("GovtAgentBB.ttf"));
@@ -73,7 +78,7 @@ public class GameView extends View{
         generator.dispose();
 
         // Setting midline positions initially
-        midLineYPositions = new int[5];
+        midLineYPositions = new float[5];
         midLineYPositions[0] = 1800;
         midLineYPositions[1] = 1400;
         midLineYPositions[2] = 1000;
@@ -99,14 +104,13 @@ public class GameView extends View{
         // Update other classes depending on wheter the player is touching and check if backarrow is touched
         if(Gdx.input.isTouched()) {
             checkBackTouched(backArrow);
-            gameModel.update(dt, true);
+            controller.update(dt, true);
         }
         else {
-            gameModel.getCar().update(dt, false);
-            gameModel.update(dt, false);
+            controller.update(dt, false);
         }
 
-        carPosition = (int)gameModel.getCar().getPosition().y/ROUNDING_CORRECTION;
+        carPosition = (int)gameModel.getCar().getPosition().y;
 
         // Set finish line position if the player has come far enough
         // if(car.getPosition().y >= gameMap.getMapLength()-screenHeight)
@@ -116,7 +120,7 @@ public class GameView extends View{
         }
         // Finish game if player crosses the finishline
         if(carPosition > gameModel.getGameMap().getMapLength()) {
-            viewManager.push(new GameFinishedView(viewManager));
+            viewManager.push(new GameFinishedView(viewManager, gameModel));
         }
     }
 
@@ -143,6 +147,12 @@ public class GameView extends View{
         sb.end();
     }
 
+    @Override
+    public void checkBackTouched(BackArrow backArrow) {
+        if(backArrow.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY()))
+            controller.leaveGame();
+    }
+
     public void renderMidLines(ShapeRenderer sr){
         drawMidLine(sr, midLineYPositions[0]);
         drawMidLine(sr, midLineYPositions[1]);
@@ -157,7 +167,7 @@ public class GameView extends View{
         sr.rect(0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
-    public void drawMidLine(ShapeRenderer sr, int yPos) {
+    public void drawMidLine(ShapeRenderer sr, float yPos) {
         int lineWidth = 20;
         int lineHeight = 200;
         sr.setColor(Color.YELLOW);
@@ -165,7 +175,7 @@ public class GameView extends View{
     }
 
     // Move midlines according to the car velocity
-    public void moveMidlines(int offset) {
+    public void moveMidlines(float offset) {
         if(offset > 0) {
             for(int i = 0; i < 5; i++) {
                 midLineYPositions[i] = midLineYPositions[i] - offset;
@@ -182,7 +192,7 @@ public class GameView extends View{
     }
 
     // Only move finish line if player has come far enough
-    public void moveFinishLine(int offset) {
+    public void moveFinishLine(float offset) {
         if(finishLineYPos > -400) {
             if (scaleConstant > 0.99 && scaleConstant < 1.01) {
                 finishLineYPos -= offset;

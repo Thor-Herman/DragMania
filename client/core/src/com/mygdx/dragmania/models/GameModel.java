@@ -15,7 +15,11 @@ public class GameModel {
     
     public GameModel(String username, ArrayList<Integer> crossingPlacements, ArrayList<Integer> policeManTurnTimes, ArrayList<Integer> policeManFakeTurnTimes, int mapLength) {
         player = new Player(username);
-        car = CarFactory.makeCar(CarType.NORMAL); // TODO: Pass CarType in dynamically
+        newGame(crossingPlacements, policeManTurnTimes, policeManFakeTurnTimes, mapLength);
+    }
+
+    public void newGame(ArrayList<Integer> crossingPlacements, ArrayList<Integer> policeManTurnTimes, ArrayList<Integer> policeManFakeTurnTimes, int mapLength) {
+        car = CarFactory.makeCar(CarType.NORMAL);
         gameMap = new GameMap(crossingPlacements, policeManTurnTimes, policeManFakeTurnTimes, mapLength, car);
         opponentScore = 0;
         isGameOver = false;

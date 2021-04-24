@@ -2,6 +2,8 @@ package com.utilities;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
@@ -18,7 +20,9 @@ public class GameClient {
     private Client client;
     private int tcpPort, udpPort;
     private String ipAddress;
+    private int roomCode;
     private static GameClient instance;
+    private boolean isReconnecting = false;
 
     private GameClient() {
         this.client = new Client();
@@ -37,17 +41,19 @@ public class GameClient {
         registerClasses();
         Log.set(Log.LEVEL_DEBUG);
         setupListeners();
+        client.start();
         connectToServer();
     }
 
     public void sendScore(float score) {
         Score scoreMessage = new Score();
-        scoreMessage.roomCode = 1;
+        scoreMessage.roomCode = roomCode;
         scoreMessage.score = score;
         client.sendTCP(scoreMessage);
     }
 
     public void joinGame(String username, int roomCode) {
+        this.roomCode = roomCode;
         JoinLobbyRequest request = new JoinLobbyRequest();
         request.username = username;
         request.roomCode = roomCode;
@@ -62,17 +68,30 @@ public class GameClient {
 
     public void readyUp() {
         ReadyMessage ready = new ReadyMessage();
-        ready.roomCode = 1; // Todo: add room code;
+        ready.roomCode = roomCode;
         client.sendTCP(ready);
     }
 
     private void connectToServer() {
-        client.start();
         try {
             client.connect(5000, ipAddress, tcpPort, udpPort);
         } catch (IOException e) {
             client.close();
-            System.out.println("Something went wrong setting up the client: " + e.toString());
+            System.out.println("Something went wrong when connecting: " + e.toString());
+            attemptReconnect();
+        }
+    }
+
+    public void attemptReconnect() {
+        if (! isReconnecting) {
+            isReconnecting = true;
+            new Timer().scheduleAtFixedRate(new TimerTask(){
+                @Override
+                public void run(){
+                    if (client.isConnected()) this.cancel();
+                    connectToServer();
+                }
+            },0,5000);
         }
     }
 
@@ -89,35 +108,29 @@ public class GameClient {
         kryo.register(JoinLobbyRequest.class);
         kryo.register(ReadyMessage.class);
         kryo.register(GameOverMessage.class);
+        kryo.register(LeaveLobbyRequest.class);
     }
 
     private void setupListeners() {
-        client.addListener(new Listener() {
-            public void received(Connection connection, Object object) {
-                if (object instanceof SomeResponse) {
-                    SomeResponse response = (SomeResponse) object;
-                    System.out.println(response.text);
-                }
-                if (object instanceof ErrorResponse) {
-                    ErrorResponse response = (ErrorResponse) object;
-                    System.out.println(response.text);
-                }
-            }
-        });
+        client.addListener(new ClientListener());
         client.addListener(new LobbyListener());
         client.addListener(new GameListener()); // TODO: Only add when inside a game?
     }
 
     public void sendGameOver() {
-        client.sendTCP(new GameOverMessage());
+        GameOverMessage message = new GameOverMessage();
+        message.roomCode = roomCode;
+        client.sendTCP(message);
     }
 
-    public static void main(String[] args) {
-        LobbyController controller = LobbyController.getInstance();
-        controller.connectToServer();
-        controller.createGame("TH");
-        while (true)
-            ; // Runs forever in order to receive server msg
+    public void leaveGame() {
+        LeaveLobbyRequest request = new LeaveLobbyRequest();
+        request.roomCode = roomCode;
+        client.sendTCP(request);
+        roomCode = -1;
     }
 
+    public void setRoomCode(int roomCode) {
+        this.roomCode = roomCode;
+    }
 }
