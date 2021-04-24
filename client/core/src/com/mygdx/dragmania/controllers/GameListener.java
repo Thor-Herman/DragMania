@@ -43,6 +43,7 @@ public class GameListener extends Listener {
     private void setGameMap(Object object) {
         GameMapMessage map = (GameMapMessage) object;
         controller.receiveGameMap(map);
+        System.out.println(map.getMapLength());
     }
 
     public void disconnected(Connection connection) {

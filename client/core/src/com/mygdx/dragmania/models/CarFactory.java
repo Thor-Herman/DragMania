@@ -10,8 +10,8 @@ import java.util.Map;
 public class CarFactory {
 
     private static final Map<CarType, String> TEXTURES;
-    private static final Map<CarType, Integer> ACCELERATIONS;
-    private static final Map<CarType, Integer> MAXVELOCITIES;
+    private static final Map<CarType, Float> ACCELERATIONS;
+    private static final Map<CarType, Float> MAXVELOCITIES;
 
     static {
         // Initialize TEXTURES
@@ -22,25 +22,25 @@ public class CarFactory {
         TEXTURES = Collections.unmodifiableMap(tmpTextures);
 
         // Initialize ACCELERATIONS
-        Map<CarType, Integer> tmpAccelerations = new EnumMap<>(CarType.class);
-        tmpAccelerations.put(CarType.NORMAL, 50);
-        tmpAccelerations.put(CarType.TRUCK, 1);
-        tmpAccelerations.put(CarType.MOTORCYCLE, 1);
+        Map<CarType, Float> tmpAccelerations = new EnumMap<>(CarType.class);
+        tmpAccelerations.put(CarType.NORMAL, 0.75f);
+        tmpAccelerations.put(CarType.TRUCK, 1f);
+        tmpAccelerations.put(CarType.MOTORCYCLE, 1f);
         ACCELERATIONS = Collections.unmodifiableMap(tmpAccelerations);
 
         // Initialize MAXVELOCITIES
-        Map<CarType, Integer> tmpMaxVelocities = new EnumMap<>(CarType.class);
-        tmpMaxVelocities.put(CarType.NORMAL, 200);
-        tmpMaxVelocities.put(CarType.TRUCK, 3);
-        tmpMaxVelocities.put(CarType.MOTORCYCLE, 3);
+        Map<CarType, Float> tmpMaxVelocities = new EnumMap<>(CarType.class);
+        tmpMaxVelocities.put(CarType.NORMAL, 200f);
+        tmpMaxVelocities.put(CarType.TRUCK, 3f);
+        tmpMaxVelocities.put(CarType.MOTORCYCLE, 3f);
         MAXVELOCITIES = Collections.unmodifiableMap(tmpMaxVelocities);
     }
 
     private CarFactory() {}
 
     public static Car makeCar(CarType type) {
-        int acceleration = ACCELERATIONS.get(type);
-        int maxVelocity = MAXVELOCITIES.get(type);
+        float acceleration = ACCELERATIONS.get(type);
+        float maxVelocity = MAXVELOCITIES.get(type);
 
         try {
             Texture texture = new Texture(TEXTURES.get(type));

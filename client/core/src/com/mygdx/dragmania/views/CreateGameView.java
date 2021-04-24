@@ -67,7 +67,8 @@ public class CreateGameView extends View {
         sb.draw(backArrow.getBackArrow(), backArrow.getPosition().x, backArrow.getPosition().y, backArrow.getWidth()/3, backArrow.getHeight()/3);
         sb.draw(getPinButton.getButton(), screenWidth/2-(getPinButton.getWidth()/2), getPinButton.getPosition().y, getPinButton.getWidth(), getPinButton.getHeight());
         pin = Integer.toString(LobbyController.getInstance().getModel().getRoomCode());
-        if(pin != "") {
+        System.out.println(pin);
+        if(pin.length() == 4) {
             glyphLayout1.setText(font, pin);
             font.draw(sb, glyphLayout1, screenWidth/2-(glyphLayout1.width/2), (float) (screenHeight*0.7));
             glyphLayout2.setText(font2, "Send this pin to your buddy and wait here");

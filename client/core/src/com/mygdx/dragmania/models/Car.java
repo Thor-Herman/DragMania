@@ -9,19 +9,18 @@ public class Car extends Collidable {
 	
     private static Vector2 startPosition = new Vector2(0, 0); // TODO: Adjust this later
 
-    private int acceleration;
-    private int velocity = 0;
-    private int maxVelocity;
+    private float acceleration;
+    private float velocity = 0;
+    private float maxVelocity;
     private boolean allowedToDrive = true;
-    private final static int ROUNDING_CORRECTION = 100;
-    
-    public Car(Texture texture, int acceleration, int maxVelocity) {
+
+    public Car(Texture texture, float acceleration, float maxVelocity) {
         super(startPosition, texture);
         this.maxVelocity = maxVelocity;
         this.acceleration = acceleration;
     }
 
-    public Car(float width, float height, int acceleration, int maxVelocity) {
+    public Car(float width, float height, float acceleration, float maxVelocity) {
         super(startPosition, width, height);
         this.maxVelocity = maxVelocity;
         this.acceleration = acceleration;
@@ -33,24 +32,26 @@ public class Car extends Collidable {
         if (forward && velocity < maxVelocity && allowedToDrive) {
             velocity += acceleration;
         } else if (!forward && velocity > 0) {
-            velocity--; // TODO: Maybe tweak this
+            velocity -= acceleration * 2; // TODO: Maybe tweak this
         }
     }
     
     public void update(float dt, boolean isTouching) {
+        System.out.println("VEL" + velocity);
+        System.out.println("ACC" + acceleration);
         accelerate(isTouching);
-        reposition(new Vector2(0, getPosition().y + ROUNDING_CORRECTION*(this.velocity*dt)));
+        reposition(new Vector2(0, getPosition().y + (this.velocity*dt)));
     }
     
-    public int getAcceleration() {
+    public float getAcceleration() {
         return this.acceleration;
     }
     
-    public int getVelocity() {
+    public float getVelocity() {
         return this.velocity;
     }
 
-    public int getMaxVelocity() {
+    public float getMaxVelocity() {
         return this.maxVelocity;
     }
 

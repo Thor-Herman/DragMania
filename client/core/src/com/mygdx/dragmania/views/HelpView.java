@@ -1,12 +1,13 @@
 package com.mygdx.dragmania.views;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.dragmania.DragMania;
 import com.mygdx.dragmania.views.buttons.NextButton;
+import com.mygdx.dragmania.controllers.ViewManager;
 
 import java.util.ArrayList;
-import com.mygdx.dragmania.controllers.ViewManager;
 
 public class HelpView extends View {
 

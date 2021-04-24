@@ -28,12 +28,11 @@ public class GameView extends View{
     private ArrayList<Integer> policeturn;
     private ArrayList<Integer> policefake;
 
-    private int[] midLineYPositions;
-    private int finishLineYPos;
+    private float[] midLineYPositions;
+    private float finishLineYPos;
     private int finishLineOffset;
 
     private int carPosition;
-    private static final int ROUNDING_CORRECTION = 100;
 
     private BitmapFont font;
 
@@ -49,10 +48,9 @@ public class GameView extends View{
     private static GlyphLayout glyphLayout3 = new GlyphLayout();
     private static GlyphLayout glyphLayout4 = new GlyphLayout();
 
-    protected GameView(ViewManager viewManager) {
+    public GameView(ViewManager viewManager) {
         super(viewManager);
         stopSign = new Texture("stop.png");
-        car = new Texture("car_red2.png");
         controller = GameController.getInstance();
         gameModel = controller.getModel();
 
@@ -80,7 +78,7 @@ public class GameView extends View{
         generator.dispose();
 
         // Setting midline positions initially
-        midLineYPositions = new int[5];
+        midLineYPositions = new float[5];
         midLineYPositions[0] = 1800;
         midLineYPositions[1] = 1400;
         midLineYPositions[2] = 1000;
@@ -112,7 +110,7 @@ public class GameView extends View{
             controller.update(dt, false);
         }
 
-        carPosition = (int)gameModel.getCar().getPosition().y/ROUNDING_CORRECTION;
+        carPosition = (int)gameModel.getCar().getPosition().y;
 
         // Set finish line position if the player has come far enough
         // if(car.getPosition().y >= gameMap.getMapLength()-screenHeight)
@@ -122,7 +120,7 @@ public class GameView extends View{
         }
         // Finish game if player crosses the finishline
         if(carPosition > gameModel.getGameMap().getMapLength()) {
-            viewManager.push(new GameFinishedView(viewManager));
+            viewManager.push(new GameFinishedView(viewManager, gameModel));
         }
     }
 
@@ -169,7 +167,7 @@ public class GameView extends View{
         sr.rect(0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
-    public void drawMidLine(ShapeRenderer sr, int yPos) {
+    public void drawMidLine(ShapeRenderer sr, float yPos) {
         int lineWidth = 20;
         int lineHeight = 200;
         sr.setColor(Color.YELLOW);
@@ -177,7 +175,7 @@ public class GameView extends View{
     }
 
     // Move midlines according to the car velocity
-    public void moveMidlines(int offset) {
+    public void moveMidlines(float offset) {
         if(offset > 0) {
             for(int i = 0; i < 5; i++) {
                 midLineYPositions[i] = midLineYPositions[i] - offset;
@@ -194,7 +192,7 @@ public class GameView extends View{
     }
 
     // Only move finish line if player has come far enough
-    public void moveFinishLine(int offset) {
+    public void moveFinishLine(float offset) {
         if(finishLineYPos > -400) {
             if (scaleConstant > 0.99 && scaleConstant < 1.01) {
                 finishLineYPos -= offset;
