@@ -10,7 +10,6 @@ public class GameServer {
     private static Server server;
     private int tcpPort, udpPort;
     private static GameServer instance = new GameServer();
-
     public static GameServer getInstance() {
         return instance;
     }

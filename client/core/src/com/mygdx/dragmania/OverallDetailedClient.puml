@@ -1,0 +1,41 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+
+package com.mygdx.dragmania.views.buttons {
+    abstract class Button
+    class CreateGameButton
+    class GetPinButton
+    class HelpButton
+    class JoinGameButton
+    class MainMenuButton
+    class RematchButton
+    class StartGameButton
+}
+
+package com.mygdx.dragmania.utilties.messages {
+    abstract class Message
+    class CreateLobbyRequest
+    class ErrorResponse
+    class GameMapMessage
+    class GameOverMessage
+    class JoinLobbyRequest
+    class LeaveLobbyRequest
+    class LobbyResponse
+    class ReadyMessage
+    class Score
+    class SomeResponse
+}
+
+package com.esotericosftware.kryonet {
+    class Connection
+    class Listener
+    class Server
+    class Client
+}
+
+package com.badlogic.Gdx {}
+
+hide members
+
+@enduml

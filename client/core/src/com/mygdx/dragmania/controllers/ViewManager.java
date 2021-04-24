@@ -1,6 +1,6 @@
-package com.mygdx.dragmania.views;
+package com.mygdx.dragmania.controllers;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.dragmania.views.View;
 
 import java.util.Stack;
 

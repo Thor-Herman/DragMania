@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.mygdx.dragmania.controllers.GameController;
+import com.mygdx.dragmania.controllers.ViewManager;
 import com.mygdx.dragmania.models.GameModel;
 import com.mygdx.dragmania.views.buttons.MainMenuButton;
 import com.mygdx.dragmania.views.buttons.RematchButton;

@@ -6,9 +6,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.dragmania.controllers.LobbyController;
-import com.mygdx.dragmania.views.HelpView;
 import com.mygdx.dragmania.views.MainMenuView;
-import com.mygdx.dragmania.views.ViewManager;
+import com.mygdx.dragmania.controllers.ViewManager;
 
 public class DragMania extends ApplicationAdapter {
 	//public static final int WIDTH = 480;

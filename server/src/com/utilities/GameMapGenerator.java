@@ -41,6 +41,13 @@ public class GameMapGenerator {
         MIN_POLICEMAN_PLACEMENT_SPACING = (int) MAP_LENGTH / 50;
     }
 
+    private void determineNumberOfPolicemanTurnPoints() {
+        int turnPoints = random.nextInt(MIN_POLICEMAN_TURN_POINTS, MAX_POLICEMAN_TURN_POINTS + 1);
+        int fakeTurnPoints = random.nextInt(MIN_POLICEMAN_FAKE_TURN_POINTS, MAX_POLICEMAN_FAKE_TURN_POINTS + 1);
+        policemanTurnPoints = new int[turnPoints];
+        policemanFakeTurnPoints = new int[fakeTurnPoints];
+    }
+
     private int[] generateRandomCrossings() {
         int[] crossingPlacements = new int[CROSSING_PLACEMENTS_LENGTH];
         final int MIN_PLACEMENT_SPACING = (int) MAP_LENGTH / 10;
@@ -53,13 +60,6 @@ public class GameMapGenerator {
             array_index++;
         }
         return crossingPlacements;
-    }
-
-    private void determineNumberOfPolicemanTurnPoints() {
-        int turnPoints = random.nextInt(MIN_POLICEMAN_TURN_POINTS, MAX_POLICEMAN_TURN_POINTS + 1);
-        int fakeTurnPoints = random.nextInt(MIN_POLICEMAN_FAKE_TURN_POINTS, MAX_POLICEMAN_FAKE_TURN_POINTS + 1);
-        policemanTurnPoints = new int[turnPoints];
-        policemanFakeTurnPoints = new int[fakeTurnPoints];
     }
 
     private int[] generatePolicemanTurnPoints(int[] turnPointArray) {

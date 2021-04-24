@@ -1,12 +1,9 @@
 package com.mygdx.dragmania.views;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.loaders.AssetLoader;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.mygdx.dragmania.controllers.ViewManager;
 import com.mygdx.dragmania.views.buttons.StartGameButton;
 
 public class JoinGameView extends View {

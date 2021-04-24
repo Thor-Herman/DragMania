@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.dragmania.controllers.GameController;
+import com.mygdx.dragmania.controllers.ViewManager;
 import com.mygdx.dragmania.models.GameModel;
 
 import java.util.ArrayList;

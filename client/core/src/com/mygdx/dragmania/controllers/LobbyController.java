@@ -1,9 +1,6 @@
 package com.mygdx.dragmania.controllers;
 
-import com.badlogic.gdx.Gdx;
 import com.mygdx.dragmania.models.LobbyModel;
-import com.mygdx.dragmania.views.GameView;
-import com.mygdx.dragmania.views.ViewManager;
 import com.utilities.GameClient;
 
 public class LobbyController {

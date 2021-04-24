@@ -16,7 +16,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ReceiveHandler extends Listener {
 
-    public Map<Integer, Lobby> lobbies = new HashMap<>();
+    private Map<Integer, Lobby> lobbies = new HashMap<>();
 
     public void connected(Connection connection) {
         System.out.println("Connection: " + connection.toString());
