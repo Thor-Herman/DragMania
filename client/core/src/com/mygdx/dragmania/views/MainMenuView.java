@@ -14,8 +14,13 @@ public class MainMenuView extends View {
     private CreateGameButton createGameButton;
     private Texture background;
 
+    private float screenWidth;
+    private float screenHeight;
+
     public MainMenuView(ViewManager viewManager) {
         super(viewManager);
+        screenWidth = Gdx.graphics.getWidth();
+        screenHeight = Gdx.graphics.getHeight();
         helpButton = new HelpButton(200, 400);
         joinGameButton = new JoinGameButton(200, 700);
         createGameButton = new CreateGameButton(200, 1000);
@@ -44,9 +49,9 @@ public class MainMenuView extends View {
         SpriteBatch sb = new SpriteBatch();
         sb.begin();
         sb.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        sb.draw(helpButton.getButton(), helpButton.getPosition().x, helpButton.getPosition().y, helpButton.getWidth(), helpButton.getHeight());
-        sb.draw(joinGameButton.getButton(), joinGameButton.getPosition().x, joinGameButton.getPosition().y, joinGameButton.getWidth(), joinGameButton.getHeight());
-        sb.draw(createGameButton.getButton(), createGameButton.getPosition().x, createGameButton.getPosition().y, createGameButton.getWidth(), createGameButton.getHeight());
+        sb.draw(helpButton.getButton(), screenWidth/2-(helpButton.getWidth()/2), helpButton.getPosition().y, helpButton.getWidth(), helpButton.getHeight());
+        sb.draw(joinGameButton.getButton(), screenWidth/2-(joinGameButton.getWidth()/2), joinGameButton.getPosition().y, joinGameButton.getWidth(), joinGameButton.getHeight());
+        sb.draw(createGameButton.getButton(), screenWidth/2-(helpButton.getWidth()/2), createGameButton.getPosition().y, createGameButton.getWidth(), createGameButton.getHeight());
         sb.end();
 
     }

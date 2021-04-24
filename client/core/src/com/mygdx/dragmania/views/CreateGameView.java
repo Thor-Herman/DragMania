@@ -3,6 +3,7 @@ package com.mygdx.dragmania.views;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.mygdx.dragmania.views.buttons.GetPinButton;
@@ -12,10 +13,19 @@ public class CreateGameView extends View {
     private GetPinButton getPinButton;
     private Texture background;
     private BitmapFont font;
+    private BitmapFont font2;
     private String pin;
+
+    private float screenWidth;
+    private float screenHeight;
+
+    private static GlyphLayout glyphLayout1 = new GlyphLayout();
+    private static GlyphLayout glyphLayout2 = new GlyphLayout();
 
     public CreateGameView(ViewManager viewManager) {
         super(viewManager);
+        screenWidth = Gdx.graphics.getWidth();
+        screenHeight = Gdx.graphics.getHeight();
         backArrow = new BackArrow(0,0);
         getPinButton = new GetPinButton(200, 400);
         background = new Texture("background_plain.png");
@@ -24,6 +34,8 @@ public class CreateGameView extends View {
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 200;
         font = generator.generateFont(parameter);
+        parameter.size = 50;
+        font2 = generator.generateFont(parameter);
         generator.dispose();
         pin = "";
     }
@@ -50,9 +62,12 @@ public class CreateGameView extends View {
         sb.begin();
         sb.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         sb.draw(backArrow.getBackArrow(), backArrow.getPosition().x, backArrow.getPosition().y, backArrow.getWidth()/3, backArrow.getHeight()/3);
-        sb.draw(getPinButton.getButton(), getPinButton.getPosition().x, getPinButton.getPosition().y, getPinButton.getWidth(), getPinButton.getHeight());
+        sb.draw(getPinButton.getButton(), screenWidth/2-(getPinButton.getWidth()/2), getPinButton.getPosition().y, getPinButton.getWidth(), getPinButton.getHeight());
         if(pin != "") {
-            font.draw(sb, pin, 300, 1400);
+            glyphLayout1.setText(font, pin);
+            font.draw(sb, glyphLayout1, screenWidth/2-(glyphLayout1.width/2), (float) (screenHeight*0.7));
+            glyphLayout2.setText(font2, "Send this pin to your buddy and wait here");
+            font2.draw(sb, glyphLayout2, screenWidth/2-(glyphLayout2.width/2), (float) (screenHeight*0.6));
         }
         sb.end();
     }

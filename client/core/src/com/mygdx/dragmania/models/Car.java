@@ -57,6 +57,10 @@ public class Car extends Collidable {
     public void setMaxVelocity(int newMaxVelocity) {
         this.maxVelocity = newMaxVelocity;
     }
+
+    public boolean getAllowedToDrive() {
+        return allowedToDrive;
+    }
     
     // Allow or disallow a car to drive
     public void canDrive(boolean allowed) {

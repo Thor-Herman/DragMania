@@ -16,7 +16,7 @@ public class CarFactory {
     static {
         // Initialize TEXTURES
         Map<CarType, String> tmpTextures = new EnumMap<>(CarType.class);
-        tmpTextures.put(CarType.NORMAL, "textures/cars/car_red.png");
+        tmpTextures.put(CarType.NORMAL, "car_red2.png");
         tmpTextures.put(CarType.TRUCK, "textures/cars/car_blue.png");
         tmpTextures.put(CarType.MOTORCYCLE, "textures/cars/car_green.png");
         TEXTURES = Collections.unmodifiableMap(tmpTextures);
