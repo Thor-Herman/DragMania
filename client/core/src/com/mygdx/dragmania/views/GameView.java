@@ -19,6 +19,7 @@ public class GameView extends View{
     private float screenHeight;
     private Texture policeMan;
     private GameModel gameModel;
+    private Texture stopSign;
 
     private ArrayList<Integer> crossing;
     private ArrayList<Integer> policeturn;
@@ -47,6 +48,7 @@ public class GameView extends View{
 
     protected GameView(ViewManager viewManager) {
         super(viewManager);
+        stopSign = new Texture("stop.png");
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
 
@@ -54,8 +56,8 @@ public class GameView extends View{
         crossing = new ArrayList<>();
         crossing.add(1);
         policeturn = new ArrayList<>();
-        //policeturn.add(200);
-        //policeturn.add(400);
+        policeturn.add(200);
+        policeturn.add(400);
         //policeturn.add(700);
         policefake = new ArrayList<>();
         //policefake.add(50);
@@ -219,6 +221,9 @@ public class GameView extends View{
         Texture policeTexture = gameModel.getGameMap().getPoliceman().getAnimation();
         sb.draw(policeTexture, screenWidth/2-(policeTexture.getWidth()*scaleConstant), (float) (screenHeight*0.8), policeTexture.getWidth()*scaleConstant*2, policeTexture.getHeight()*scaleConstant*2);
         sb.draw(backArrow.getBackArrow(), backArrow.getPosition().x, backArrow.getPosition().y, backArrow.getWidth()/3, backArrow.getHeight()/3);
+        if (!gameModel.getCar().getAllowedToDrive()) {
+            sb.draw(stopSign, (float) (screenWidth/2-(stopSign.getWidth()/(2*1.5))), (float) (screenHeight*0.6), (float) (stopSign.getWidth()/1.5), (float) (stopSign.getHeight()/1.5));
+        }
     }
 
     public void drawFonts(SpriteBatch sb) {
