@@ -3,8 +3,6 @@ package com.mygdx.dragmania.views;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.dragmania.DragMania;
-import com.mygdx.dragmania.views.buttons.NextButton;
 import com.mygdx.dragmania.controllers.ViewManager;
 
 import java.util.ArrayList;
@@ -13,7 +11,7 @@ public class HelpView extends View {
 
     private BackArrow backArrow;
     private ArrayList<Texture> helpTextures;
-    private NextButton nextButton;
+    private Button nextButton;
     private int textureIndex;
     private float screenWidth;
 
@@ -24,7 +22,7 @@ public class HelpView extends View {
         helpTextures.add(new Texture("help1.png"));
         helpTextures.add(new Texture("help2.png"));
         helpTextures.add(new Texture("help3.png"));
-        nextButton = new NextButton(320, 20);
+        nextButton = new Button(320, 20, "next.png");
         textureIndex = 0;
         screenWidth = Gdx.graphics.getWidth();
     }

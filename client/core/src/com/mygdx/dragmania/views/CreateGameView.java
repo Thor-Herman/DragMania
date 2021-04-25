@@ -8,11 +8,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.mygdx.dragmania.controllers.LobbyController;
 import com.mygdx.dragmania.controllers.ViewManager;
-import com.mygdx.dragmania.views.buttons.GetPinButton;
 
 public class CreateGameView extends View {
     private BackArrow backArrow;
-    private GetPinButton getPinButton;
+    private Button getPinButton;
     private Texture background;
     private BitmapFont font;
     private BitmapFont font2;
@@ -30,9 +29,9 @@ public class CreateGameView extends View {
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
         backArrow = new BackArrow(0,0);
-        getPinButton = new GetPinButton(200, 400);
+        getPinButton = new Button(200, 400, "get_pin.png");
         background = new Texture("background_plain.png");
-        // Generate font
+        // Generate fonts
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("GovtAgentBB.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 200;
@@ -67,7 +66,6 @@ public class CreateGameView extends View {
         sb.draw(backArrow.getBackArrow(), backArrow.getPosition().x, backArrow.getPosition().y, backArrow.getWidth()/3, backArrow.getHeight()/3);
         sb.draw(getPinButton.getButton(), screenWidth/2-(getPinButton.getWidth()/2), getPinButton.getPosition().y, getPinButton.getWidth(), getPinButton.getHeight());
         pin = Integer.toString(LobbyController.getInstance().getModel().getRoomCode());
-        System.out.println(pin);
         if(pin.length() == 4) {
             glyphLayout1.setText(font, pin);
             font.draw(sb, glyphLayout1, screenWidth/2-(glyphLayout1.width/2), (float) (screenHeight*0.7));
@@ -89,7 +87,6 @@ public class CreateGameView extends View {
         if(getPinButton.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
             LobbyController.getInstance().resetModel();
             LobbyController.getInstance().createGame("test");
-            // Get from controller
         }
     }
 }
