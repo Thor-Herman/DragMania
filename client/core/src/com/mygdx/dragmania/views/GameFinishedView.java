@@ -9,15 +9,13 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.mygdx.dragmania.controllers.GameController;
 import com.mygdx.dragmania.controllers.ViewManager;
 import com.mygdx.dragmania.models.GameModel;
-import com.mygdx.dragmania.views.buttons.MainMenuButton;
-import com.mygdx.dragmania.views.buttons.RematchButton;
 
 public class GameFinishedView extends View{
 
     private Texture background;
     private BitmapFont font;
-    private RematchButton rematchButton;
-    private MainMenuButton mainMenuButton;
+    private Button rematchButton;
+    private Button mainMenuButton;
     private float screenWidth;
     private float screenHeight;
 
@@ -35,8 +33,8 @@ public class GameFinishedView extends View{
         parameter.size = 125;
         font = generator.generateFont(parameter);
         generator.dispose();
-        rematchButton = new RematchButton(200, 500);
-        mainMenuButton = new MainMenuButton(200, 800);
+        rematchButton = new Button(200, 500, "rematch.png");
+        mainMenuButton = new Button(200, 800, "main_menu.png");
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
         gameStatus = "Game Won!";

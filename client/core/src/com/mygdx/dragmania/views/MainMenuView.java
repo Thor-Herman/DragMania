@@ -4,15 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.dragmania.controllers.ViewManager;
-import com.mygdx.dragmania.views.buttons.CreateGameButton;
-import com.mygdx.dragmania.views.buttons.HelpButton;
-import com.mygdx.dragmania.views.buttons.JoinGameButton;
 
 public class MainMenuView extends View {
 
-    private HelpButton helpButton;
-    private JoinGameButton joinGameButton;
-    private CreateGameButton createGameButton;
+    private Button helpButton;
+    private Button joinGameButton;
+    private Button createGameButton;
     private Texture background;
 
     private float screenWidth;
@@ -22,9 +19,9 @@ public class MainMenuView extends View {
         super(viewManager);
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
-        helpButton = new HelpButton(200, 400);
-        joinGameButton = new JoinGameButton(200, 700);
-        createGameButton = new CreateGameButton(200, 1000);
+        helpButton = new Button(200, 400, "help.png");
+        joinGameButton = new Button(200, 700, "join_game.png");
+        createGameButton = new Button(200, 1000, "create_game.png");
         background = new Texture("background_straight.png");
     }
 
