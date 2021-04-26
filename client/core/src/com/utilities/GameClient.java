@@ -49,7 +49,7 @@ public class GameClient {
         Score scoreMessage = new Score();
         scoreMessage.roomCode = roomCode;
         scoreMessage.score = score;
-        client.sendTCP(scoreMessage);
+        client.sendUDP(scoreMessage);
     }
 
     public void joinGame(String username, int roomCode) {
