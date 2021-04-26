@@ -4,14 +4,11 @@ import java.util.ArrayList;
 
 public class GameMap {
 
-    private ArrayList<Integer> pedestrianPlacements;
-
     private Car car;
     private Policeman policeman;
     private final int mapLength;
 
     public GameMap(ArrayList<Integer> pedestrianPlacements, ArrayList<Integer> policeManTurnPositions, ArrayList<Integer> policeManFakeTurnPositions, int mapLength, Car car) {
-        this.pedestrianPlacements = pedestrianPlacements;
         this.car = car;
         policeman = new Policeman(policeManTurnPositions, policeManFakeTurnPositions, car);
         this.mapLength = mapLength;
