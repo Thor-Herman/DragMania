@@ -50,7 +50,7 @@ public class GameView extends View{
 
     public GameView(ViewManager viewManager) {
         super(viewManager);
-        stopSign = new Texture("stop.png");
+        stopSign = new Texture("textures/policeman/stop.png");
         controller = GameController.getInstance();
         gameModel = controller.getModel();
 
@@ -71,7 +71,7 @@ public class GameView extends View{
         gameModel = new GameModel("player", pedestrianPlacements, policeturn, policefake, 1000);*/
 
         // Generating font
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("GovtAgentBB.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/GovtAgentBB.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 50;
         font = generator.generateFont(parameter);

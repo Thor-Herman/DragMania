@@ -9,10 +9,9 @@ public class PolicemanAnimation {
     private Texture turnedSideways;
 
     public PolicemanAnimation() {
-        turnedAway = new Texture("policeman_turned_away.png");
-        turnedTowards = new Texture("policeman_turned_towards.png");
-        turnedSideways = new Texture("policeman_turned_sideways.png");
-
+        turnedAway = new Texture("textures/policeman/policeman_turned_away.png");
+        turnedTowards = new Texture("textures/policeman/policeman_turned_towards.png");
+        turnedSideways = new Texture("textures/policeman/policeman_turned_sideways.png");
     }
 
     public Texture getTurnedAwayAnimation() {
@@ -26,5 +25,4 @@ public class PolicemanAnimation {
     public Texture getTurnedSidewaysAnimation() {
         return turnedSideways;
     }
-
 }

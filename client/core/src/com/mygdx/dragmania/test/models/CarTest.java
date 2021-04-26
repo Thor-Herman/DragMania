@@ -44,10 +44,6 @@ public class CarTest {
         // Check that the car was made successfully (with check for positive acceleration)
         car = CarFactory.makeCar(CarType.NORMAL);
         assertTrue(car.getAcceleration() > 0);
-        car = CarFactory.makeCar(CarType.TRUCK);
-        assertTrue(car.getAcceleration() > 0);
-        car = CarFactory.makeCar(CarType.MOTORCYCLE);
-        assertTrue(car.getAcceleration() > 0);
     }
 
     @Test

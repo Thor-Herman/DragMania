@@ -13,7 +13,7 @@ public class JoinGameView extends View {
     public JoinGameView(ViewManager viewManager) {
         super(viewManager);
         backArrow = new BackArrow(0,0);
-        background = new Texture("background_plain.png");
+        background = new Texture("textures/backgrounds/background_plain.png");
         PinInputListener listener = new PinInputListener();
         Gdx.input.getTextInput(listener, "Input game pin", "", "Pin:");
         screenWidth = Gdx.graphics.getWidth();

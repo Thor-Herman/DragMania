@@ -16,23 +16,17 @@ public class CarFactory {
     static {
         // Initialize TEXTURES
         Map<CarType, String> tmpTextures = new EnumMap<>(CarType.class);
-        tmpTextures.put(CarType.NORMAL, "car_red2.png");
-        tmpTextures.put(CarType.TRUCK, "textures/cars/car_blue.png");
-        tmpTextures.put(CarType.MOTORCYCLE, "textures/cars/car_green.png");
+        tmpTextures.put(CarType.NORMAL, "textures/cars/car_red.png");
         TEXTURES = Collections.unmodifiableMap(tmpTextures);
 
         // Initialize ACCELERATIONS
         Map<CarType, Float> tmpAccelerations = new EnumMap<>(CarType.class);
         tmpAccelerations.put(CarType.NORMAL, 0.75f);
-        tmpAccelerations.put(CarType.TRUCK, 1f);
-        tmpAccelerations.put(CarType.MOTORCYCLE, 1f);
         ACCELERATIONS = Collections.unmodifiableMap(tmpAccelerations);
 
         // Initialize MAXVELOCITIES
         Map<CarType, Float> tmpMaxVelocities = new EnumMap<>(CarType.class);
         tmpMaxVelocities.put(CarType.NORMAL, 200f);
-        tmpMaxVelocities.put(CarType.TRUCK, 3f);
-        tmpMaxVelocities.put(CarType.MOTORCYCLE, 3f);
         MAXVELOCITIES = Collections.unmodifiableMap(tmpMaxVelocities);
     }
 

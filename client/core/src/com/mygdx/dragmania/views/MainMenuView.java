@@ -19,10 +19,10 @@ public class MainMenuView extends View {
         super(viewManager);
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
-        helpButton = new Button(200, 400, "help.png");
-        joinGameButton = new Button(200, 700, "join_game.png");
-        createGameButton = new Button(200, 1000, "create_game.png");
-        background = new Texture("background_straight.png");
+        helpButton = new Button(200, 400, "textures/buttons/help.png");
+        joinGameButton = new Button(200, 700, "textures/buttons/join_game.png");
+        createGameButton = new Button(200, 1000, "textures/buttons/create_game.png");
+        background = new Texture("textures/backgrounds/background_straight.png");
     }
 
     @Override

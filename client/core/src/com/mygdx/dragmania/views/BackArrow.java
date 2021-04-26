@@ -13,7 +13,7 @@ public class BackArrow {
 
     public BackArrow(int x, int y) {
         position = new Vector2(x, y);
-        backArrow = new Texture("back_arrow.png");
+        backArrow = new Texture("textures/buttons/back_arrow.png");
         bounds = new Rectangle(x, y, backArrow.getWidth()/3, backArrow.getHeight()/3);
     }
 
@@ -36,5 +36,4 @@ public class BackArrow {
     public Vector2 getPosition() {
         return position;
     }
-
 }

@@ -26,15 +26,15 @@ public class GameFinishedView extends View{
     public GameFinishedView(ViewManager viewManager, GameModel model) {
         super(viewManager);
         this.model = model;
-        background = new Texture("background_plain.png");
+        background = new Texture("textures/backgrounds/background_plain.png");
         // Generate font
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("GovtAgentBB.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/GovtAgentBB.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 125;
         font = generator.generateFont(parameter);
         generator.dispose();
-        rematchButton = new Button(200, 500, "rematch.png");
-        mainMenuButton = new Button(200, 800, "main_menu.png");
+        rematchButton = new Button(200, 500, "textures/buttons/rematch.png");
+        mainMenuButton = new Button(200, 800, "textures/buttons/main_menu.png");
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
         gameStatus = "Game Won!";
