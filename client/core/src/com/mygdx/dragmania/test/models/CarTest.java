@@ -35,8 +35,8 @@ public class CarTest {
     @Test
     public void testCarInstantiation() {
         assertEquals(car.getStartPosition(), car.getPosition());
-        assertEquals(0, car.getVelocity());
-        assertEquals(3, car.getMaxVelocity());
+        assertEquals(0, car.getVelocity(), delta);
+        assertEquals(3, car.getMaxVelocity(), delta);
     }
 
     @Test
@@ -51,31 +51,31 @@ public class CarTest {
         // position.y: startPosY, velocity: 0, maxVelocity: 3
 
         car.update(1, true);
-        assertEquals(1, car.getVelocity());
+        assertEquals(1, car.getVelocity(), delta);
         assertEquals(1, car.getPosition().y - startPosY, delta); // position = 0 + 1*1 = 1
 
         car.update(2, true);
-        assertEquals(2, car.getVelocity());
+        assertEquals(2, car.getVelocity(), delta);
         assertEquals(5, car.getPosition().y - startPosY, delta); // position = 1 + 2*2 = 5
 
         car.update(3, true);
-        assertEquals(3, car.getVelocity());
+        assertEquals(3, car.getVelocity(), delta);
         assertEquals(14, car.getPosition().y - startPosY, delta); // position = 5 + 3*3 = 14
 
         car.update(4, true);
-        assertEquals(3, car.getVelocity()); // max velocity reached
+        assertEquals(3, car.getVelocity(), delta); // max velocity reached
         assertEquals(26, car.getPosition().y - startPosY, delta); // position = 14 + 3*4 = 26
 
         car.update(5, false);
-        assertEquals(2, car.getVelocity());
+        assertEquals(2, car.getVelocity(), delta);
         assertEquals(36, car.getPosition().y - startPosY, delta); // position = 26 + 2*5 = 36
 
         car.update(6, false);
-        assertEquals(1, car.getVelocity());
+        assertEquals(1, car.getVelocity(), delta);
         assertEquals(42, car.getPosition().y - startPosY, delta); // position = 36 + 1*6 = 42
 
         car.update(7, false);
-        assertEquals(0, car.getVelocity());
+        assertEquals(0, car.getVelocity(), delta);
         assertEquals(42, car.getPosition().y - startPosY, delta); // position = 42 + 0*7 = 42
     }
 
@@ -85,15 +85,15 @@ public class CarTest {
         
         // position.y: startPosY, velocity: 0
         car.update(1, true);
-        assertEquals(1, car.getVelocity());
+        assertEquals(1, car.getVelocity(), delta);
         assertEquals(1, car.getPosition().y - startPosY, delta); // position = 0 + 1*1 = 1
     
         car.update(2, true);
-        assertEquals(1, car.getVelocity()); // max velocity reached
+        assertEquals(1, car.getVelocity(), delta); // max velocity reached
         assertEquals(3, car.getPosition().y - startPosY, delta); // position = 1 + 1*2 = 3
         
         car.update(3, false);
-        assertEquals(0, car.getVelocity());
+        assertEquals(0, car.getVelocity(), delta);
         assertEquals(3, car.getPosition().y - startPosY, delta); // position = 3 + 3*0 = 3
     }
 }
