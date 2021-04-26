@@ -39,7 +39,7 @@ public class GameController {
 
     public void receiveGameMap(GameMapMessage map) {
         List<Integer> list = Arrays.stream(map.getCrossings()).boxed().collect(Collectors.toList());
-        ArrayList<Integer> crossingPlacements = new ArrayList<>(list);
+        ArrayList<Integer> pedestrianPlacements = new ArrayList<>(list);
         list = Arrays.stream(map.getPolicemanTurnPoints()).boxed().collect(Collectors.toList());
         ArrayList<Integer> policeManTurnTimes = new ArrayList<>(list);
         list = Arrays.stream(map.getPolicemanFakeTurnPoints()).boxed().collect(Collectors.toList());
@@ -49,8 +49,8 @@ public class GameController {
         Gdx.app.postRunnable(new Runnable() {
             @Override
             public void run() {
-                if (model == null) model = new GameModel(username, crossingPlacements, policeManTurnTimes, policeManFakeTurnTimes, map.getMapLength()); // TODO: Change map size
-                else model.newGame(crossingPlacements, policeManTurnTimes, policeManFakeTurnTimes, map.getMapLength());
+                if (model == null) model = new GameModel(username, pedestrianPlacements, policeManTurnTimes, policeManFakeTurnTimes, map.getMapLength()); // TODO: Change map size
+                else model.newGame(pedestrianPlacements, policeManTurnTimes, policeManFakeTurnTimes, map.getMapLength());
                 ViewManager viewManager = ViewManager.getInstance();
                 viewManager.push(new GameView(viewManager));
             }

@@ -13,14 +13,14 @@ public class GameModel {
     private GameMap gameMap;
     private boolean isGameOver;
     
-    public GameModel(String username, ArrayList<Integer> crossingPlacements, ArrayList<Integer> policeManTurnTimes, ArrayList<Integer> policeManFakeTurnTimes, int mapLength) {
+    public GameModel(String username, ArrayList<Integer> pedestrianPlacements, ArrayList<Integer> policeManTurnTimes, ArrayList<Integer> policeManFakeTurnTimes, int mapLength) {
         player = new Player(username);
-        newGame(crossingPlacements, policeManTurnTimes, policeManFakeTurnTimes, mapLength);
+        newGame(pedestrianPlacements, policeManTurnTimes, policeManFakeTurnTimes, mapLength);
     }
 
-    public void newGame(ArrayList<Integer> crossingPlacements, ArrayList<Integer> policeManTurnTimes, ArrayList<Integer> policeManFakeTurnTimes, int mapLength) {
+    public void newGame(ArrayList<Integer> pedestrianPlacements, ArrayList<Integer> policeManTurnTimes, ArrayList<Integer> policeManFakeTurnTimes, int mapLength) {
         car = CarFactory.makeCar(CarType.NORMAL);
-        gameMap = new GameMap(crossingPlacements, policeManTurnTimes, policeManFakeTurnTimes, mapLength, car);
+        gameMap = new GameMap(pedestrianPlacements, policeManTurnTimes, policeManFakeTurnTimes, mapLength, car);
         opponentScore = 0;
         isGameOver = false;
     }

@@ -24,7 +24,7 @@ public class GameView extends View{
     private Texture stopSign;
     private GameController controller;
 
-    private ArrayList<Integer> crossing;
+    private ArrayList<Integer> pedestrianPlacements;
     private ArrayList<Integer> policeturn;
     private ArrayList<Integer> policefake;
 
@@ -58,8 +58,8 @@ public class GameView extends View{
         screenHeight = Gdx.graphics.getHeight();
 
         /*// Only for testing purposes
-        crossing = new ArrayList<>();
-        crossing.add(1);
+        pedestrianPlacements = new ArrayList<>();
+        pedestrianPlacements.add(1);
         policeturn = new ArrayList<>();
         policeturn.add(200);
         policeturn.add(400);
@@ -68,7 +68,7 @@ public class GameView extends View{
         //policefake.add(50);
         //policefake.add(250);
 
-        gameModel = new GameModel("player", crossing, policeturn, policefake, 1000);*/
+        gameModel = new GameModel("player", pedestrianPlacements, policeturn, policefake, 1000);*/
 
         // Generating font
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("GovtAgentBB.ttf"));
