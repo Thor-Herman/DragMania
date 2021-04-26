@@ -4,7 +4,6 @@
 *.war
 *.ear
 hs_err_pid*
-Env.java
 
 ## Robovm
 /ios/robovm-build/
