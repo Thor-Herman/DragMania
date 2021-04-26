@@ -19,10 +19,10 @@ public class HelpView extends View {
         super(viewManager);
         backArrow = new BackArrow(0,0);
         helpTextures = new ArrayList<>();
-        helpTextures.add(new Texture("help1.png"));
-        helpTextures.add(new Texture("help2.png"));
-        helpTextures.add(new Texture("help3.png"));
-        nextButton = new Button(320, 20, "next.png");
+        helpTextures.add(new Texture("textures/help/help1.png"));
+        helpTextures.add(new Texture("textures/help/help2.png"));
+        helpTextures.add(new Texture("textures/help/help3.png"));
+        nextButton = new Button(320, 20, "textures/buttons/next.png");
         textureIndex = 0;
         screenWidth = Gdx.graphics.getWidth();
     }

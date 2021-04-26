@@ -37,8 +37,6 @@ public class Car extends Collidable {
     }
     
     public void update(float dt, boolean isTouching) {
-        System.out.println("VEL" + velocity);
-        System.out.println("ACC" + acceleration);
         accelerate(isTouching);
         reposition(new Vector2(0, getPosition().y + (this.velocity*dt)));
     }

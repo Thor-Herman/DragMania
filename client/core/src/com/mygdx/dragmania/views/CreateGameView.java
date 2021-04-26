@@ -29,10 +29,10 @@ public class CreateGameView extends View {
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
         backArrow = new BackArrow(0,0);
-        getPinButton = new Button(200, 400, "get_pin.png");
-        background = new Texture("background_plain.png");
+        getPinButton = new Button(200, 400, "textures/buttons/get_pin.png");
+        background = new Texture("textures/backgrounds/background_plain.png");
         // Generate fonts
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("GovtAgentBB.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/GovtAgentBB.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 200;
         font = generator.generateFont(parameter);
