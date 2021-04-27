@@ -32,18 +32,18 @@ public class GameView extends View {
     private BitmapFont font;
 
     private BackArrow backArrow;
-    private FrameBuffer frameBuffer;
     private Texture midTexture;
+    private Texture topSector;
+    private Texture background;
+    private Texture finishLine;
+    private SpriteBatch sb;
 
     private float scaleConstant;
 
-    private int standardHeight = 2088;
-    private int standardWidth = 1080;
-
-    private static GlyphLayout glyphLayout1 = new GlyphLayout();
-    private static GlyphLayout glyphLayout2 = new GlyphLayout();
-    private static GlyphLayout glyphLayout3 = new GlyphLayout();
-    private static GlyphLayout glyphLayout4 = new GlyphLayout();
+    private static final GlyphLayout glyphLayout1 = new GlyphLayout();
+    private static final GlyphLayout glyphLayout2 = new GlyphLayout();
+    private static final GlyphLayout glyphLayout3 = new GlyphLayout();
+    private static final GlyphLayout glyphLayout4 = new GlyphLayout();
 
     public GameView(ViewManager viewManager) {
         super(viewManager);
@@ -75,14 +75,17 @@ public class GameView extends View {
         carPosition = 0;
 
         // Determine to scale by width or height
-        scaleConstant = screenWidth/standardWidth;
-        if(Math.abs(1-screenHeight/standardHeight) > Math.abs(1-screenWidth/standardWidth)) {
-            scaleConstant = screenHeight/standardHeight;
+        int standardWidth = 1080;
+        scaleConstant = screenWidth/ standardWidth;
+        int standardHeight = 2088;
+        if(Math.abs(1-screenHeight/ standardHeight) > Math.abs(1-screenWidth/ standardWidth)) {
+            scaleConstant = screenHeight/ standardHeight;
         }
-        /*
-        frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, 50, 200, false);
-        midTexture = frameBuffer.getColorBufferTexture();
-         */
+        midTexture = new Texture(getPixmapRectangle(20, 200, Color.YELLOW));
+        topSector = new Texture(getPixmapRectangle((int) screenWidth, (int) (screenHeight*0.8), Color.valueOf("1c1c1c")));
+        background = new Texture(getPixmapRectangle((int) screenWidth, (int) screenHeight, Color.DARK_GRAY));
+        finishLine = new Texture(getPixmapRectangle((int) screenWidth, 50, Color.WHITE));
+        sb = new SpriteBatch();
     }
 
     @Override
@@ -91,6 +94,13 @@ public class GameView extends View {
             viewManager.pop();
             controller.leaveGame();
         }
+    }
+
+    public static Pixmap getPixmapRectangle(int width, int height, Color color){
+        Pixmap pixmap=new Pixmap(width, height, Pixmap.Format.RGBA8888);
+        pixmap.setColor(color);
+        pixmap.fillRectangle(0,0, pixmap.getWidth(), pixmap.getHeight());
+        return pixmap;
     }
 
     @Override
@@ -119,40 +129,32 @@ public class GameView extends View {
     public void render(float delta) {
         super.render(delta);
         update(delta);
-        ShapeRenderer sr = new ShapeRenderer();
-        renderBackground(sr);
-        moveLines();
-        renderMidLines(sr);
-        drawFinishLine(sr);
-        renderTopSector(sr);
-        sr.end();
-        SpriteBatch sb = new SpriteBatch();
         sb.begin();
+        renderBackground(sb);
+        moveLines();
+        renderMidLines(sb);
+        drawFinishLine(sb);
+        renderTopSector(sb);
         drawTextures(sb);
         drawFonts(sb);
         sb.end();
     }
 
 
-    public void renderMidLines(ShapeRenderer sr){
-        drawMidLine(sr, midLineYPositions[0]);
-        drawMidLine(sr, midLineYPositions[1]);
-        drawMidLine(sr, midLineYPositions[2]);
-        drawMidLine(sr, midLineYPositions[3]);
-        drawMidLine(sr, midLineYPositions[4]);
+    public void renderMidLines(SpriteBatch sb){
+        drawMidLine(sb, midLineYPositions[0]);
+        drawMidLine(sb, midLineYPositions[1]);
+        drawMidLine(sb, midLineYPositions[2]);
+        drawMidLine(sb, midLineYPositions[3]);
+        drawMidLine(sb, midLineYPositions[4]);
     }
 
-    public void renderBackground(ShapeRenderer sr) {
-        sr.setColor(Color.DARK_GRAY);
-        sr.begin(ShapeRenderer.ShapeType.Filled);
-        sr.rect(0,0, screenWidth, screenHeight);
+    public void renderBackground(SpriteBatch sb) {
+        sb.draw(background, 0, 0);
     }
 
-    public void drawMidLine(ShapeRenderer sr, float yPos) {
-        int lineWidth = 20;
-        int lineHeight = 200;
-        sr.setColor(Color.YELLOW);
-        sr.rect(screenWidth/2-(lineWidth)/2, yPos, lineWidth, lineHeight);
+    public void drawMidLine(SpriteBatch sb, float yPos) {
+        sb.draw(midTexture, screenWidth/2-(midTexture.getWidth())/2, yPos);
     }
 
     // Move midlines according to the car velocity
@@ -164,10 +166,9 @@ public class GameView extends View {
         }
     }
 
-    public void drawFinishLine(ShapeRenderer sr) {
+    public void drawFinishLine(SpriteBatch sb) {
         if(finishLineYPos > -400) {
-            sr.setColor(Color.WHITE);
-            sr.rect(0, finishLineYPos, screenWidth, 50);
+            sb.draw(finishLine, 0, finishLineYPos);
         }
     }
 
@@ -183,9 +184,8 @@ public class GameView extends View {
         }
     }
 
-    public void renderTopSector(ShapeRenderer sr) {
-        sr.setColor(Color.valueOf("1c1c1c"));
-        sr.rect(0, (float) (screenHeight*0.8), screenWidth, (float) (screenHeight*0.8));
+    public void renderTopSector(SpriteBatch sb) {
+        sb.draw(topSector, 0, (float) (screenHeight*0.8));
     }
 
     public void moveLines() {
@@ -231,5 +231,9 @@ public class GameView extends View {
         font.dispose();
         gameModel.getCar().dispose();
         policeTexture.dispose();
+        midTexture.dispose();
+        finishLine.dispose();
+        topSector.dispose();
+        background.dispose();
     }
 }

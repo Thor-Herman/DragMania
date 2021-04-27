@@ -26,7 +26,7 @@ public class CarFactory {
 
         // Initialize MAXVELOCITIES
         Map<CarType, Float> tmpMaxVelocities = new EnumMap<>(CarType.class);
-        tmpMaxVelocities.put(CarType.NORMAL, 200f);
+        tmpMaxVelocities.put(CarType.NORMAL, 100f);
         MAXVELOCITIES = Collections.unmodifiableMap(tmpMaxVelocities);
     }
 
