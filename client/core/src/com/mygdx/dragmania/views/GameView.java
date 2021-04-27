@@ -91,7 +91,6 @@ public class GameView extends View {
     @Override
     public void checkBackTouched() {
         if(backArrow.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
-            viewManager.pop();
             controller.leaveGame();
         }
     }

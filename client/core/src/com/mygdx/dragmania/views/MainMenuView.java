@@ -61,21 +61,18 @@ public class MainMenuView extends View {
 
     public void checkHelpButtonTouched() {
         if(helpButton.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
-            viewManager.pop();
             viewManager.push(new HelpView(viewManager));
         }
     }
 
     public void checkJoinGameButtonTouched() {
         if(joinGameButton.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
-            viewManager.pop();
             viewManager.push(new JoinGameView(viewManager));
         }
     }
 
     public void checkCreateGameButtonTouched() {
         if(createGameButton.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
-            viewManager.pop();
             viewManager.push(new CreateGameView(viewManager));
         }
     }
