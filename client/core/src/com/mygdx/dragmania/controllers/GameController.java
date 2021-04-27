@@ -83,7 +83,6 @@ public class GameController {
             @Override
             public void run() {
                 viewManager.disposeView();
-                viewManager.pop();
                 viewManager.push(new GameFinishedView(viewManager, model));
             }
         });
@@ -101,7 +100,6 @@ public class GameController {
             @Override
             public void run() {
                 client.leaveGame();
-                viewManager.pop();
                 viewManager.push(new MainMenuView(viewManager));
             }
         });

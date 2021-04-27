@@ -14,16 +14,8 @@ public class ViewManager {
     }
 
     public void push(View view) {
-        System.out.println(views.size());
+        if (views.size() > 0) views.pop();
         views.push(view);
-        System.out.println(views.size());
-
-    }
-
-    // Dispose must be implemented in views
-    public void pop() {
-        views.pop();
-        System.out.println("Popped");
     }
 
     public void disposeView() {

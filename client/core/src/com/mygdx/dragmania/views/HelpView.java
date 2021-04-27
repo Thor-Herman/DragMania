@@ -32,7 +32,6 @@ public class HelpView extends View {
     @Override
     public void checkBackTouched() {
         if(backArrow.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
-            viewManager.pop();
             viewManager.push(new MainMenuView(viewManager));
         }
     }

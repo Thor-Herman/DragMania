@@ -75,15 +75,13 @@ public class GameFinishedView extends View{
     }
 
     public void checkRematchButtonTouched() {
-        if(rematchButton.getBounds().contains(Gdx.input.getX(), screenHeight-Gdx.input.getY())) {
-            viewManager.pop();
+        if(rematchButton.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
             GameController.getInstance().readyUp();
         }
     }
 
     public void checkMainMenuButtonTouched() {
-        if(mainMenuButton.getBounds().contains(Gdx.input.getX(), screenHeight-Gdx.input.getY())) {
-            viewManager.pop();
+        if(mainMenuButton.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
             GameController.getInstance().leaveGame();
         }
     }
