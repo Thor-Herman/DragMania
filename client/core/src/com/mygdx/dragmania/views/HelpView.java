@@ -65,7 +65,7 @@ public class HelpView extends View {
 
     public void checkNextButtonTouched() {
         if(nextButton.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
-            textureIndex++;
+            if(textureIndex < 2) textureIndex++;
         }
     }
 
