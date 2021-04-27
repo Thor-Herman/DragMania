@@ -2,11 +2,13 @@ package com.mygdx.dragmania.views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.dragmania.controllers.GameController;
 import com.mygdx.dragmania.controllers.ViewManager;
@@ -30,6 +32,8 @@ public class GameView extends View {
     private BitmapFont font;
 
     private BackArrow backArrow;
+    private FrameBuffer frameBuffer;
+    private Texture midTexture;
 
     private float scaleConstant;
 
@@ -75,13 +79,25 @@ public class GameView extends View {
         if(Math.abs(1-screenHeight/standardHeight) > Math.abs(1-screenWidth/standardWidth)) {
             scaleConstant = screenHeight/standardHeight;
         }
+        /*
+        frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, 50, 200, false);
+        midTexture = frameBuffer.getColorBufferTexture();
+         */
+    }
+
+    @Override
+    public void checkBackTouched() {
+        if(backArrow.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
+            viewManager.pop();
+            controller.leaveGame();
+        }
     }
 
     @Override
     public void update(float dt) {
         // Update other classes depending on whether the player is touching and check if backarrow is touched
         if(Gdx.input.isTouched()) {
-            checkBackTouched(backArrow);
+            checkBackTouched();
             controller.update(dt, true);
         }
         else {
@@ -93,10 +109,6 @@ public class GameView extends View {
         // Set finish line position if the player has come far enough
         if(carPosition >= gameModel.getGameMap().getMapLength()-screenHeight/76 && finishLineYPos==-400) {
             finishLineYPos = (int) (screenHeight*0.9);
-        }
-        // Finish game if player crosses the finish line
-        if(carPosition > gameModel.getGameMap().getMapLength()) {
-            viewManager.push(new GameFinishedView(viewManager, gameModel));
         }
     }
 
@@ -121,11 +133,6 @@ public class GameView extends View {
         sb.end();
     }
 
-    @Override
-    public void checkBackTouched(BackArrow backArrow) {
-        if(backArrow.getBounds().contains(Gdx.input.getX(), screenHeight-Gdx.input.getY()))
-            controller.leaveGame();
-    }
 
     public void renderMidLines(ShapeRenderer sr){
         drawMidLine(sr, midLineYPositions[0]);

@@ -20,6 +20,14 @@ public class JoinGameView extends View {
     }
 
     @Override
+    public void checkBackTouched() {
+        if(backArrow.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
+            viewManager.pop();
+            viewManager.push(new MainMenuView(viewManager));
+        }
+    }
+
+    @Override
     public void update(float dt) {
         handleInput();
 
@@ -28,7 +36,8 @@ public class JoinGameView extends View {
     @Override
     public void handleInput() {
         if(Gdx.input.justTouched()) {
-            checkBackTouched(backArrow);
+            checkBackTouched();
+            checkButtonTouch();
         }
     }
 
@@ -46,5 +55,12 @@ public class JoinGameView extends View {
     public void dispose() {
         backArrow.dispose();
         background.dispose();
+    }
+
+    public void checkButtonTouch() {
+        if(backArrow.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
+            viewManager.pop();
+            viewManager.push(new MainMenuView(viewManager));
+        }
     }
 }

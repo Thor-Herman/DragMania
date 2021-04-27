@@ -51,7 +51,7 @@ public class CreateGameView extends View {
     @Override
     public void handleInput() {
         if(Gdx.input.justTouched()) {
-            checkBackTouched(backArrow);
+            checkBackTouched();
             checkGetPinTouched();
         }
     }
@@ -76,10 +76,11 @@ public class CreateGameView extends View {
     }
 
     @Override
-    public void checkBackTouched(BackArrow backArrow) {
+    public void checkBackTouched() {
         if(backArrow.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
             controller.resetModel();
             viewManager.pop();
+            viewManager.push(new MainMenuView(viewManager));
         }
     }
 

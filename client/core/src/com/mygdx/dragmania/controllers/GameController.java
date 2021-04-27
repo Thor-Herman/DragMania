@@ -45,7 +45,6 @@ public class GameController {
         list = Arrays.stream(map.getPolicemanFakeTurnPoints()).boxed().collect(Collectors.toList());
         ArrayList<Integer> policeManFakeTurnTimes = new ArrayList<>(list);
         String username = ""; // TODO: Change
-        System.out.println(map.toString());
         Gdx.app.postRunnable(new Runnable() {
             @Override
             public void run() {
@@ -76,7 +75,6 @@ public class GameController {
 
     public void setOpponentScore(int opponentScore) {
         model.setOpponentScore(opponentScore);
-        System.out.println("Score: " + opponentScore);
     }
 
     public void gameOver(boolean won) {
@@ -84,6 +82,8 @@ public class GameController {
         Gdx.app.postRunnable(new Runnable() {
             @Override
             public void run() {
+                viewManager.disposeView();
+                viewManager.pop();
                 viewManager.push(new GameFinishedView(viewManager, model));
             }
         });
@@ -101,6 +101,7 @@ public class GameController {
             @Override
             public void run() {
                 client.leaveGame();
+                viewManager.pop();
                 viewManager.push(new MainMenuView(viewManager));
             }
         });

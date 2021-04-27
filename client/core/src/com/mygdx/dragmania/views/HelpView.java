@@ -27,6 +27,14 @@ public class HelpView extends View {
         screenWidth = Gdx.graphics.getWidth();
     }
 
+    @Override
+    public void checkBackTouched() {
+        if(backArrow.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
+            viewManager.pop();
+            viewManager.push(new MainMenuView(viewManager));
+        }
+    }
+
 
     @Override
     public void update(float dt) {
@@ -36,7 +44,7 @@ public class HelpView extends View {
     @Override
     public void handleInput() {
         if(Gdx.input.justTouched()) {
-            checkBackTouched(backArrow);
+            checkBackTouched();
             checkNextButtonTouched();
         }
     }

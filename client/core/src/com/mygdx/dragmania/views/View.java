@@ -16,11 +16,15 @@ public abstract class View extends ScreenAdapter {
     }
 
 
+    /*
     public void checkBackTouched(BackArrow backArrow) {
         if(backArrow.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
             viewManager.pop();
         }
     }
+     */
+
+    public abstract void checkBackTouched();
 
     public abstract void update(float dt);
     public abstract void handleInput();

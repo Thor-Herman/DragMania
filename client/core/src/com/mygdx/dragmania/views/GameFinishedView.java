@@ -40,6 +40,11 @@ public class GameFinishedView extends View{
     }
 
     @Override
+    public void checkBackTouched() {
+
+    }
+
+    @Override
     public void update(float dt) {
         handleInput();
 
@@ -70,12 +75,14 @@ public class GameFinishedView extends View{
 
     public void checkRematchButtonTouched() {
         if(rematchButton.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
+            viewManager.pop();
             GameController.getInstance().readyUp();
         }
     }
 
     public void checkMainMenuButtonTouched() {
         if(mainMenuButton.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
+            viewManager.pop();
             GameController.getInstance().leaveGame();
         }
     }
