@@ -14,6 +14,7 @@ public class HelpView extends View {
     private Button nextButton;
     private int textureIndex;
     private float screenWidth;
+    private SpriteBatch sb;
 
     public HelpView(ViewManager viewManager) {
         super(viewManager);
@@ -25,6 +26,7 @@ public class HelpView extends View {
         nextButton = new Button(320, 20, "textures/buttons/next.png");
         textureIndex = 0;
         screenWidth = Gdx.graphics.getWidth();
+        sb = new SpriteBatch();
     }
 
     @Override
@@ -53,9 +55,8 @@ public class HelpView extends View {
     public void render(float delta) {
         super.render(delta);
         update(delta);
-        SpriteBatch sb = new SpriteBatch();
         sb.begin();
-        sb.draw(helpTextures.get(textureIndex), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        sb.draw(helpTextures.get(textureIndex), 0, 0, screenWidth, Gdx.graphics.getHeight());
         sb.draw(backArrow.getBackArrow(), backArrow.getPosition().x, backArrow.getPosition().y, backArrow.getWidth()/3, backArrow.getHeight()/3);
         if(textureIndex < 2) {
             sb.draw(nextButton.getButton(), screenWidth/2-(nextButton.getWidth()/2), nextButton.getPosition().y);
