@@ -14,16 +14,13 @@ public class ViewManager {
     }
 
     public void push(View view) {
-
-        System.out.println(views.size());
         views.push(view);
-        System.out.println(views.size());
 
     }
 
     // Dispose must be implemented in views
     public void pop() {
-        views.pop().dispose();
+        views.pop();
     }
 
     public void render(float dt) {

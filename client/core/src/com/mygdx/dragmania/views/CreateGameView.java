@@ -89,4 +89,12 @@ public class CreateGameView extends View {
             LobbyController.getInstance().createGame("test");
         }
     }
+
+    public void dispose() {
+        backArrow.dispose();
+        background.dispose();
+        font.dispose();
+        font2.dispose();
+        getPinButton.dispose();
+    }
 }

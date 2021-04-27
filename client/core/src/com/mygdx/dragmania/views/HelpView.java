@@ -60,4 +60,12 @@ public class HelpView extends View {
             textureIndex++;
         }
     }
+
+    public void dispose() {
+        for(Texture texture : helpTextures) {
+            texture.dispose();
+        }
+        nextButton.dispose();
+        backArrow.dispose();
+    }
 }

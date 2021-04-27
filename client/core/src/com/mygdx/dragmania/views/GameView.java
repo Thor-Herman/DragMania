@@ -20,6 +20,7 @@ public class GameView extends View {
     private GameModel gameModel;
     private Texture stopSign;
     private GameController controller;
+    private Texture policeTexture;
 
     private float[] midLineYPositions;
     private float finishLineYPos;
@@ -198,7 +199,7 @@ public class GameView extends View {
 
     public void drawTextures(SpriteBatch sb) {
         sb.draw(gameModel.getCar().getTexture(), (float) (screenWidth/2-gameModel.getCar().getTexture().getWidth()/(5*scaleConstant)), 225, (int)(gameModel.getCar().getTexture().getWidth()/(2.5*scaleConstant)), (int)(gameModel.getCar().getTexture().getHeight()/(2.5*scaleConstant)));
-        Texture policeTexture = gameModel.getGameMap().getPoliceman().getAnimation();
+        policeTexture = gameModel.getGameMap().getPoliceman().getAnimation();
         sb.draw(policeTexture, screenWidth/2-(policeTexture.getWidth()*scaleConstant), (float) (screenHeight*0.8), policeTexture.getWidth()*scaleConstant*2, policeTexture.getHeight()*scaleConstant*2);
         sb.draw(backArrow.getBackArrow(), backArrow.getPosition().x, backArrow.getPosition().y, backArrow.getWidth()/3, backArrow.getHeight()/3);
         if (!gameModel.getCar().getAllowedToDrive()) {
@@ -216,5 +217,12 @@ public class GameView extends View {
         font.draw(sb, glyphLayout3, (float) (screenWidth*0.65), (float) (screenHeight*0.95));
         glyphLayout4.setText(font, Integer.toString(gameModel.getOpponentScore()));
         font.draw(sb, glyphLayout4, (float) (screenWidth*0.65) + (glyphLayout3.width/2) - (glyphLayout4.width/2), (float) (screenHeight*0.9));
+    }
+
+    public void dispose() {
+        stopSign.dispose();
+        font.dispose();
+        gameModel.getCar().dispose();
+        policeTexture.dispose();
     }
 }

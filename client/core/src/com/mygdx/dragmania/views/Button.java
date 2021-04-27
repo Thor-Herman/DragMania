@@ -36,4 +36,8 @@ public class Button {
         return position;
     }
 
+    public void dispose() {
+        button.dispose();
+    }
+
 }

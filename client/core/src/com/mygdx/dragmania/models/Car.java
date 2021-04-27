@@ -68,4 +68,8 @@ public class Car extends Collidable {
         }
         this.allowedToDrive = allowed;
     }
+
+    public void dispose() {
+        getTexture().dispose();
+    }
 }

@@ -33,9 +33,9 @@ public class MainMenuView extends View {
     @Override
     public void handleInput() {
         if(Gdx.input.justTouched()) {
+            checkCreateGameButtonTouched();
             checkHelpButtonTouched();
             checkJoinGameButtonTouched();
-            checkCreateGameButtonTouched();
         }
 
     }
@@ -70,5 +70,12 @@ public class MainMenuView extends View {
         if(createGameButton.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
             viewManager.push(new CreateGameView(viewManager));
         }
+    }
+
+    public void dispose() {
+        helpButton.dispose();
+        joinGameButton.dispose();
+        createGameButton.dispose();
+        background.dispose();
     }
 }

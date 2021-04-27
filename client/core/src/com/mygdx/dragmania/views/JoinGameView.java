@@ -43,4 +43,8 @@ public class JoinGameView extends View {
         sb.end();
     }
 
+    public void dispose() {
+        backArrow.dispose();
+        background.dispose();
+    }
 }
