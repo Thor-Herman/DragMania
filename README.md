@@ -16,10 +16,7 @@ The following programs are required:
 ### **Client**
   1. Clone or download the repo
   2. Open the DragMania/client project in Android Studio 
-  
-  ***Running on Desktop: (Warning: not optimized. You may experience bugs)***
-  Go to "run>edit configurations" and press the + sign to create a new run configuration. Choose Application. Set the main class to com.mygdx.dragmania.desktop.DesktopLauncher and the working directory to {PATH_TO_DRAGMANIA}\DragMania\client\android\assets. Use the classpath of module client.desktop. 
-Apply the changes. Now you can run the game in desktop mode. 
+
 
   ***Running on Android Emulator:***
   Run the android app by clicking "Run" and choosing "Android" while in Android Studio. Ensure that you have an Android Emulator installed with the correct API-level (Nougat 7.0). If not, install this version under the AVD Manager in Android Studio. If it is the first time you are setting up the emulator, you may have to press "run" twice in order for the application to load on your emulator. 
