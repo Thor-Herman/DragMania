@@ -36,4 +36,9 @@ public class BackArrow {
     public Vector2 getPosition() {
         return position;
     }
+
+    public void dispose() {
+        backArrow.dispose();
+    }
+
 }

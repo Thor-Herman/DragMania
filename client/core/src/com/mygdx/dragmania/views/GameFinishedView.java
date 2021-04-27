@@ -22,6 +22,7 @@ public class GameFinishedView extends View{
     private static GlyphLayout glyphLayout = new GlyphLayout();
     private String gameStatus;
     private GameModel model;
+    private SpriteBatch sb;
 
     public GameFinishedView(ViewManager viewManager, GameModel model) {
         super(viewManager);
@@ -37,7 +38,12 @@ public class GameFinishedView extends View{
         mainMenuButton = new Button(200, 800, "textures/buttons/main_menu.png");
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
-        gameStatus = "Game Won!";
+        sb = new SpriteBatch();
+    }
+
+    @Override
+    public void checkBackTouched() {
+
     }
 
     @Override
@@ -58,10 +64,9 @@ public class GameFinishedView extends View{
     public void render(float delta) {
         super.render(delta);
         update(delta);
-        SpriteBatch sb = new SpriteBatch();
         sb.begin();
-        sb.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        String gameStatus = model.getOpponentScore() < model.getPlayerScore() ? "Game Won" : "Game Lost";
+        sb.draw(background, 0, 0, screenWidth, screenHeight);
+        gameStatus = model.getOpponentScore() < model.getPlayerScore() ? "Game Won" : "Game Lost";
         glyphLayout.setText(font, gameStatus);
         font.draw(sb, glyphLayout, screenWidth/2-(glyphLayout.width/2), (float) (screenHeight*0.8));
         sb.draw(rematchButton.getButton(), screenWidth/2-(rematchButton.getWidth()/2), rematchButton.getPosition().y, rematchButton.getWidth(), rematchButton.getHeight());
@@ -79,5 +84,12 @@ public class GameFinishedView extends View{
         if(mainMenuButton.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
             GameController.getInstance().leaveGame();
         }
+    }
+
+    public void dispose() {
+        background.dispose();
+        font.dispose();
+        rematchButton.dispose();
+        mainMenuButton.dispose();
     }
 }

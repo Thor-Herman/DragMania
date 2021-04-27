@@ -33,6 +33,9 @@ public class Car extends Collidable {
             velocity += acceleration;
         } else if (!forward && velocity > 0) {
             velocity -= acceleration * 2; // TODO: Maybe tweak this
+            if (velocity < 0) {
+                velocity = 0;
+            }
         }
     }
     
@@ -67,5 +70,9 @@ public class Car extends Collidable {
             this.velocity = 0;
         }
         this.allowedToDrive = allowed;
+    }
+
+    public void dispose() {
+        getTexture().dispose();
     }
 }

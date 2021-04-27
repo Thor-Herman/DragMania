@@ -25,4 +25,10 @@ public class PolicemanAnimation {
     public Texture getTurnedSidewaysAnimation() {
         return turnedSideways;
     }
+
+    public void dispose() {
+        turnedSideways.dispose();
+        turnedTowards.dispose();
+        turnedAway.dispose();
+    }
 }

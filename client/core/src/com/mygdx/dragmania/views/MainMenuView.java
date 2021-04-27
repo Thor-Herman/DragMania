@@ -14,6 +14,7 @@ public class MainMenuView extends View {
 
     private float screenWidth;
     private float screenHeight;
+    private SpriteBatch sb;
 
     public MainMenuView(ViewManager viewManager) {
         super(viewManager);
@@ -23,6 +24,12 @@ public class MainMenuView extends View {
         joinGameButton = new Button(200, 700, "textures/buttons/join_game.png");
         createGameButton = new Button(200, 1000, "textures/buttons/create_game.png");
         background = new Texture("textures/backgrounds/background_straight.png");
+        sb = new SpriteBatch();
+    }
+
+    @Override
+    public void checkBackTouched() {
+
     }
 
     @Override
@@ -33,9 +40,9 @@ public class MainMenuView extends View {
     @Override
     public void handleInput() {
         if(Gdx.input.justTouched()) {
+            checkCreateGameButtonTouched();
             checkHelpButtonTouched();
             checkJoinGameButtonTouched();
-            checkCreateGameButtonTouched();
         }
 
     }
@@ -44,9 +51,8 @@ public class MainMenuView extends View {
     public void render(float delta) {
         super.render(delta);
         update(delta);
-        SpriteBatch sb = new SpriteBatch();
         sb.begin();
-        sb.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        sb.draw(background, 0, 0, screenWidth, screenHeight);
         sb.draw(helpButton.getButton(), screenWidth/2-(helpButton.getWidth()/2), helpButton.getPosition().y, helpButton.getWidth(), helpButton.getHeight());
         sb.draw(joinGameButton.getButton(), screenWidth/2-(joinGameButton.getWidth()/2), joinGameButton.getPosition().y, joinGameButton.getWidth(), joinGameButton.getHeight());
         sb.draw(createGameButton.getButton(), screenWidth/2-(helpButton.getWidth()/2), createGameButton.getPosition().y, createGameButton.getWidth(), createGameButton.getHeight());
@@ -70,5 +76,12 @@ public class MainMenuView extends View {
         if(createGameButton.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
             viewManager.push(new CreateGameView(viewManager));
         }
+    }
+
+    public void dispose() {
+        helpButton.dispose();
+        joinGameButton.dispose();
+        createGameButton.dispose();
+        background.dispose();
     }
 }

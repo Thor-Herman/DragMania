@@ -23,6 +23,7 @@ public class CreateGameView extends View {
 
     private static GlyphLayout glyphLayout1 = new GlyphLayout();
     private static GlyphLayout glyphLayout2 = new GlyphLayout();
+    private SpriteBatch sb;
 
     public CreateGameView(ViewManager viewManager) {
         super(viewManager);
@@ -40,6 +41,7 @@ public class CreateGameView extends View {
         font2 = generator.generateFont(parameter);
         generator.dispose();
         pin = "";
+        sb = new SpriteBatch();
     }
 
     @Override
@@ -51,7 +53,7 @@ public class CreateGameView extends View {
     @Override
     public void handleInput() {
         if(Gdx.input.justTouched()) {
-            checkBackTouched(backArrow);
+            checkBackTouched();
             checkGetPinTouched();
         }
     }
@@ -60,9 +62,8 @@ public class CreateGameView extends View {
     public void render(float delta) {
         super.render(delta);
         update(delta);
-        SpriteBatch sb = new SpriteBatch();
         sb.begin();
-        sb.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        sb.draw(background, 0, 0, screenWidth, screenHeight);
         sb.draw(backArrow.getBackArrow(), backArrow.getPosition().x, backArrow.getPosition().y, backArrow.getWidth()/3, backArrow.getHeight()/3);
         sb.draw(getPinButton.getButton(), screenWidth/2-(getPinButton.getWidth()/2), getPinButton.getPosition().y, getPinButton.getWidth(), getPinButton.getHeight());
         pin = Integer.toString(LobbyController.getInstance().getModel().getRoomCode());
@@ -76,17 +77,25 @@ public class CreateGameView extends View {
     }
 
     @Override
-    public void checkBackTouched(BackArrow backArrow) {
-        if(backArrow.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
+    public void checkBackTouched() {
+        if(backArrow.getBounds().contains(Gdx.input.getX(), screenHeight-Gdx.input.getY())) {
             controller.resetModel();
-            viewManager.pop();
+            viewManager.push(new MainMenuView(viewManager));
         }
     }
 
     public void checkGetPinTouched() {
-        if(getPinButton.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
+        if(getPinButton.getBounds().contains(Gdx.input.getX(), screenHeight-Gdx.input.getY())) {
             LobbyController.getInstance().resetModel();
             LobbyController.getInstance().createGame("test");
         }
+    }
+
+    public void dispose() {
+        backArrow.dispose();
+        background.dispose();
+        font.dispose();
+        font2.dispose();
+        getPinButton.dispose();
     }
 }

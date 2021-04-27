@@ -9,6 +9,7 @@ public class JoinGameView extends View {
     private BackArrow backArrow;
     private Texture background;
     private float screenWidth;
+    private SpriteBatch sb;
 
     public JoinGameView(ViewManager viewManager) {
         super(viewManager);
@@ -17,6 +18,14 @@ public class JoinGameView extends View {
         PinInputListener listener = new PinInputListener();
         Gdx.input.getTextInput(listener, "Input game pin", "", "Pin:");
         screenWidth = Gdx.graphics.getWidth();
+        sb = new SpriteBatch();
+    }
+
+    @Override
+    public void checkBackTouched() {
+        if(backArrow.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
+            viewManager.push(new MainMenuView(viewManager));
+        }
     }
 
     @Override
@@ -28,7 +37,8 @@ public class JoinGameView extends View {
     @Override
     public void handleInput() {
         if(Gdx.input.justTouched()) {
-            checkBackTouched(backArrow);
+            checkBackTouched();
+            checkButtonTouch();
         }
     }
 
@@ -36,11 +46,20 @@ public class JoinGameView extends View {
     public void render(float delta) {
         super.render(delta);
         update(delta);
-        SpriteBatch sb = new SpriteBatch();
         sb.begin();
-        sb.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        sb.draw(background, 0, 0, screenWidth, Gdx.graphics.getHeight());
         sb.draw(backArrow.getBackArrow(), backArrow.getPosition().x, backArrow.getPosition().y, backArrow.getWidth()/3, backArrow.getHeight()/3);
         sb.end();
     }
 
+    public void dispose() {
+        backArrow.dispose();
+        background.dispose();
+    }
+
+    public void checkButtonTouch() {
+        if(backArrow.getBounds().contains(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY())) {
+            viewManager.push(new MainMenuView(viewManager));
+        }
+    }
 }
