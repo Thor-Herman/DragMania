@@ -1,3 +1,5 @@
+package com.utilities;
+
 public class Env {
 
     private static final int TCP_PORT = 54587, UDP_PORT = 54787;
