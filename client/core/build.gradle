@@ -1,6 +1,7 @@
-sourceCompatibility = 1.7
+sourceCompatibility = 1.8
 dependencies {
     implementation 'junit:junit:4.12'
+    implementation "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
 }
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 

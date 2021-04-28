@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Policeman {
 
-    private boolean hasTurned;
+    private String hasTurned;
     private PolicemanAnimation policemanAnimation;
     private Vector2 position;
 
@@ -16,11 +16,14 @@ public class Policeman {
 
     private Car car;
     private int currentTurnPositionIndex;
+    private int currentFakeTurnPositionIndex;
 
     private long policemanTurnStart;
     private long policemanTurnStop;
     private long timePenaltyStart;
     private long timePenaltyStop;
+    private long policeTurnDelayStart;
+    private long policeFakeTurnDelayStart;
 
     // Duration in milliseconds
     private int timePenaltyDuration;
@@ -30,26 +33,42 @@ public class Policeman {
     public static final int xPos = 200;
     public static final int yPos = 800;
 
+    private int carPosition;
+
     public Policeman(ArrayList<Integer> policemanTurnPositions, ArrayList<Integer> policemanFakeTurnPositions, Car car) {
 
         this.position = new Vector2(xPos, yPos);
-        this.hasTurned = false;
+        this.hasTurned = "Away";
         // The line below can be commented out to run PolicemanTest
         this.policemanAnimation = new PolicemanAnimation();
         this.policemanTurnPositions = policemanTurnPositions;
         this.policemanFakeTurnPositions = policemanFakeTurnPositions;
         this.car = car;
         currentTurnPositionIndex = 0;
+        currentFakeTurnPositionIndex = 0;
         policemanTurnStart = 0;
         timePenaltyStart = 0;
         timePenaltyDuration = 4000;
         policeTurnDuration = 2000;
+        policeTurnDelayStart = 0;
+        policeFakeTurnDelayStart = 0;
+        carPosition = 0;
 
     }
 
     public void update(float dt) {
+        carPosition = (int) car.getPosition().y;
         checkIfPolicemanShouldTurn();
+        checkIfPolicemanShouldFakeTurn();
         checkIfAllowedToDrive();
+        if (policeTurnDelayStart > 0 && System.currentTimeMillis() - policeTurnDelayStart > 1000) {
+            policeTurnDelayStart = 0;
+            toggleTurn("Towards");
+        }
+        if (policeFakeTurnDelayStart > 0 && System.currentTimeMillis() - policeFakeTurnDelayStart > 1000) {
+            policeFakeTurnDelayStart = 0;
+            toggleTurn("Away");
+        }
     }
 
     public void checkIfAllowedToDrive() {
@@ -62,7 +81,7 @@ public class Policeman {
     // Allow or disallow car to drive
     public void checkPolicemanTurn() {
         // When policeman turns towards car, start timer and prevent car from driving
-        if (hasTurned && policemanTurnStart == 0) {
+        if (hasTurned.equals("Towards") && policemanTurnStart == 0 ) {
             car.canDrive(false);
             policemanTurnStart = System.currentTimeMillis();
         }
@@ -72,8 +91,10 @@ public class Policeman {
         // Check if two seconds has gone since policeman turn
         // Allow car to drive again
         if (policemanTurnStart > 0 && (policemanTurnStop-policemanTurnStart) > policeTurnDuration) {
-            toggleTurn(false);
-            car.canDrive(true);
+            toggleTurn("Away");
+            if (timePenaltyStart == 0) {
+                car.canDrive(true);
+            }
             policemanTurnStart = 0;
         }
     }
@@ -81,7 +102,7 @@ public class Policeman {
     // Check if player should receive timepenalty or if the timepenalty is up
     public void checkTimePenalty() {
         // Start timer for timepenalty
-        if (car.getVelocity() > 0 && hasTurned && timePenaltyStart == 0) {
+        if (car.getVelocity() > 0 && hasTurned.equals("Towards") && timePenaltyStart == 0) {
             car.canDrive(false);
             timePenaltyStart = System.currentTimeMillis();
         }
@@ -98,23 +119,44 @@ public class Policeman {
 
     // Use turn positions and car position to determine if the policeman should turn towards player
     public void checkIfPolicemanShouldTurn() {
-        if (car.getPosition() > policemanTurnPositions.get(currentTurnPositionIndex) && !hasTurned) {
-            toggleTurn(true);
-            currentTurnPositionIndex++;
+        if (currentTurnPositionIndex < policemanTurnPositions.size()) {
+            if (carPosition > policemanTurnPositions.get(currentTurnPositionIndex)) {
+                currentTurnPositionIndex++;
+                policeTurnDelayStart = System.currentTimeMillis();
+                toggleTurn("Sideways");
+                if (policeFakeTurnDelayStart > 0) {
+                    policeFakeTurnDelayStart = 0;
+                }
+            }
         }
     }
 
-    public void toggleTurn(boolean turnedTowards) {
+    public void checkIfPolicemanShouldFakeTurn() {
+        if (currentFakeTurnPositionIndex < policemanFakeTurnPositions.size()) {
+            if (carPosition > policemanFakeTurnPositions.get(currentFakeTurnPositionIndex)){
+                currentFakeTurnPositionIndex++;
+                if (hasTurned.equals("Away") && policeTurnDelayStart == 0) {
+                    policeFakeTurnDelayStart = System.currentTimeMillis();
+                    toggleTurn("Sideways");
+                }
+            }
+        }
+    }
+
+    public void toggleTurn(String turnedTowards) {
         hasTurned = turnedTowards;
     }
 
-    public boolean getHasTurned() {
+    public String getHasTurned() {
         return hasTurned;
     }
 
     public Texture getAnimation() {
-        if (hasTurned) {
-            return this.policemanAnimation.getTurnedTowardsAnimation();
+        if (hasTurned.equals("Sideways")) {
+            return policemanAnimation.getTurnedSidewaysAnimation();
+        }
+        else if (hasTurned.equals("Towards")) {
+            return policemanAnimation.getTurnedTowardsAnimation();
         }
         else {
             return this.policemanAnimation.getTurnedAwayAnimation();
@@ -123,5 +165,9 @@ public class Policeman {
 
     public Vector2 getPosition() {
         return position;
+    }
+
+    public void dispose() {
+        policemanAnimation.dispose();
     }
 }
