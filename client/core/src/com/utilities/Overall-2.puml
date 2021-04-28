@@ -1,0 +1,46 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+package com.utilities.messages {
+    class CreateLobbyRequest {
+        + username : String
+    }
+    class ErrorResponse {
+        + text : String
+    }
+    class GameMapMessage {
+        - policemanTurnPoints : int[]
+        - policemanFakeTurnPoints : int[]
+        - crossingPlacements : int[]
+        - mapLength : int
+        + getCrossings() : int[]
+        + getPolicemanTurnPoints() : int[]
+        + getPolicemanFakeTurnPoints() : int[]
+
+    }
+    class GameOverMessage   {
+        + won : boolean
+    }
+    class JoinLobbyRequest  {
+        + username : string
+    }
+    class LeaveLobbyRequest
+    class LobbyResponse {
+        + text : String
+        + usernames : String[]
+        + username : String
+    }
+    abstract class Message {
+        + roomCode : int
+    }
+    class ReadyMessage
+    class Score {
+        + score : float
+    }
+    class SomeResponse {
+        + text : String
+    }
+}
+hide methods
+show GameMapMessage methods
+@enduml

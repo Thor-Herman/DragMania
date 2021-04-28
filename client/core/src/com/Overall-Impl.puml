@@ -1,0 +1,77 @@
+@startuml
+'https://plantuml.com/class-diagram
+left to right direction
+skinparam nodesep 10
+skinparam ranksep 5
+skinparam boxpadding 5
+
+package com.mygdx.dragmania.views {
+    abstract class View
+    class BackArrow
+    class MainMenuView
+    class HelpView
+    class JoinGameView
+    class CreateGameView
+    class GameView
+    class GameFinishedView
+    class PinInputListener
+}
+
+
+package com.mygdx.dragmania.models {
+    class LobbyModel
+    class Player
+    class GameModel
+    class GameMap
+    class CarFactory
+    class Car
+    class Policeman
+    class PolicemanAnimation
+}
+
+
+
+package com.utilities <<(server)>> {
+    class GameMapGenerator
+    class GameServer
+    class ReceiveHandler << (L, orchid) Listener >>
+    class Lobby
+}
+
+package com.utilities. <<client>> {
+    enum CarTypes
+    abstract class Collidable
+    class GameClient << (S,#FF7700) Singleton >>
+    class ClientListener << (L, orchid) Listener >>
+    class Env
+}
+
+package com.mygdx.dragmania.controllers {
+    class ViewManager << (S,#FF7700) Singleton >>
+    class LobbyController << (S,#FF7700) Singleton >>
+    class LobbyListener << (L, orchid) Listener >>
+    class GameController << (S,#FF7700) Singleton >>
+    class GameListener << (L, orchid) Listener >>
+}
+
+package com.utilties.messages {}
+package com.mygdx.dragmania.views.buttons {
+    class Button
+}
+package com.mygdx.dragmania {
+    class DragMania
+}
+package com.esotericosftware.kryonet {}
+package com.badlogic.Gdx {}
+
+com.utilties.messages -[hidden]-> com.mygdx.dragmania.views.buttons
+com.mygdx.dragmania.views.buttons -[hidden]-> com.badlogic.Gdx
+com.badlogic.Gdx -[hidden]-> com.esotericosftware.kryonet
+com.esotericosftware.kryonet -[hidden]-> com.mygdx.dragmania
+com.mygdx.dragmania.views -[hidden] com.mygdx.dragmania.models
+
+
+
+hide members
+
+@enduml
